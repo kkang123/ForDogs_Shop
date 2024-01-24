@@ -1,4 +1,6 @@
 import "./App.css";
+import { useEffect } from "react";
+import { app } from "./firebase";
 
 import {
   AlertDialog,
@@ -16,6 +18,10 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 function App() {
+  useEffect(() => {
+    console.log("app", app);
+  }, []);
+
   return (
     <div className="w-full h-screen flex flex-col justify-start items-center">
       <Alert>
