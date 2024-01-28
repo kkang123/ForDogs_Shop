@@ -1,38 +1,3 @@
-// import React, { ReactNode, createContext, useContext, useState } from "react";
-
-// type AuthContextType = {
-//   isAuth: boolean;
-//   login: () => void;
-//   logout: () => void;
-// } | null;
-// // 1. Context를 생성합니다.
-// const AuthContext = createContext<AuthContextType>(null);
-
-// export const useAuth = () => {
-//   return useContext(AuthContext);
-// };
-
-// const AuthProvider = ({ children }: { children: ReactNode }) => {
-//   const [isAuth, setIsAuth] = useState(false);
-
-//   const login = () => {
-//     setIsAuth(true);
-//   };
-
-//   const logout = () => {
-//     setIsAuth(false);
-//   };
-
-//   // 2. Provider 컴포넌트를 사용하여 Context 값을 제공합니다.
-//   return (
-//     <AuthContext.Provider value={{ isAuth, login, logout }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export default AuthProvider;
-
 import React, {
   ReactNode,
   createContext,
