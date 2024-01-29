@@ -108,7 +108,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Home from "../pages/home";
 import About from "@/pages/about";
-import SignUp from "@/pages/SignUp";
+import BuyerSignUp from "@/pages/BuyerSignUp";
+import SellerSignUp from "@/pages/SellerSignUp";
 import Login from "@/pages/Login";
 import MyProfile from "@/pages/MyProfile";
 import Seller from "@/pages/SellerProfile";
@@ -139,8 +140,12 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/signup"
-          element={<ProtectRoute element={<SignUp />} isAuth={isAuth} />}
+          path="/buyersignup"
+          element={<ProtectRoute element={<BuyerSignUp />} isAuth={isAuth} />}
+        />
+        <Route
+          path="/sellersignup"
+          element={<ProtectRoute element={<SellerSignUp />} isAuth={isAuth} />}
         />
         <Route
           path="/login"
