@@ -15,7 +15,12 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>(null);
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  // return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (context === null) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {

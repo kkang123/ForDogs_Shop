@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase";
 import {
@@ -23,7 +23,7 @@ interface User {
   updatedAt: Timestamp;
 }
 
-export default function SignUp() {
+export default function SellerSignUp() {
   //이메일, 비밀번호, 비밀번호 확인, 이름 상태 저장
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -46,7 +46,6 @@ export default function SignUp() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setIsLoggedIn(true);
-        // navigate("/"); // 회원이면 자동으로 홈으로 이동
       } else {
         setIsLoggedIn(false);
       }
@@ -69,11 +68,11 @@ export default function SignUp() {
   const validate = async () => {
     let isValid = true;
     const easyPasswords = ["123", "abc", "password"]; // 쉬운 비밀번호 리스트
-    const easyEmails = ["user", "admin"]; // 쉬운 이메일 리스트
-    const specialCharPattern = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+    const specialCharPattern = /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g;
     const upperCasePattern = /[A-Z]/g;
     const lowerCasePattern = /[a-z]/g;
     const numberPattern = /[0-9]/g;
+    const emailPrefix = email.substring(0, email.indexOf("@"));
 
     // 이름 유효성 검사
     if (nickname === "") {
@@ -84,11 +83,12 @@ export default function SignUp() {
     }
 
     // 이메일 유효성 검사
-    if (!email.includes("@")) {
+    const emailRegex =
+      /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*.[A-Za-z]{2,3}$/i;
+
+    // 이메일 유효성 검사
+    if (!emailRegex.test(email)) {
       setEmailMessage("올바른 이메일 형식이 아닙니다.");
-      isValid = false;
-    } else if (easyEmails.some((easyEmail) => email.includes(easyEmail))) {
-      setEmailMessage("너무 쉬운 이메일입니다. 다른 이메일을 선택해주세요.");
       isValid = false;
     } else {
       // 이미 가입된 이메일인지 확인
@@ -102,14 +102,37 @@ export default function SignUp() {
         setEmailMessage("");
       }
     }
+    // if (
+    //   !email.includes(
+    //     "/^[A-Za-z0-9]([-_.]?[A-Za-z0-9])@[A-Za-z0-9]([-_.]?[A-Za-z0-9]).[A-Za-z]{2,3}$/i;"
+    //   )
+    // ) {
+    //   setEmailMessage("올바른 이메일 형식이 아닙니다.");
+    //   isValid = false;
+    // } else {
+    //   // 이미 가입된 이메일인지 확인
+    //   const methods = await fetchSignInMethodsForEmail(getAuth(), email);
+    //   if (methods.length > 0) {
+    //     setEmailMessage(
+    //       "이미 가입된 이메일입니다. 다른 이메일을 선택해주세요."
+    //     );
+    //     isValid = false;
+    //   } else {
+    //     setEmailMessage("");
+    //   }
+    // }
 
     // 비밀번호 길이 검사 (10자 이상, 16자 이하)
     if (password.length < 10) {
       setPasswordMessage("비밀번호는 최소 10자리 이상이어야 합니다.");
     } else if (password.length > 16) {
       setPasswordMessage("비밀번호는 최대 16자리 이하이어야 합니다.");
+    } else if (password === email) {
+      // 이메일 값과 비밀번호 값이 같은지 확인
+      setPasswordMessage("비밀번호에 이메일을 사용할 수 없습니다.");
+    } else if (password.includes(emailPrefix)) {
+      setPasswordMessage("비밀번호에 아이디값을 사용할 수 없습니다.");
     } else {
-      // 문자 조합 검사 (영어 대문자, 소문자, 숫자, 특수문자 중 2종류 이상)
       if (
         [
           specialCharPattern,
@@ -169,7 +192,7 @@ export default function SignUp() {
       await setDoc(doc(db, "users", userCredential.user.uid), {
         id: Date.now(),
         email: email,
-        isSeller: false,
+        isSeller: true,
         nickname: nickname, // 닉네임은 입력을 받아야 합니다.
         createdAt: Timestamp.fromDate(new Date()), // 현재 시간
         updatedAt: Timestamp.fromDate(new Date()), // 현재 시간
@@ -201,7 +224,7 @@ export default function SignUp() {
   // 사용자 인터페이스
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="mt-5 text-3xl font-bold text-gray-700">회원가입 페이지</h2>
+      <h2 className="mt-5 text-3xl font-bold text-gray-700">판매자 회원가입</h2>
       <form
         className="p-5 bg-white rounded shadow-lg w-1/2"
         onSubmit={usersignUp}
