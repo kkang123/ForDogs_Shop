@@ -1,10 +1,19 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
-import { useAuth } from "@/contexts/AuthContext"; // useAuth 훅을 import
+import {
+  collection,
+  getDocs,
+  where,
+  query,
+  QueryDocumentSnapshot,
+  DocumentData,
+} from "firebase/firestore";
+
+import { useAuth } from "@/contexts/AuthContext";
 import Swal from "sweetalert2";
 
 export default function SignIn() {
@@ -12,16 +21,12 @@ export default function SignIn() {
   const [password, setPassword] = useState<string>("");
   const [tab, setTab] = useState<"buyer" | "seller">("buyer");
 
-  //처음에 비밀번호 숨긴채 표시
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
 
-  const togglePasswordVisiblity = () => {
-    setPasswordShown(!passwordShown);
-  };
-
   const navigate = useNavigate();
-  const { login } = useAuth(); // useAuth 훅을 사용하여 login 함수를 얻음
+  const { login } = useAuth();
 
+  // 사용자 정보에 따라 로그인 상태면 로그인으로 못들어게 막는 역할
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -32,26 +37,69 @@ export default function SignIn() {
   }, []);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { name, value },
-    } = event;
+    const { name, value } = event.target;
     if (name === "email") {
       setEmail(value);
-    }
-    if (name === "password") {
+    } else if (name === "password") {
       setPassword(value);
     }
   };
 
-  //회원가입 버튼 클릭 시 페이지 이동
-  const signUp = (event: FormEvent) => {
-    event.preventDefault();
-    navigate("/signup"); // '/signup'으로 이동
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(!passwordShown);
   };
 
-  // 로그인
+  const buyersignUp = (event: FormEvent) => {
+    event.preventDefault();
+    navigate("/buyersignup");
+  };
+  const sellersignUp = (event: FormEvent) => {
+    event.preventDefault();
+    navigate("/sellersignup");
+  };
+
   const signIn = async (event: FormEvent) => {
     event.preventDefault();
+
+    const userDocQuery = query(
+      collection(db, "users"),
+      where("email", "==", email)
+    );
+    const querySnapshot = await getDocs(userDocQuery);
+    let userDoc: QueryDocumentSnapshot<DocumentData> | null = null;
+
+    querySnapshot.forEach((doc) => {
+      userDoc = doc;
+    });
+
+    if (!userDoc) {
+      Swal.fire({
+        icon: "error",
+        title: "",
+        text: "회원정보를 찾을 수 없습니다.",
+      });
+      return;
+    }
+
+    const userData = userDoc.data();
+    if (tab === "buyer" && userData.isSeller) {
+      Swal.fire({
+        icon: "error",
+        title: "로그인 오류",
+        text: "구매자 계정으로 로그인 해주세요.",
+      });
+      return;
+    }
+
+    if (tab === "seller" && !userData.isSeller) {
+      Swal.fire({
+        icon: "error",
+        title: "로그인 오류",
+        text: "판매자 계정으로 로그인 해주세요.",
+      });
+      return;
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -60,7 +108,6 @@ export default function SignIn() {
       );
       console.log("user with signIn", userCredential.user);
       login(); // 로그인에 성공하면 login 함수를 호출하여 isAuth 상태를 true로 변경
-      navigate("/");
     } catch (error) {
       console.error("error with signIn", error);
       Swal.fire({
@@ -165,7 +212,7 @@ export default function SignIn() {
               </button>
               <button
                 className=" w-[100px] px-4 py-2 mt-5 font-bold text-gray-700 bg-gray-300 rounded hover:bg-gray-500 focus:outline-none focus:shadow-outline"
-                onClick={signUp}
+                onClick={buyersignUp}
                 type="button"
               >
                 회원가입
@@ -229,7 +276,7 @@ export default function SignIn() {
               </button>
               <button
                 className=" w-[100px] px-4 py-2 mt-5 font-bold text-gray-700 bg-gray-300 rounded hover:bg-gray-500 focus:outline-none focus:shadow-outline"
-                onClick={signUp}
+                onClick={sellersignUp}
                 type="button"
               >
                 회원가입
