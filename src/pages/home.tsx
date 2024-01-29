@@ -19,6 +19,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Header from "@/components/Header/MainHeader";
 
 export default function Home() {
   const authContext = useAuth();
@@ -35,8 +36,6 @@ export default function Home() {
         console.log(false);
       }
     });
-
-    // Clean up subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -54,6 +53,7 @@ export default function Home() {
 
   return (
     <>
+      <Header />
       <div>
         <h1>Home</h1>
         <p>가장 먼저 보여지는 페이지입니다.</p>
