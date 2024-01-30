@@ -68,9 +68,9 @@ export default function SignIn() {
     const querySnapshot = await getDocs(userDocQuery);
     let userDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 
-    querySnapshot.forEach((doc) => {
-      userDoc = doc;
-    });
+    if (!querySnapshot.empty) {
+      userDoc = querySnapshot.docs[0];
+    }
 
     if (!userDoc) {
       Swal.fire({
@@ -81,7 +81,7 @@ export default function SignIn() {
       return;
     }
 
-    const userData = userDoc.data();
+    const userData = userDoc?.data();
     if (tab === "buyer" && userData.isSeller) {
       Swal.fire({
         icon: "error",

@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { auth } from "@/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
@@ -10,7 +10,14 @@ import { Button } from "@/components/ui/button";
 
 import basket from "@/assets/basket-buy-cart.svg";
 
-function MainHeader() {
+interface ProductHeaderProps {
+  showEditButton?: boolean; // 기본값 false
+}
+
+// function ProductHeader() {
+const ProductHeader: React.FC<ProductHeaderProps> = ({
+  showEditButton = false,
+}) => {
   const authContext = useAuth();
   const { logout } = authContext;
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
@@ -30,6 +37,8 @@ function MainHeader() {
 
     return () => unsubscribe();
   }, []);
+
+  const Update = () => {};
 
   const logOut = async (event: FormEvent) => {
     event.preventDefault(); // 이벤트의 기본 동작을 막아줍니다.
@@ -71,10 +80,12 @@ function MainHeader() {
       <div className="fixed top-0 left-0 right-0 flex  w-full justify-between border-b-2 border-gray-400 p-1 bg-white">
         <div className="">로고 이미지</div>
         <div className="flex">
-          <div className=""></div>
-          <button className="">
-            <img src={basket} alt="Basket" />
-          </button>
+          {showEditButton && (
+            <Button variant="ghost" size="sm" onClick={Update}>
+              수정하기
+            </Button>
+          )}
+
           <div className=" inline-block ml-2 mr-2">
             {isLoggedIn ? (
               <Button variant="outline" size="sm" onClick={logOut}>
@@ -90,6 +101,6 @@ function MainHeader() {
       </div>
     </>
   );
-}
+};
 
-export default MainHeader;
+export default ProductHeader;

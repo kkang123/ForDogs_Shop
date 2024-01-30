@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -9,19 +9,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
-import { db } from "@/firebase";
 
 import Swal from "sweetalert2";
-
-// Firestore에 저장될 User 인터페이스 정의
-interface User {
-  id: number;
-  email: string;
-  isSeller: boolean;
-  nickname: string;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-}
 
 export default function SellerSignUp() {
   //이메일, 비밀번호, 비밀번호 확인, 이름 상태 저장
@@ -29,8 +18,6 @@ export default function SellerSignUp() {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [nickname, setnickname] = useState<string>("");
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [init, setInit] = useState<boolean>(false);
 
   // 오류 상태 저장
   const [nameMessage, setNameMessage] = useState<string>("");
@@ -41,18 +28,14 @@ export default function SellerSignUp() {
 
   const navigate = useNavigate();
 
-  // 사용자의 로그인 상태를 확인합니다.
+  // 사용자의 로그인 상태 확인
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate("/login");
       }
-      setInit(true); // 애플리케이션 초기화가 완료되었음을 설정
     });
-
-    return () => unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+    return () => unsubscribe();
   }, []);
 
   // 입력 필드의 변경 사항을 처리합니다.
@@ -102,25 +85,6 @@ export default function SellerSignUp() {
         setEmailMessage("");
       }
     }
-    // if (
-    //   !email.includes(
-    //     "/^[A-Za-z0-9]([-_.]?[A-Za-z0-9])@[A-Za-z0-9]([-_.]?[A-Za-z0-9]).[A-Za-z]{2,3}$/i;"
-    //   )
-    // ) {
-    //   setEmailMessage("올바른 이메일 형식이 아닙니다.");
-    //   isValid = false;
-    // } else {
-    //   // 이미 가입된 이메일인지 확인
-    //   const methods = await fetchSignInMethodsForEmail(getAuth(), email);
-    //   if (methods.length > 0) {
-    //     setEmailMessage(
-    //       "이미 가입된 이메일입니다. 다른 이메일을 선택해주세요."
-    //     );
-    //     isValid = false;
-    //   } else {
-    //     setEmailMessage("");
-    //   }
-    // }
 
     // 비밀번호 길이 검사 (10자 이상, 16자 이하)
     if (password.length < 10) {
@@ -154,7 +118,7 @@ export default function SellerSignUp() {
         );
         isValid = false;
       } else {
-        setPasswordMessage("");
+        setPasswordMessage("비밀번호가 일치합니다.");
       }
     }
 
@@ -317,7 +281,13 @@ export default function SellerSignUp() {
             placeholder="비밀번호를 다시 입력해주세요."
           />
           {passwordConfirmMessage && (
-            <p className="text-red-500 text-xs text-left ml-1 mt-1">
+            <p
+              className={
+                passwordConfirmMessage === "비밀번호가 일치합니다"
+                  ? "text-blue-500 text-xs text-left ml-1 mt-1"
+                  : "text-red-500 text-xs text-left ml-1 mt-1"
+              }
+            >
               {passwordConfirmMessage}
             </p>
           )}
