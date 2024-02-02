@@ -8,15 +8,17 @@ import SellerSignUp from "@/pages/SellerSignUp";
 import Login from "@/pages/Login";
 import MyProfile from "@/pages/MyProfile";
 import Seller from "@/pages/SellerProfile";
-import Product from "@/pages/Product/ProductPage";
+// import Product from "@/pages/Product/ProductList";
 import { ProtectRoute } from "./ProtectRoute";
 
 // 판매자전용
-import ProductUpload from "@/pages/Product/productCreate";
+import ProductUpload from "@/pages/Product/ProductUpload";
 import ProductDetail from "@/pages/Product/ProductDetail";
+import ProductEdit from "@/pages/Product/ProductEdit";
 
 const AppRouter = () => {
   const { isSeller, isAuth } = useAuth();
+  // let uid = auth().currentUser.uid;
   console.log(isAuth);
   console.log(isSeller);
 
@@ -72,8 +74,8 @@ const AppRouter = () => {
             />
           }
         />
-        <Route
-          path="/product"
+        {/* <Route
+          path="/productlist/:uid"
           element={
             <ProtectRoute
               element={<Product />}
@@ -82,12 +84,23 @@ const AppRouter = () => {
               isProtected={true}
             />
           }
-        />
+        /> */}
         <Route
-          path="/productdetail"
+          path="/productdetail/:id"
           element={
             <ProtectRoute
               element={<ProductDetail />}
+              isAuth={isAuth}
+              isPrivate={true}
+              isProtected={true} // 판매자 전용
+            />
+          }
+        />
+        <Route
+          path="/productedit/:id"
+          element={
+            <ProtectRoute
+              element={<ProductEdit />}
               isAuth={isAuth}
               isPrivate={true}
               isProtected={true} // 판매자 전용
