@@ -8,15 +8,19 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 
-import basket from "@/assets/basket-buy-cart.svg";
-
 interface ProductHeaderProps {
   showEditButton?: boolean; // 기본값 false
+  showDeleteButton?: boolean;
+  onDelete?: () => void; // 삭제 함수를 받는 prop 추가
+  onEdit?: () => void;
 }
 
 // function ProductHeader() {
 const ProductHeader: React.FC<ProductHeaderProps> = ({
   showEditButton = false,
+  showDeleteButton = false,
+  onDelete,
+  onEdit,
 }) => {
   const authContext = useAuth();
   const { logout } = authContext;
@@ -38,8 +42,6 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
     return () => unsubscribe();
   }, []);
 
-  const Update = () => {};
-
   const logOut = async (event: FormEvent) => {
     event.preventDefault(); // 이벤트의 기본 동작을 막아줍니다.
     try {
@@ -58,13 +60,20 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
 
   if (isLoading) {
     return (
-      <div className="flex  w-full justify-between">
-        <div className="">로고 이미지</div>
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between border-b-2 shadow-lg shadow-blue-500/70 bg-white">
+        <button className="">로고 이미지</button>
         <div className="flex">
-          <div className=""></div>
-          <button className="">
-            <img src={basket} alt="Basket" />
-          </button>
+          {showEditButton && (
+            <Button variant="ghost" size="sm" onClick={onEdit}>
+              수정하기
+            </Button>
+          )}
+          {showDeleteButton && (
+            <Button variant="ghost" size="sm" onClick={onDelete}>
+              삭제하기
+            </Button>
+          )}
+
           <div className=" inline-block ml-2 mr-2">
             <Button variant="outline" size="sm" onClick={logOut}>
               로그아웃
@@ -77,12 +86,17 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 flex  w-full justify-between border-b-2 border-gray-400 p-1 bg-white">
-        <div className="">로고 이미지</div>
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between border-b-2 shadow-lg shadow-blue-500/70 bg-white">
+        <button className="">로고 이미지</button>
         <div className="flex">
           {showEditButton && (
-            <Button variant="ghost" size="sm" onClick={Update}>
+            <Button variant="ghost" size="sm" onClick={onEdit}>
               수정하기
+            </Button>
+          )}
+          {showDeleteButton && (
+            <Button variant="ghost" size="sm" onClick={onDelete}>
+              삭제하기
             </Button>
           )}
 
