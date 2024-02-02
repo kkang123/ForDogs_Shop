@@ -12,6 +12,7 @@ import { auth, db } from "@/firebase";
 type AuthContextType = {
   isAuth: boolean;
   isSeller: boolean;
+  nickname: string | null;
   login: () => void;
   logout: () => void;
 } | null;
@@ -27,6 +28,8 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [nickname, setNickname] = useState<string | null>(null);
+
   const [isAuth, setIsAuth] = useState(() => {
     const savedIsAuth = localStorage.getItem("isAuth");
     return savedIsAuth ? JSON.parse(savedIsAuth) : false;
@@ -49,13 +52,19 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userDoc = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userDoc);
+        const userDocRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDocRef);
         if (userSnap.exists()) {
           setIsSeller(userSnap.data().isSeller);
         }
+
+        const userDocSnap = await getDoc(userDocRef); // getDoc 함수를 사용하여 사용자 데이터를 가져옵니다.
+
+        // 사용자의 닉네임을 가져와 nickname 상태를 업데이트합니다.
+        setNickname(userDocSnap.data()?.nickname || null);
       } else {
         setIsSeller(false);
+        setNickname(null);
       }
     });
 
@@ -71,7 +80,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, isSeller, login, logout }}>
+    <AuthContext.Provider value={{ isAuth, isSeller, nickname, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
