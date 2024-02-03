@@ -4,8 +4,8 @@ export interface Product {
   id: number;
   sellerId: string;
   productName: string;
-  productPrice: number | null; // Here
-  productQuantity: number | null; // Here
+  productPrice: number | null;
+  productQuantity: number | null;
   productDescription: string;
   productCategory: string;
   productImage: string[];
