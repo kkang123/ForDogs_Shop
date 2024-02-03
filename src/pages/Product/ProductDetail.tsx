@@ -8,6 +8,9 @@ import { UserType } from "@/interface/user";
 
 import ProductHeader from "@/components/Header/ProductHeader";
 
+import leftbtn from "@/assets/left-arrow.svg";
+import rightbtn from "@/assets/right-arrow.svg";
+
 import Swal from "sweetalert2";
 
 function ProductDetail() {
@@ -141,6 +144,7 @@ function ProductDetail() {
     <>
       <header className="h-[78px]">
         <ProductHeader
+          showBackspaseButton={true}
           showEditButton={true}
           showDeleteButton={true}
           onDelete={handleDelete}
@@ -149,7 +153,7 @@ function ProductDetail() {
       </header>
       <main style={{ minWidth: "1300px" }}>
         <div className="flex  w-full gap-4 pt-[70px] pb-[80px] justify-center">
-          <div className="">
+          <div className="flex flex-col">
             {product.productImage[currentImageIndex] ? (
               <img
                 className="w-[480px] h-[420px]"
@@ -157,16 +161,39 @@ function ProductDetail() {
                 alt={`Uploaded image ${currentImageIndex + 1}`}
               />
             ) : null}
-            <button onClick={handlePrevClick}>&lt;</button>
-            <button onClick={handleNextClick}>&gt;</button>
+            <div className="flex justify-between">
+              <button
+                onClick={handlePrevClick}
+                className="mt-2 w-16 ml-2 hover:bg-blue-400 hover:border-[color] bg-white  rounded-full flex justify-center"
+              >
+                <img
+                  src={leftbtn}
+                  alt="left-btn"
+                  className=" w-10    rounded-full"
+                />
+              </button>
+              <button
+                onClick={handleNextClick}
+                className="mt-2 w-16 mr-2 hover:bg-blue-400 hover:border-[color] bg-white  rounded-full flex justify-center"
+              >
+                <img
+                  src={rightbtn}
+                  alt="right-btn"
+                  className=" w-10   rounded-full"
+                />
+              </button>
+            </div>
           </div>
-          <div className="flex flex-col justify-between text-right w-[480px] ">
+          <div className="flex flex-col gap-12 text-right w-[480px] ">
             <p className="font-bold text-4xl mt-8">{product.productName}</p>
             <p className="text-3xl mt-3">{product.productPrice}원</p>
             <p className="text-3xl mt-8">
               남은 갯수 : {product.productQuantity}개
             </p>
-            <button className="text-2xl">#{product.productCategory}</button>
+            <div className="border-b-2"></div>
+            <button className="text-xs mb-5 text-gray-500 flex justify-end">
+              #{product.productCategory}
+            </button>
           </div>
         </div>
         <div>

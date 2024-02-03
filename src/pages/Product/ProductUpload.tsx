@@ -25,7 +25,10 @@ import Swal from "sweetalert2";
 
 function ProductUpload() {
   const navigate = useNavigate();
-  const goToProductPage = () => navigate("/productlist");
+  const [userId, setUserId] = useState<string | null>(null);
+  const goToProductPage = () => {
+    if (userId) navigate(`/productlist/${userId}`);
+  };
 
   const [isLoading, setIsLoading] = useState(true);
   const [sellerId, setSellerId] = useState<string>("");
@@ -65,6 +68,7 @@ function ProductUpload() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setUserId(user.uid);
         setSellerId(user.uid);
         console.log("userid", user.uid);
 
@@ -261,7 +265,7 @@ function ProductUpload() {
   return (
     <>
       <header className="h-[78px]">
-        <ProductHeader showEditButton={false} />
+        <ProductHeader showBackspaseButton={true} showEditButton={false} />
       </header>
       <main>
         <form
