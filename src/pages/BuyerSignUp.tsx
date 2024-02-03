@@ -169,19 +169,21 @@ export default function BuyerSignUp() {
 
       navigate("/login"); // 회원가입 후 로그인 페이지로 이동
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        Swal.fire({
-          icon: "warning",
-          title: "",
-          html: "이미 사용 중인 이메일입니다.</br> 다른 이메일을 사용해 주세요.",
-        });
-      } else {
-        // 다른 종류의 오류에 대한 처리
-        Swal.fire({
-          icon: "warning",
-          title: "",
-          html: "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.",
-        });
+      if (error instanceof Error) {
+        if (error.message === "auth/email-already-in-use") {
+          Swal.fire({
+            icon: "warning",
+            title: "",
+            html: "이미 사용 중인 이메일입니다.</br> 다른 이메일을 사용해 주세요.",
+          });
+        } else {
+          // 다른 종류의 오류에 대한 처리
+          Swal.fire({
+            icon: "warning",
+            title: "",
+            html: "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.",
+          });
+        }
       }
     }
   };
