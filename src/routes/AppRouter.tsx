@@ -8,11 +8,11 @@ import SellerSignUp from "@/pages/SellerSignUp";
 import Login from "@/pages/Login";
 import MyProfile from "@/pages/MyProfile";
 import Seller from "@/pages/SellerProfile";
-// import Product from "@/pages/Product/ProductList";
 import { ProtectRoute } from "./ProtectRoute";
 
 // 판매자전용
 import ProductUpload from "@/pages/Product/ProductUpload";
+import ProductList from "@/pages/Product/ProductList";
 import ProductDetail from "@/pages/Product/ProductDetail";
 import ProductEdit from "@/pages/Product/ProductEdit";
 
@@ -63,6 +63,8 @@ const AppRouter = () => {
             />
           }
         />
+
+        {/* 판매자 페이지 */}
         <Route
           path="/seller"
           element={
@@ -74,17 +76,17 @@ const AppRouter = () => {
             />
           }
         />
-        {/* <Route
+        <Route
           path="/productlist/:uid"
           element={
             <ProtectRoute
-              element={<Product />}
+              element={<ProductList />}
               isAuth={isAuth}
               isPrivate={true}
               isProtected={true}
             />
           }
-        /> */}
+        />
         <Route
           path="/productdetail/:id"
           element={

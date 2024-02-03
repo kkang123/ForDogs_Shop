@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { db, auth, storage } from "@/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // import { onAuthStateChanged } from "firebase/auth";
 import { Product } from "@/interface/product";
@@ -116,14 +116,14 @@ function ProductEdit() {
       productQuantity: productQuantity ? productQuantity : 0,
       productDescription: productDescription,
       productCategory: productCategory,
-      updatedAt: Timestamp.fromDate(new Date()), // update the updatedAt field
+      updatedAt: Timestamp.fromDate(new Date()),
     }));
 
     try {
       await updateDoc(doc(db, "products", id), {
         ...editedProduct,
-        createdAt: editedProduct.createdAt.toDate(),
-        // updatedAt: editedProduct.updatedAt.toDate(),
+        createdAt: editedProduct.createdAt.toDate(), //'createdAt' 필드는 'editedProduct'의 'createdAt' 필드를 Date 형으로 변환하여 저장합니다. 이는 원래 작성된 시간을 유지하기 위함입니다.
+        updatedAt: serverTimestamp(), // 게시물 수정 시 시간 업데이트
       });
       Swal.fire({
         icon: "success",

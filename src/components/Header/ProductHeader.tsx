@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button";
 interface ProductHeaderProps {
   showEditButton?: boolean; // 기본값 false
   showDeleteButton?: boolean;
+  showHomeButton?: boolean;
+  showBackspaseButton?: boolean;
+  showUploadButton?: boolean;
   onDelete?: () => void; // 삭제 함수를 받는 prop 추가
   onEdit?: () => void;
 }
@@ -19,6 +22,9 @@ interface ProductHeaderProps {
 const ProductHeader: React.FC<ProductHeaderProps> = ({
   showEditButton = false,
   showDeleteButton = false,
+  showHomeButton = false,
+  showBackspaseButton = false,
+  showUploadButton = false,
   onDelete,
   onEdit,
 }) => {
@@ -27,12 +33,17 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 추가
   const navigate = useNavigate();
+  const [userId, setUserId] = useState<string | null>(null);
+  const goToProductListPage = () => {
+    if (userId) navigate(`/productlist/${userId}`);
+  };
 
   // 로그인 상태 확인
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsLoading(false);
       if (user) {
+        setUserId(user.uid); // uid 상태에 저장
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
@@ -56,6 +67,20 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   const Login = (event: FormEvent) => {
     event.preventDefault();
     navigate("/login");
+  };
+
+  const Home = (event: FormEvent) => {
+    event.preventDefault();
+    navigate("/");
+  };
+
+  const Backspace = (event: FormEvent) => {
+    event.preventDefault();
+    goToProductListPage();
+  };
+  const Upload = (event: FormEvent) => {
+    event.preventDefault();
+    navigate("/productupload");
   };
 
   if (isLoading) {
@@ -87,8 +112,23 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   return (
     <>
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between border-b-2 shadow-lg shadow-blue-500/70 bg-white">
-        <button className="">로고 이미지</button>
+        {showHomeButton && (
+          <button className="" onClick={Home}>
+            로고 이미지
+          </button>
+        )}
+        {showBackspaseButton && (
+          <button className="" onClick={Backspace}>
+            뒤로가기
+          </button>
+        )}
+
         <div className="flex">
+          {showUploadButton && (
+            <Button variant="ghost" size="sm" onClick={Upload}>
+              상품 등록
+            </Button>
+          )}
           {showEditButton && (
             <Button variant="ghost" size="sm" onClick={onEdit}>
               수정하기

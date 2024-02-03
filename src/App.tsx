@@ -1,12 +1,17 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import AuthProvider from "@/contexts/AuthContext";
 import AppRouter from "@/routes/AppRouter";
 
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
-    <AuthProvider>
-      <AppRouter />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <AppRouter />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 
