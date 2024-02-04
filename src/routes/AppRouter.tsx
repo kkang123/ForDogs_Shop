@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { ProtectRoute } from "./ProtectRoute";
 
 import Home from "../pages/home";
 import About from "@/pages/about";
@@ -8,7 +9,9 @@ import SellerSignUp from "@/pages/SellerSignUp";
 import Login from "@/pages/Login";
 import MyProfile from "@/pages/MyProfile";
 import Seller from "@/pages/SellerProfile";
-import { ProtectRoute } from "./ProtectRoute";
+
+// 상품 판매
+import SellProductDetail from "@/pages/SellProductDetail";
 
 // 판매자전용
 import ProductUpload from "@/pages/Product/ProductUpload";
@@ -61,6 +64,14 @@ const AppRouter = () => {
               isPrivate={true}
               isProtected={false} // 구매자 전용
             />
+          }
+        />
+
+        {/* 상품 판매 */}
+        <Route
+          path="/sellproduct/:id"
+          element={
+            <ProtectRoute element={<SellProductDetail />} isAuth={isAuth} />
           }
         />
 
