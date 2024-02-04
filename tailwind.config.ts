@@ -51,6 +51,36 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // 갈색 추가
+        brown: {
+          "50": "#f6f4f4",
+          "100": "#edebea",
+          "200": "#d6cbc6",
+          "300": "#bfaba1",
+          "400": "#8f7560",
+          "500": "#5f3f1f",
+          "600": "#4d3219",
+          "700": "#392513",
+          "800": "#26180d",
+          "900": "#130c06",
+        },
+        btn: {
+          // main: "#ff8000",
+          main: "#DEEFFF",
+        },
+        // 밝은 파랑
+        LightBlue: {
+          "50": "#f2f2ff",
+          "100": "#e6e6ff",
+          "200": "#bfbfff",
+          "300": "#9999ff",
+          "400": "#4d4dff",
+          "500": "#646cff",
+          "600": "#1a1aff",
+          "700": "#0000e6",
+          "800": "#0000b3",
+          "900": "#000080",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
