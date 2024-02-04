@@ -14,6 +14,7 @@ interface ProductHeaderProps {
   showHomeButton?: boolean;
   showBackspaseButton?: boolean;
   showUploadButton?: boolean;
+  showPageBackSpaceButton?: boolean;
   onDelete?: () => void; // 삭제 함수를 받는 prop 추가
   onEdit?: () => void;
 }
@@ -25,6 +26,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   showHomeButton = false,
   showBackspaseButton = false,
   showUploadButton = false,
+  showPageBackSpaceButton = false,
   onDelete,
   onEdit,
 }) => {
@@ -83,6 +85,11 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
     navigate("/productupload");
   };
 
+  const PageBackSpaceButton = (event: FormEvent) => {
+    event.preventDefault();
+    navigate(-1);
+  };
+
   if (isLoading) {
     return (
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between border-b-2 shadow-lg shadow-blue-500/70 bg-white">
@@ -120,6 +127,11 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
         {showBackspaseButton && (
           <button className="" onClick={Backspace}>
             뒤로가기
+          </button>
+        )}
+        {showPageBackSpaceButton && (
+          <button className="" onClick={PageBackSpaceButton}>
+            유저 사용 : 뒤로가기
           </button>
         )}
 
