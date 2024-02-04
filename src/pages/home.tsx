@@ -36,6 +36,7 @@ export default function Home() {
         <p>가장 먼저 보여지는 페이지입니다.</p>
         <div>안녕하세요 {user?.nickname} 님</div>
         <Link to={`/productdetail/1706776956553`}>123123</Link>
+        <Link to={`/sellproduct/1706776956553`}>상품 판매 중</Link>
       </div>
     </>
   );
