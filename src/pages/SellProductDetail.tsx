@@ -122,12 +122,12 @@ function SellProductDetail() {
       <header className="h-[78px]">
         <ProductHeader showPageBackSpaceButton={true} />
       </header>
-      <main style={{ minWidth: "1300px" }}>
+      <main style={{ minWidth: "1300px" }} className="center">
         <div className="flex  w-full gap-4 pt-[70px] pb-[80px] justify-center">
           <div className="flex flex-col">
             {product.productImage[currentImageIndex] ? (
               <img
-                className="w-[480px] h-[420px]"
+                className="w-[600px] h-[600px]"
                 src={product.productImage[currentImageIndex]}
                 alt={`Uploaded image ${currentImageIndex + 1}`}
               />
@@ -155,24 +155,24 @@ function SellProductDetail() {
               </button>
             </div>
           </div>
-          <div className="flex flex-col gap-12 text-right w-[480px] ">
+          <div className="flex flex-col gap-12 text-right w-[600px]">
             <p className="font-bold text-4xl mt-8">{product.productName}</p>
             <p className="text-3xl mt-3">{product.productPrice}원</p>
             <p className="text-3xl mt-8">
               남은 갯수 : {product.productQuantity}개
             </p>
-            <div className="flex">
+            <div className="flex text-5xl justify-evenly">
               <button
-                className="pr-3 border-2"
+                className=""
                 onClick={() => count > 0 && setCount(count - 1)}
               >
                 -
               </button>
               {/* "count" 값이 0보다 클 때만 "-" 버튼이 작동하도록 했습니다. */}
               {/* "-" 버튼을 누르면 count가 1 감소합니다. */}
-              <div className="w-[20px] border-2">{count}</div>
+              <div className=" border-2 w-5">{count}</div>
               <button
-                className="pl-3 border-2 "
+                className=" "
                 onClick={() => count < 30 && setCount(count + 1)}
               >
                 +
@@ -180,35 +180,37 @@ function SellProductDetail() {
               {/* "+" 버튼을 누르면 count가 1 증가합니다. */}
             </div>
 
-            <div className="flex flex-col">
-              <div className="border-b-2"></div>
-              <div className="flex items-end justify-between mx-2 text-lg mt-1">
-                <div>총 상품 구매</div>
-                <div className="flex items-end ">
-                  구매 수량{" "}
-                  <span className="mx-1 text-LightBlue-500">{count}</span> |
-                  <span className="ml-1 text-LightBlue-500 text-3xl">
-                    {product && product.productPrice
-                      ? product.productPrice * count
-                      : null}
-                  </span>
-                  원
-                </div>
+            <div className="border-b-2"></div>
+
+            <div className="flex items-end justify-between mx-2 text-2xl ">
+              <div>총 상품 구매</div>
+              <div className="flex items-end ">
+                구매 수량{" "}
+                <span className="mx-1 text-LightBlue-500">{count}</span> |
+                <span className="ml-1 text-LightBlue-500 text-4xl">
+                  {product && product.productPrice
+                    ? product.productPrice * count
+                    : null}
+                </span>
+                원
               </div>
+            </div>
+
+            <div className="flex flex-col">
               <button className="text-2xl text-gray-500 flex justify-end mr-2">
                 #{product.productCategory}
               </button>
 
-              <div className="flex justify-around ml-4 mt-3">
+              <div className="flex justify-around ml-4 mt-1">
                 <Button
                   size={"customsize"}
-                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
+                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
                   장바구니
                 </Button>
                 <Button
                   size={"customsize"}
-                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
+                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
                   구매하기
                 </Button>
@@ -219,7 +221,7 @@ function SellProductDetail() {
         <div>
           <div className="mx-36 text-4xl">상품 설명</div>
           <p
-            className="mx-36 mt-3 border-4 border-LightBlue-500 rounded  overflow-y-auto overflow-x-hidden word-wrap: break-word"
+            className="mx-10 mt-3 border-4 border-LightBlue-500 rounded  overflow-y-auto overflow-x-hidden word-wrap: break-word"
             style={{ height: "8em" }}
           >
             {product.productDescription}
