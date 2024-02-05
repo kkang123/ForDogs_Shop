@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 
 function ProductDetail() {
   const auth = getAuth();
-  // const user = auth.currentUser;
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
