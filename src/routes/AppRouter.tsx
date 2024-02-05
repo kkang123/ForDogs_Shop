@@ -19,6 +19,9 @@ import ProductList from "@/pages/Product/ProductList";
 import ProductDetail from "@/pages/Product/ProductDetail";
 import ProductEdit from "@/pages/Product/ProductEdit";
 
+// 카테고리
+import CategoryA from "@/pages/Category/Category";
+
 const AppRouter = () => {
   const { isSeller, isAuth } = useAuth();
   // let uid = auth().currentUser.uid;
@@ -43,6 +46,9 @@ const AppRouter = () => {
             />
           }
         />
+
+        {/* 로그인, 회원 가입 */}
+
         <Route
           path="/buyersignup"
           element={<ProtectRoute element={<BuyerSignUp />} isAuth={isAuth} />}
@@ -55,6 +61,16 @@ const AppRouter = () => {
           path="/login"
           element={<ProtectRoute element={<Login />} isAuth={isAuth} />}
         />
+
+        {/* 카테고리 */}
+
+        <Route
+          path="/category/:productCategory"
+          element={<ProtectRoute element={<CategoryA />} isAuth={isAuth} />}
+        />
+
+        {/* 구매자 */}
+
         <Route
           path="/myprofile"
           element={
