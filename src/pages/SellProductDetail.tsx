@@ -21,8 +21,7 @@ function SellProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 이미지 인덱스 상태 추가
   const [user, setUser] = useState<UserType | null>(null);
-  console.log(user);
-  console.log(setUser);
+  const [count, setCount] = useState<number>(0);
 
   // const goToProductPage = () => navigate("/productlist");
   const goToProductPage = () => navigate("/");
@@ -162,21 +161,53 @@ function SellProductDetail() {
             <p className="text-3xl mt-8">
               남은 갯수 : {product.productQuantity}개
             </p>
-            <div className="border-b-2"></div>
+            <div className="flex">
+              <button
+                className="pr-3 border-2"
+                onClick={() => count > 0 && setCount(count - 1)}
+              >
+                -
+              </button>
+              {/* "count" 값이 0보다 클 때만 "-" 버튼이 작동하도록 했습니다. */}
+              {/* "-" 버튼을 누르면 count가 1 감소합니다. */}
+              <div className="w-[20px] border-2">{count}</div>
+              <button
+                className="pl-3 border-2 "
+                onClick={() => count < 30 && setCount(count + 1)}
+              >
+                +
+              </button>
+              {/* "+" 버튼을 누르면 count가 1 증가합니다. */}
+            </div>
+
             <div className="flex flex-col">
-              <button className="text-xs text-gray-500 flex justify-end">
+              <div className="border-b-2"></div>
+              <div className="flex items-end justify-between mx-2 text-lg mt-1">
+                <div>총 상품 구매</div>
+                <div className="flex items-end ">
+                  구매 수량{" "}
+                  <span className="mx-1 text-LightBlue-500">{count}</span> |
+                  <span className="ml-1 text-LightBlue-500 text-3xl">
+                    {product && product.productPrice
+                      ? product.productPrice * count
+                      : null}
+                  </span>
+                  원
+                </div>
+              </div>
+              <button className="text-2xl text-gray-500 flex justify-end mr-2">
                 #{product.productCategory}
               </button>
 
-              <div className="flex justify-around ml-4 mt-7">
+              <div className="flex justify-around ml-4 mt-3">
                 <Button
-                  size={"lg"}
+                  size={"customsize"}
                   className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
                 >
                   장바구니
                 </Button>
                 <Button
-                  size={"lg"}
+                  size={"customsize"}
                   className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
                 >
                   구매하기
