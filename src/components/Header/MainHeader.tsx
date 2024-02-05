@@ -45,7 +45,7 @@ function MainHeader() {
 
   if (isLoading) {
     return (
-      <div className="flex  w-full justify-between">
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg shadow-LightBlue-500 bg-white">
         <div className="">로고 이미지</div>
         <div className="flex">
           <div className=""></div>
@@ -64,7 +64,7 @@ function MainHeader() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 px-5 py-5 flex  w-full justify-between border-b-2 border-gray-400 p-1 bg-white">
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg shadow-LightBlue-500 bg-white">
         <div className="">로고 이미지</div>
         <div className="flex">
           <div className=""></div>
