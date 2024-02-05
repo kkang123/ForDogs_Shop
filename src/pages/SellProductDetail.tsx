@@ -136,7 +136,7 @@ function SellProductDetail() {
             <div className="flex justify-between">
               <button
                 onClick={handlePrevClick}
-                className="mt-2 w-16 ml-2 hover:bg-blue-400 hover:border-[color] bg-white  rounded-full flex justify-center"
+                className="mt-2 w-16 ml-2 hover:bg-LightBlue-500 hover:border-[color] bg-white  rounded-full flex justify-center"
               >
                 <img
                   src={leftbtn}
@@ -146,7 +146,7 @@ function SellProductDetail() {
               </button>
               <button
                 onClick={handleNextClick}
-                className="mt-2 w-16 mr-2 hover:bg-blue-400 hover:border-[color] bg-white  rounded-full flex justify-center"
+                className="mt-2 w-16 mr-2 hover:bg-LightBlue-500 hover:border-[color] bg-white  rounded-full flex justify-center"
               >
                 <img
                   src={rightbtn}
@@ -163,29 +163,32 @@ function SellProductDetail() {
               남은 갯수 : {product.productQuantity}개
             </p>
             <div className="border-b-2"></div>
-            <button className="text-xs mb-5 text-gray-500 flex justify-end">
-              #{product.productCategory}
-            </button>
-            <div className="flex justify-around ml-4">
-              <Button
-                size={"lg"}
-                className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
-              >
-                장바구니
-              </Button>
-              <Button
-                size={"lg"}
-                className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
-              >
-                구매하기
-              </Button>
+            <div className="flex flex-col">
+              <button className="text-xs text-gray-500 flex justify-end">
+                #{product.productCategory}
+              </button>
+
+              <div className="flex justify-around ml-4 mt-7">
+                <Button
+                  size={"lg"}
+                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
+                >
+                  장바구니
+                </Button>
+                <Button
+                  size={"lg"}
+                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200"
+                >
+                  구매하기
+                </Button>
+              </div>
             </div>
           </div>
         </div>
         <div>
           <div className="mx-36 text-4xl">상품 설명</div>
           <p
-            className="mx-36 mt-3 border-4 border-blue-300 rounded  overflow-y-auto overflow-x-hidden word-wrap: break-word"
+            className="mx-36 mt-3 border-4 border-LightBlue-500 rounded  overflow-y-auto overflow-x-hidden word-wrap: break-word"
             style={{ height: "8em" }}
           >
             {product.productDescription}
