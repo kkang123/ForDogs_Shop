@@ -33,15 +33,44 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-
-      <div className="w-full h-[90vh] flex flex-col justify-start items-center mt-36">
-        <h1>Home</h1>
-        <p>가장 먼저 보여지는 페이지입니다.</p>
-        <div>안녕하세요 {user?.nickname} 님</div>
-        <Link to={`/productdetail/1706776956553`}>123123</Link>
-        <Link to={`/sellproduct/1706776956553`}>상품 판매 중</Link>
-      </div>
+      <header className="z-50">
+        <Header />
+      </header>
+      <main className="mt-36">
+        <div className="">
+          <ul className="">
+            <div className="relative group cursor-pointer">
+              Category
+              <ul className="absolute hidden group-hover:block bg-gray-200 w-full z-40">
+                <li>
+                  <Link to={`/category/a`}>CategoryA</Link>
+                </li>
+                <li>CategoryB</li>
+                <li>
+                  <Link to={`/category/의류`}>의류</Link>
+                </li>
+                <li>d</li>
+                <li>e</li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+        <div className="relative w-full h-[90vh]">
+          <img
+            src="src\assets\찌비.JPG"
+            alt=""
+            className=" absolute inset-0 w-full h-full object-cover "
+          />
+        </div>
+        <div className="w-full h-[90vh] flex flex-col justify-start items-center ">
+          <h1>Home</h1>
+          <p>가장 먼저 보여지는 페이지입니다.</p>
+          <div>안녕하세요 {user?.nickname} 님</div>
+          <Link to={`/productdetail/1706776956553`}>123123</Link>
+          <Link to={`/sellproduct/1706776956553`}>상품 판매 중</Link>
+        </div>
+      </main>
+      <footer></footer>
     </>
   );
 }
