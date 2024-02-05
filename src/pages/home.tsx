@@ -27,15 +27,20 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
+  // 애니메이션 되는 커다란 이미지 div 창
+  // 카테고리별 조회 4개씩 sellerid로 보는게 아닌 카테고리로 확인
+  //
+
   return (
     <>
       <Header />
 
-      <div className="w-full h-[90vh] flex flex-col justify-start items-center mt-20">
+      <div className="w-full h-[90vh] flex flex-col justify-start items-center mt-36">
         <h1>Home</h1>
         <p>가장 먼저 보여지는 페이지입니다.</p>
         <div>안녕하세요 {user?.nickname} 님</div>
         <Link to={`/productdetail/1706776956553`}>123123</Link>
+        <Link to={`/sellproduct/1706776956553`}>상품 판매 중</Link>
       </div>
     </>
   );

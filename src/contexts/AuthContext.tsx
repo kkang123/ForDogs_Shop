@@ -56,6 +56,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userSnap = await getDoc(userDocRef);
         if (userSnap.exists()) {
           setIsSeller(userSnap.data().isSeller);
+          setIsAuth(true);
         }
 
         const userDocSnap = await getDoc(userDocRef); // getDoc 함수를 사용하여 사용자 데이터를 가져옵니다.
@@ -65,6 +66,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         setIsSeller(false);
         setNickname(null);
+        setIsAuth(false);
       }
     });
 

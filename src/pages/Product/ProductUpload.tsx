@@ -379,12 +379,13 @@ function ProductUpload() {
                 className="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               >
                 <option value="">카테고리를 선택하세요</option>
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-                <option value="system">System</option>
-                <option value="gray">Gray</option>
-                <option value="dark1">Dark1</option>
-                <option value="system1">System1</option>
+                <option value="">카테고리를 선택하세요</option>
+                <option value="A">카테고리A</option>
+                <option value="B">카테고리B</option>
+                <option value="C">카테고리C</option>
+                <option value="D">카테고리D</option>
+                <option value="E">카테고리E</option>
+                <option value="F">카테고리F</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg
