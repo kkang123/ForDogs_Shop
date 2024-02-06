@@ -107,6 +107,7 @@ function SellProductDetail() {
           query(
             collection(db, "products"),
             where("productCategory", "==", product.productCategory),
+            where("__name__", "!=", id), // 현재 게시물을 제외
             limit(3)
           )
         );
@@ -138,7 +139,6 @@ function SellProductDetail() {
             productImage: data.productImage,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
-            // 필요한 필드를 추가합니다.
           };
           relatedProductList.push(productData);
         });
@@ -147,7 +147,7 @@ function SellProductDetail() {
     };
 
     fetchRelatedProducts();
-  }, [product]);
+  }, [product, id]);
 
   // 버튼 클릭 핸들러 함수 추가
   const handlePrevClick = () => {
