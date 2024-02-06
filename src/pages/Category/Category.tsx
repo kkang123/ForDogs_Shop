@@ -102,7 +102,7 @@ function Category() {
             <button onClick={() => setSortType("productPrice")}>가격순</button>
           </div>
 
-          <div className="flex flex-wrap justify-between">
+          <div className="flex flex-wrap justify-start">
             {data?.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.data.map((product: Product, index: number) => (
