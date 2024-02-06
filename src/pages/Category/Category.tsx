@@ -93,10 +93,10 @@ function Category() {
                     to={`/sellproduct/${product.id}`}
                     className="w-full lg:w-1/3 md:w-1/2 sm:w-full p-4"
                   >
-                    <div className="shadow border-2 rounded h-[380px]">
+                    <div className="shadow border-2 rounded h-[380px] md:max-w-96 sm:max-w-96">
                       {product.productImage[currentImageIndex] ? (
                         <img
-                          className="w-full h-[300px] rounded"
+                          className="w-full h-[300px] rounded "
                           src={product.productImage[currentImageIndex]}
                           alt={`Uploaded image ${currentImageIndex + 1}`}
                         />
