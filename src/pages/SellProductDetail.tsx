@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { db } from "@/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  query,
+  where,
+} from "firebase/firestore";
 import { Product } from "@/interface/product";
 import { UserType } from "@/interface/user";
 
@@ -50,7 +58,6 @@ function SellProductDetail() {
       } else {
         setUser(null);
       }
-      console.log(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
@@ -61,23 +68,14 @@ function SellProductDetail() {
       const userId = user.id; // 지역 변수에 user.id 저장
 
       const fetchProduct = async () => {
-        console.log(user);
-
         if (id) {
           const productRef = doc(db, "products", id);
           const productSnap = await getDoc(productRef);
-          console.log(user);
-          console.log(id);
 
           if (productSnap.exists()) {
             const productData = productSnap.data() as Product;
-            console.log(productData.sellerId);
-            console.log(userId); // 지역 변수 사용
             if (productData.sellerId === userId) {
               // 지역 변수 사용
-              console.log(productData.sellerId);
-              console.log(userId); // 지역 변수 사용
-              console.log(user);
               setProduct(productData);
             } else {
               Swal.fire({
@@ -97,6 +95,59 @@ function SellProductDetail() {
       fetchProduct();
     }
   }, [id, user]);
+
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]); // 카테고리 관련 상품들을 저장할 상태 변수
+
+  // 카테고리 관련 상품들 호출
+  useEffect(() => {
+    // 카테고리 관련 상품들 호출
+    const fetchRelatedProducts = async () => {
+      if (product) {
+        const querySnapshot = await getDocs(
+          query(
+            collection(db, "products"),
+            where("productCategory", "==", product.productCategory),
+            limit(3)
+          )
+        );
+
+        const relatedProductList: Product[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+
+          let idNumber: number;
+          try {
+            idNumber = Number(doc.id);
+            if (isNaN(idNumber)) {
+              throw new Error("ID is not a number");
+            }
+          } catch (error) {
+            console.error(error);
+            // 적절한 오류 처리를 수행합니다.
+            return;
+          }
+
+          const productData: Product = {
+            id: idNumber,
+            sellerId: data.sellerId,
+            productName: data.productName,
+            productPrice: data.productPrice,
+            productQuantity: data.productQuantity,
+            productDescription: data.productDescription,
+            productCategory: data.productCategory,
+            productImage: data.productImage,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+            // 필요한 필드를 추가합니다.
+          };
+          relatedProductList.push(productData);
+        });
+        setRelatedProducts(relatedProductList);
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [product]);
 
   // 버튼 클릭 핸들러 함수 추가
   const handlePrevClick = () => {
@@ -198,7 +249,9 @@ function SellProductDetail() {
 
             <div className="flex flex-col">
               <button className="text-2xl text-gray-500 flex justify-end mr-2">
-                #{product.productCategory}
+                <Link to={`/category/${product.productCategory}`}>
+                  #{product.productCategory}
+                </Link>
               </button>
 
               <div className="flex justify-around ml-4 mt-1">
@@ -219,7 +272,7 @@ function SellProductDetail() {
           </div>
         </div>
         <div>
-          <div className="mx-36 text-4xl">상품 설명</div>
+          <div className="mx-12 text-4xl ">상품 설명</div>
           <p
             className="mx-10 mt-3 border-4 border-LightBlue-500 rounded  overflow-y-auto overflow-x-hidden word-wrap: break-word"
             style={{ height: "8em" }}
@@ -228,7 +281,38 @@ function SellProductDetail() {
           </p>
         </div>
       </main>
-      <footer className="pt-[100px]"></footer>
+      <footer className="pt-[100px]">
+        <div className="">
+          <h2 className="text-2xl font-bold mb-4">이 카테고리의 다른 상품들</h2>
+          {relatedProducts.map((relatedProduct: Product) => (
+            <div key={relatedProduct.id} className="mb-4">
+              <Link
+                to={`/sellproduct/${relatedProduct.id}`}
+                className="flex items-center p-3"
+              >
+                {relatedProduct.productImage &&
+                relatedProduct.productImage.length > 0 ? (
+                  <img
+                    src={relatedProduct.productImage[0]}
+                    alt={relatedProduct.productName}
+                    className="w-16 h-16 object-cover mr-4"
+                  />
+                ) : (
+                  <div className="w-16 h-16 bg-gray-200 mr-4"></div>
+                )}
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    {relatedProduct.productName}
+                  </h3>
+                  <p className="text-lg font-medium">
+                    {relatedProduct.productPrice}원
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </footer>
     </>
   );
 }
