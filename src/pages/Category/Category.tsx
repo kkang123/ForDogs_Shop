@@ -79,7 +79,14 @@ function Category() {
   }, [sortType]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <header className="h-[78px]">
+          <ProductHeader showHomeButton={true} />
+        </header>
+        <div>Loding...</div>
+      </>
+    );
   }
 
   if (isError) {
