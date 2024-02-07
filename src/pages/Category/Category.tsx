@@ -17,7 +17,10 @@ import ProductHeader from "@/components/Header/ProductHeader";
 
 function Category() {
   const { productCategory } = useParams<{ productCategory: string }>();
-  console.log(productCategory);
+
+  const [sortType, setSortType] = useState<"updatedAt" | "productPrice">(
+    "updatedAt"
+  );
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const fetchProducts = async ({ pageParam = null }) => {
@@ -25,7 +28,7 @@ function Category() {
     let q = query(
       productsRef,
       where("productCategory", "==", productCategory),
-      orderBy("updatedAt", "desc"),
+      orderBy(sortType, sortType === "updatedAt" ? "desc" : "asc"),
       limit(3)
     );
 
@@ -52,6 +55,8 @@ function Category() {
     hasNextPage,
     isError,
     isLoading,
+    remove, // 이전 데이터 삭제
+    refetch,
   } = useInfiniteQuery("products", fetchProducts, {
     getNextPageParam: (lastPage) => {
       return lastPage.nextStart;
@@ -68,8 +73,20 @@ function Category() {
     }
   }, [inView, hasNextPage, isFetchingNextPage]);
 
+  useEffect(() => {
+    remove();
+    refetch();
+  }, [sortType]);
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <header className="h-[78px]">
+          <ProductHeader showHomeButton={true} />
+        </header>
+        <div>Loding...</div>
+      </>
+    );
   }
 
   if (isError) {
@@ -84,7 +101,15 @@ function Category() {
       <main className="mt-16">
         <div>
           <p>현재 페이지의 파라미터는 {productCategory} 입니다.</p>
-          <div className="flex flex-wrap justify-between">
+
+          {/* 버튼 추가 */}
+          <div>
+            업데이트
+            <button onClick={() => setSortType("updatedAt")}>최신순</button>
+            <button onClick={() => setSortType("productPrice")}>가격순</button>
+          </div>
+
+          <div className="flex flex-wrap justify-start">
             {data?.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.data.map((product: Product, index: number) => (
@@ -93,10 +118,10 @@ function Category() {
                     to={`/sellproduct/${product.id}`}
                     className="w-full lg:w-1/3 md:w-1/2 sm:w-full p-4"
                   >
-                    <div className="shadow border-2 rounded h-[380px]">
+                    <div className="shadow border-2 rounded h-[380px] md:max-w-96 sm:max-w-96">
                       {product.productImage[currentImageIndex] ? (
                         <img
-                          className="w-full h-[300px] rounded"
+                          className="w-full h-[300px] rounded "
                           src={product.productImage[currentImageIndex]}
                           alt={`Uploaded image ${currentImageIndex + 1}`}
                         />
