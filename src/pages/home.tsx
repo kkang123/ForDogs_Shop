@@ -140,11 +140,13 @@ export default function Home() {
           <Link to={`/sellproduct/1706776956553`}>상품 판매 중</Link>
         </div>
 
-        <div className="flex flex-wrap justify-start">
-          <h2>카테고리 A</h2>
-          <Button>
-            <Link to={`/category/a`}>더보기</Link>
-          </Button>
+        <div className="flex flex-col justify-start">
+          <div className="flex">
+            <h2>카테고리 A</h2>
+            <Button>
+              <Link to={`/category/a`}>더보기</Link>
+            </Button>
+          </div>
           <div className="flex">
             {categoryAProducts.map((product) => (
               <Link
@@ -152,7 +154,11 @@ export default function Home() {
                 to={`/sellproduct/${product.id}`}
                 className="w-1/4 p-4"
               >
-                <img src={product.productImage[0]} alt={product.productName} />
+                <img
+                  src={product.productImage[0]}
+                  alt={product.productName}
+                  className="w-48 h-48"
+                />
                 {product.productName}
                 <p>{product.productPrice}원</p>
                 <p>남은 수량: {product.productQuantity}</p>
@@ -160,19 +166,26 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="flex flex-wrap justify-start">
-          <h2>의류</h2>
-          <Button>
-            <Link to={`/category/의류`}>더보기</Link>
-          </Button>
+
+        <div className="flex flex-col justify-start">
           <div className="flex">
-            {categoryAProducts.map((product) => (
+            <h2>의류</h2>
+            <Button>
+              <Link to={`/category/의류`}>더보기</Link>
+            </Button>
+          </div>
+          <div className="flex">
+            {clothingProducts.map((product) => (
               <Link
                 key={product.id}
                 to={`/sellproduct/${product.id}`}
                 className="w-1/4 p-4"
               >
-                <img src={product.productImage[0]} alt={product.productName} />
+                <img
+                  src={product.productImage[0]}
+                  alt={product.productName}
+                  className="w-48 h-48"
+                />
                 {product.productName}
                 <p>{product.productPrice}원</p>
                 <p>남은 수량: {product.productQuantity}</p>
@@ -180,19 +193,26 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="flex flex-wrap justify-start">
-          <h2>간식</h2>
-          <Button>
-            <Link to={`/category/b`}>더보기</Link>
-          </Button>
+
+        <div className="flex flex-col justify-start">
           <div className="flex">
-            {categoryAProducts.map((product) => (
+            <h2>간식</h2>
+            <Button>
+              <Link to={`/category/b`}>더보기</Link>
+            </Button>
+          </div>
+          <div className="flex">
+            {snackProducts.map((product) => (
               <Link
                 key={product.id}
                 to={`/sellproduct/${product.id}`}
                 className="w-1/4 p-4"
               >
-                <img src={product.productImage[0]} alt={product.productName} />
+                <img
+                  src={product.productImage[0]}
+                  alt={product.productName}
+                  className="w-48 h-48"
+                />
                 {product.productName}
                 <p>{product.productPrice}원</p>
                 <p>남은 수량: {product.productQuantity}</p>
