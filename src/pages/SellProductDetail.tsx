@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { db } from "@/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
@@ -20,19 +20,14 @@ import { Button } from "@/components/ui/button";
 import leftbtn from "@/assets/left-arrow.svg";
 import rightbtn from "@/assets/right-arrow.svg";
 
-import Swal from "sweetalert2";
-
 function SellProductDetail() {
   const auth = getAuth();
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+
   const [product, setProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 이미지 인덱스 상태 추가
   const [user, setUser] = useState<UserType | null>(null);
   const [count, setCount] = useState<number>(0);
-
-  // const goToProductPage = () => navigate("/productlist");
-  const goToProductPage = () => navigate("/");
 
   // 새로고침 시 데이터 유실 방지
   useEffect(() => {
@@ -60,41 +55,25 @@ function SellProductDetail() {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     // user 상태가 null이 아닐 때만 fetchProduct를 호출
-    if (user) {
-      const userId = user.id; // 지역 변수에 user.id 저장
+    const fetchProduct = async () => {
+      if (id) {
+        const productRef = doc(db, "products", id);
+        const productSnap = await getDoc(productRef);
 
-      const fetchProduct = async () => {
-        if (id) {
-          const productRef = doc(db, "products", id);
-          const productSnap = await getDoc(productRef);
+        if (productSnap.exists()) {
+          const productData = productSnap.data() as Product;
 
-          if (productSnap.exists()) {
-            const productData = productSnap.data() as Product;
-            if (productData.sellerId === userId) {
-              // 지역 변수 사용
-              setProduct(productData);
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "접근 권한이 없습니다",
-                text: "해당 제품의 판매자만 열람이 가능합니다",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  goToProductPage();
-                }
-              });
-            }
-          }
+          setProduct(productData); // 판매자 ID와 현재 사용자 ID를 비교하는 조건문 제거
         }
-      };
+      }
+    };
 
-      fetchProduct();
-    }
-  }, [id, user]);
+    fetchProduct();
+  }, [id]);
 
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]); // 카테고리 관련 상품들을 저장할 상태 변수
 
