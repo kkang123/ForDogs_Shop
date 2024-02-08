@@ -22,6 +22,9 @@ import ProductEdit from "@/pages/Product/ProductEdit";
 // 카테고리
 import CategoryA from "@/pages/Category/Category";
 
+// 장바구니
+import Cart from "@/pages/Cart/Cart";
+
 const AppRouter = () => {
   const { isSeller, isAuth } = useAuth();
   // let uid = auth().currentUser.uid;
@@ -67,6 +70,12 @@ const AppRouter = () => {
         <Route
           path="/category/:productCategory"
           element={<ProtectRoute element={<CategoryA />} isAuth={isAuth} />}
+        />
+
+        {/* 장바구니 */}
+        <Route
+          path="/cart/:uid"
+          element={<ProtectRoute element={<Cart />} isAuth={isAuth} />}
         />
 
         {/* 구매자 */}
