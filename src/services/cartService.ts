@@ -6,6 +6,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 // Firestore 초기화
@@ -48,4 +49,46 @@ export const getCartItems = async (userId: string): Promise<CartItem[]> => {
   // 장바구니 데이터를 가져옵니다.
   const cartData = cartSnap.data();
   return cartData.items;
+};
+
+// 수량 수정
+
+export const updateQuantity = async (
+  userId: string,
+  productId: string,
+  newQuantity: number
+): Promise<void> => {
+  const cartRef = doc(db, "carts", userId);
+  const cartSnap = await getDoc(cartRef);
+
+  if (cartSnap.exists()) {
+    const cartData = cartSnap.data().items;
+    const itemToUpdate = cartData.find(
+      (item: CartItem) => String(item.product.id) === productId
+    );
+
+    if (itemToUpdate) {
+      itemToUpdate.quantity = newQuantity;
+      await updateDoc(cartRef, { items: cartData });
+    }
+  }
+};
+
+// 장바구니 상품 제거
+
+export const removeFromCart = async (
+  userId: string,
+  productId: string
+): Promise<void> => {
+  const cartRef = doc(db, "carts", userId);
+  const cartSnap = await getDoc(cartRef);
+
+  if (cartSnap.exists()) {
+    const cartData = cartSnap.data().items;
+    const updatedItems = cartData.filter(
+      (item: CartItem) => String(item.product.id) !== productId
+    );
+
+    await updateDoc(cartRef, { items: updatedItems });
+  }
 };
