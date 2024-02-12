@@ -162,7 +162,19 @@ function SellProductDetail() {
           cartData = [];
         }
 
-        cartData.push(cartItem);
+        // 이전에 추가한 동일한 상품이 있는지 찾습니다.
+        const existingItemIndex = cartData.findIndex(
+          (item) => item.product.id === product.id
+        );
+
+        if (existingItemIndex > -1) {
+          // 동일한 상품이 있으면 수량만 업데이트합니다.
+          cartData[existingItemIndex].quantity += count;
+        } else {
+          // 동일한 상품이 없으면 새로운 아이템을 추가합니다.
+          cartData.push(cartItem);
+        }
+
         await updateDoc(cartRef, { items: cartData });
       } else {
         await setDoc(cartRef, { items: [cartItem] });
