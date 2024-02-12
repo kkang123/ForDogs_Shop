@@ -9,10 +9,14 @@ import {
   getDocs,
   limit,
   query,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { Product } from "@/interface/product";
 import { UserType } from "@/interface/user";
+import { CartItem } from "@/interface/cart";
+import { getCartItems } from "@/services/cartService";
 
 import ProductHeader from "@/components/Header/ProductHeader";
 
@@ -28,6 +32,7 @@ function SellProductDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 이미지 인덱스 상태 추가
   const [user, setUser] = useState<UserType | null>(null);
   const [count, setCount] = useState<number>(0);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]); // 카테고리 관련 상품들을 저장할 상태 변수
 
   // 새로고침 시 데이터 유실 방지
   useEffect(() => {
@@ -75,11 +80,8 @@ function SellProductDetail() {
     fetchProduct();
   }, [id]);
 
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]); // 카테고리 관련 상품들을 저장할 상태 변수
-
   // 카테고리 관련 상품들 호출
   useEffect(() => {
-    // 카테고리 관련 상품들 호출
     const fetchRelatedProducts = async () => {
       if (product) {
         const querySnapshot = await getDocs(
@@ -103,7 +105,6 @@ function SellProductDetail() {
             }
           } catch (error) {
             console.error(error);
-            // 적절한 오류 처리를 수행합니다.
             return;
           }
 
@@ -127,6 +128,37 @@ function SellProductDetail() {
 
     fetchRelatedProducts();
   }, [product, id]);
+
+  // 장바구니 상품 추가
+  const addToCart = async () => {
+    // 로그인한 사용자만 장바구니에 상품을 추가할 수 있습니다.
+    if (user && product) {
+      // 장바구니에 추가할 아이템 정보를 생성합니다.
+      const cartItem: CartItem = {
+        product: product,
+        quantity: count, // 사용자가 선택한 수량
+      };
+
+      const cartRef = doc(db, "carts", user.id);
+      const cartSnap = await getDoc(cartRef);
+
+      if (cartSnap.exists()) {
+        let cartData = await getCartItems(user.id);
+
+        // cartData가 배열인지 확인하고, 배열이 아니면 빈 배열로 초기화합니다.
+        if (!Array.isArray(cartData)) {
+          cartData = [];
+        }
+
+        cartData.push(cartItem);
+        await updateDoc(cartRef, { items: cartData });
+      } else {
+        await setDoc(cartRef, { items: [cartItem] });
+      }
+    } else if (count <= 0) {
+      console.log("Quantity must be greater than 0");
+    }
+  };
 
   // 버튼 클릭 핸들러 함수 추가
   const handlePrevClick = () => {
@@ -235,6 +267,7 @@ function SellProductDetail() {
 
               <div className="flex justify-around ml-4 mt-1">
                 <Button
+                  onClick={addToCart}
                   size={"customsize"}
                   className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
