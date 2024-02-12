@@ -24,6 +24,8 @@ import { Button } from "@/components/ui/button";
 import leftbtn from "@/assets/left-arrow.svg";
 import rightbtn from "@/assets/right-arrow.svg";
 
+import Swal from "sweetalert2";
+
 function SellProductDetail() {
   const auth = getAuth();
   const { id } = useParams<{ id: string }>();
@@ -133,6 +135,16 @@ function SellProductDetail() {
   const addToCart = async () => {
     // 로그인한 사용자만 장바구니에 상품을 추가할 수 있습니다.
     if (user && product) {
+      // 사용자가 선택한 수량이 0 이하일 경우 경고 메시지를 출력하고 함수를 종료합니다.
+      if (count <= 0) {
+        Swal.fire({
+          icon: "error",
+          title: "수량 오류",
+          text: "한개 이상의 상품을 선택해주세요.",
+        });
+        return;
+      }
+
       // 장바구니에 추가할 아이템 정보를 생성합니다.
       const cartItem: CartItem = {
         product: product,
@@ -155,8 +167,6 @@ function SellProductDetail() {
       } else {
         await setDoc(cartRef, { items: [cartItem] });
       }
-    } else if (count <= 0) {
-      console.log("Quantity must be greater than 0");
     }
   };
 
