@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 
-import { CartItem as CartItemType } from "@/interface/cart";
 import { Product } from "@/interface/product";
 import CartItem from "@/pages/Cart/CartItem";
 
-import { getAuth } from "firebase/auth";
 import { getCartItems } from "@/services/cartService";
+
+import { useCart } from "@/contexts/CartContext";
+
+import { getAuth } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 
+import MainHeader from "@/components/Header/MainHeader";
+
 const Cart = () => {
-  const [cart, setCart] = useState<CartItemType[]>([]);
+  const { cart, setCart } = useCart();
   const [quantities, setQuantities] = useState<Record<Product["id"], number>>(
     {}
   ); // 각 상품의 수량을 저장하는 상태
@@ -19,6 +23,14 @@ const Cart = () => {
   const startEditing = () => {
     setIsEditing(true);
   };
+
+  useEffect(() => {
+    console.log(cart); // 장바구니 상태 출력
+  }, [cart]);
+
+  useEffect(() => {
+    console.log("Local storage:", localStorage.getItem("cart")); // 로컬 스토리지 상태 출력
+  }, [cart]);
 
   const saveChanges = async () => {
     const auth = getAuth();
@@ -49,9 +61,19 @@ const Cart = () => {
       const fetchCartItems = async () => {
         const items = await getCartItems(userId);
         setCart(items);
+        console.log(items); // 장바구니 상태 출력
       };
 
       fetchCartItems();
+    }
+  }, []);
+
+  // 로컬스토리지 재호출
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    console.log("Saved cart:", savedCart); // 저장된 장바구니 상태 출력
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
     }
   }, []);
 
@@ -76,28 +98,40 @@ const Cart = () => {
   };
 
   return (
-    <div className="flex flex-col w-48 h-48">
-      {cart.map((item) => (
-        <CartItem
-          key={item.product.id}
-          item={item}
-          // 수정 모드일 때만 updateQuantity와 removeFromCart prop을 전달합니다.
-          {...(isEditing ? { updateQuantity, removeFromCart } : {})}
-        />
-      ))}
-      {!isEditing ? (
-        <button onClick={startEditing}>수정</button> // 수정 버튼
-      ) : (
-        <button
-          onClick={() => {
-            saveChanges();
-            setIsEditing(false);
-          }}
-        >
-          완료
-        </button> // 완료 버튼
-      )}
-    </div>
+    <>
+      <header className="h-[78px]">
+        <MainHeader />
+      </header>
+      <main className="mt-36">
+        <div className="flex flex-col">
+          <div className="flex  justify-start items-center h-64 w-64">
+            {cart.map((item) => (
+              <CartItem
+                key={item.product.id}
+                item={item}
+                // 수정 모드일 때만 updateQuantity와 removeFromCart prop을 전달합니다.
+                {...(isEditing ? { updateQuantity, removeFromCart } : {})}
+              />
+            ))}
+          </div>
+
+          <div>
+            {!isEditing ? (
+              <button onClick={startEditing}>수정</button> // 수정 버튼
+            ) : (
+              <button
+                onClick={() => {
+                  saveChanges();
+                  setIsEditing(false);
+                }}
+              >
+                완료
+              </button> // 완료 버튼
+            )}
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

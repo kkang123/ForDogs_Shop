@@ -18,16 +18,13 @@ export const addToCart = async (
   product: Product,
   quantity: number
 ): Promise<void> => {
-  if (quantity <= 0) {
-    console.log("값이 0이면 함수 종료");
-    return;
-  }
-
   // 장바구니에 추가할 아이템 정보를 생성합니다.
   const cartItem: CartItem = {
     product: product,
     quantity: quantity, // 사용자가 선택한 수량
   };
+
+  console.log("Adding to cart:", cartItem);
 
   // Firestore의 'carts' 컬렉션에 아이템을 추가합니다.
   const cartsRef = collection(db, "carts");

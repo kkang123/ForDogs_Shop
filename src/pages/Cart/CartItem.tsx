@@ -25,7 +25,7 @@ const CartItem: React.FC<CartItemProps> = ({
   }, [item.quantity]);
 
   return (
-    <div>
+    <div className="w-48 h-48">
       <Link to={`/sellproduct/${product.id}`}>
         <img src={product.productImage[0]} alt={product.productName} />
         <p>상품 이름: {product.productName}</p>
