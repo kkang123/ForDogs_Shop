@@ -70,7 +70,9 @@ function MainHeader() {
   return (
     <>
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50">
-        <div className="">로고 이미지</div>
+        <Link to={`/`}>
+          <div className="">로고 이미지</div>
+        </Link>
         <div className="flex">
           <div className=""></div>
           <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
