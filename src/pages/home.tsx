@@ -7,7 +7,6 @@ import {
   collection,
   getDocs,
   query,
-  limit,
   where,
   getFirestore,
 } from "firebase/firestore";
@@ -18,6 +17,13 @@ import "../App.css";
 
 import Header from "@/components/Header/MainHeader";
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Home() {
   const user = useAuth();
@@ -35,12 +41,7 @@ export default function Home() {
     ) => {
       const db = getFirestore();
       const productRef = collection(db, "products");
-      const q = query(
-        productRef,
-        where("productCategory", "==", category),
-
-        limit(4)
-      );
+      const q = query(productRef, where("productCategory", "==", category));
 
       const querySnapshot = await getDocs(q);
       const products: Product[] = [];
@@ -132,6 +133,7 @@ export default function Home() {
             className=" absolute inset-0 w-full h-full object-cover "
           />
         </div>
+
         <div className="w-full h-[50vh] flex flex-col justify-start items-center ">
           <h1>Home</h1>
           <p>가장 먼저 보여지는 페이지입니다.</p>
@@ -147,24 +149,36 @@ export default function Home() {
               <Link to={`/category/a`}>더보기</Link>
             </Button>
           </div>
-          <div className="flex">
-            {categoryAProducts.map((product) => (
-              <Link
-                key={product.id}
-                to={`/sellproduct/${product.id}`}
-                className="w-1/4 p-4"
-              >
-                <img
-                  src={product.productImage[0]}
-                  alt={product.productName}
-                  className="w-48 h-48"
-                />
-                {product.productName}
-                <p>{product.productPrice}원</p>
-                <p>남은 수량: {product.productQuantity}</p>
-              </Link>
-            ))}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full "
+          >
+            <CarouselContent>
+              {categoryAProducts.map((product) => (
+                <CarouselItem
+                  key={product.id}
+                  className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 "
+                >
+                  <div className="m-3">
+                    <Link to={`/sellproduct/${product.id}`} className="m-1">
+                      <img
+                        src={product.productImage[0]}
+                        alt={product.productName}
+                        className="w-72 h-72"
+                      />
+                      <p>{product.productName}</p>
+                      <p>{product.productPrice}원</p>
+                      <p>남은 수량: {product.productQuantity}</p>
+                    </Link>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
 
         <div className="flex flex-col justify-start">
@@ -174,51 +188,75 @@ export default function Home() {
               <Link to={`/category/의류`}>더보기</Link>
             </Button>
           </div>
-          <div className="flex">
-            {clothingProducts.map((product) => (
-              <Link
-                key={product.id}
-                to={`/sellproduct/${product.id}`}
-                className="w-1/4 p-4"
-              >
-                <img
-                  src={product.productImage[0]}
-                  alt={product.productName}
-                  className="w-48 h-48"
-                />
-                {product.productName}
-                <p>{product.productPrice}원</p>
-                <p>남은 수량: {product.productQuantity}</p>
-              </Link>
-            ))}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full "
+          >
+            <CarouselContent>
+              {clothingProducts.map((product) => (
+                <CarouselItem
+                  key={product.id}
+                  className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 "
+                >
+                  <div className="m-3">
+                    <Link to={`/sellproduct/${product.id}`} className="m-1">
+                      <img
+                        src={product.productImage[0]}
+                        alt={product.productName}
+                        className="w-72 h-72"
+                      />
+                      <p>{product.productName}</p>
+                      <p>{product.productPrice}원</p>
+                      <p>남은 수량: {product.productQuantity}</p>
+                    </Link>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
 
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2>간식</h2>
             <Button>
-              <Link to={`/category/b`}>더보기</Link>
+              <Link to={`/category/의류`}>더보기</Link>
             </Button>
           </div>
-          <div className="flex">
-            {snackProducts.map((product) => (
-              <Link
-                key={product.id}
-                to={`/sellproduct/${product.id}`}
-                className="w-1/4 p-4"
-              >
-                <img
-                  src={product.productImage[0]}
-                  alt={product.productName}
-                  className="w-48 h-48"
-                />
-                {product.productName}
-                <p>{product.productPrice}원</p>
-                <p>남은 수량: {product.productQuantity}</p>
-              </Link>
-            ))}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full "
+          >
+            <CarouselContent>
+              {snackProducts.map((product) => (
+                <CarouselItem
+                  key={product.id}
+                  className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 "
+                >
+                  <div className="m-3">
+                    <Link to={`/sellproduct/${product.id}`} className="m-1">
+                      <img
+                        src={product.productImage[0]}
+                        alt={product.productName}
+                        className="w-72 h-72"
+                      />
+                      <p>{product.productName}</p>
+                      <p>{product.productPrice}원</p>
+                      <p>남은 수량: {product.productQuantity}</p>
+                    </Link>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
       </main>
       <footer></footer>
