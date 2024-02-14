@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { auth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "@/contexts/AuthContext";
+
 import {
   collection,
   getDocs,
@@ -16,6 +17,8 @@ import { Product } from "@/interface/product";
 import "../App.css";
 
 import Header from "@/components/Header/MainHeader";
+import CartModal from "@/modals/cartModal";
+
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -33,6 +36,13 @@ export default function Home() {
   const [categoryAProducts, setCategoryAProducts] = useState<Product[]>([]);
   const [clothingProducts, setClothingProducts] = useState<Product[]>([]);
   const [snackProducts, setSnackProducts] = useState<Product[]>([]);
+
+  // 모달
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     const fetchProducts = async (
@@ -76,7 +86,6 @@ export default function Home() {
         products.push(productData);
       });
       setProducts(products);
-      console.log(products);
     };
 
     console.log(fetchProducts);
@@ -100,7 +109,6 @@ export default function Home() {
   }, []);
 
   // 애니메이션 되는 커다란 이미지 div 창
-  // 카테고리별 조회 4개씩 sellerid로 보는게 아닌 카테고리로 확인
 
   return (
     <>
@@ -259,7 +267,12 @@ export default function Home() {
           </Carousel>
         </div>
       </main>
-      <footer></footer>
+      <footer>
+        <div>
+          <Button onClick={toggleModal}>장바구니 보기</Button>
+          <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
+        </div>
+      </footer>
     </>
   );
 }
