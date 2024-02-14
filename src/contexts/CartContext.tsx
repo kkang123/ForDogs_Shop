@@ -6,12 +6,14 @@ interface CartItem {
   quantity: number;
 }
 
-interface CartContextProps {
+export interface CartContextProps {
   cart: CartItem[];
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
-const CartContext = createContext<CartContextProps | undefined>(undefined);
+export const CartContext = createContext<CartContextProps | undefined>(
+  undefined
+);
 
 export const CartProvider = ({ children }: React.PropsWithChildren) => {
   const [cart, setCart] = useState<CartItem[]>([]);
