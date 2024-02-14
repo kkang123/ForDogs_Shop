@@ -17,6 +17,7 @@ function MainHeader() {
   const navigate = useNavigate();
 
   const { cart, setCart } = useContext(CartContext) as CartContextProps;
+  const { resetCart } = useContext(CartContext) as CartContextProps;
 
   // localStorage에서 장바구니 정보를 불러옵니다.
   useEffect(() => {
@@ -48,6 +49,7 @@ function MainHeader() {
     event.preventDefault(); // 이벤트의 기본 동작을 막아줍니다.
     try {
       await signOut(auth);
+      resetCart(); // 장바구니 상태 초기화
       console.log("Successfully logged out");
     } catch (error) {
       console.error("Error during log out", error);
