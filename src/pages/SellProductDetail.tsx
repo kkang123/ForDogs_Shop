@@ -21,8 +21,13 @@ import { getCartItems } from "@/services/cartService";
 import ProductHeader from "@/components/Header/ProductHeader";
 
 import { Button } from "@/components/ui/button";
-import leftbtn from "@/assets/left-arrow.svg";
-import rightbtn from "@/assets/right-arrow.svg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 import Swal from "sweetalert2";
 
@@ -31,7 +36,6 @@ function SellProductDetail() {
   const { id } = useParams<{ id: string }>();
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 이미지 인덱스 상태 추가
   const [user, setUser] = useState<UserType | null>(null);
   const [count, setCount] = useState<number>(0);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]); // 카테고리 관련 상품들을 저장할 상태 변수
@@ -182,21 +186,6 @@ function SellProductDetail() {
     }
   };
 
-  // 버튼 클릭 핸들러 함수 추가
-  const handlePrevClick = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : prevIndex
-    );
-  };
-
-  const handleNextClick = () => {
-    if (product && product.productImage) {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex < product.productImage.length - 1 ? prevIndex + 1 : prevIndex
-      );
-    }
-  };
-
   if (!product) {
     return <div>상품을 불러오는 중...</div>;
   }
@@ -207,38 +196,32 @@ function SellProductDetail() {
         <ProductHeader showPageBackSpaceButton={true} />
       </header>
       <main style={{ minWidth: "1300px" }} className="center">
-        <div className="flex  w-full gap-4 pt-[70px] pb-[80px] justify-center">
-          <div className="flex flex-col">
-            {product.productImage[currentImageIndex] ? (
-              <img
-                className="w-[600px] h-[600px]"
-                src={product.productImage[currentImageIndex]}
-                alt={`Uploaded image ${currentImageIndex + 1}`}
-              />
-            ) : null}
-            <div className="flex justify-between">
-              <button
-                onClick={handlePrevClick}
-                className="mt-2 w-16 ml-2 hover:bg-LightBlue-500 hover:border-[color] bg-white  rounded-full flex justify-center"
-              >
-                <img
-                  src={leftbtn}
-                  alt="left-btn"
-                  className=" w-10    rounded-full"
-                />
-              </button>
-              <button
-                onClick={handleNextClick}
-                className="mt-2 w-16 mr-2 hover:bg-LightBlue-500 hover:border-[color] bg-white  rounded-full flex justify-center"
-              >
-                <img
-                  src={rightbtn}
-                  alt="right-btn"
-                  className=" w-10   rounded-full"
-                />
-              </button>
-            </div>
+        <div className="flex  w-full gap-12 pt-[70px] pb-[80px] justify-center">
+          <div className="w-[580px] h-[580px]">
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full "
+            >
+              <CarouselContent>
+                {product.productImage.map((image, index) => (
+                  <CarouselItem key={index} className=" ">
+                    <div className="">
+                      <img
+                        src={image}
+                        alt={`Uploaded image ${index + 1}`}
+                        className="w-[580px] h-[580px]"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
+
           <div className="flex flex-col gap-12 text-right w-[600px]">
             <p className="font-bold text-4xl mt-8">{product.productName}</p>
             <p className="text-3xl mt-3">{product.productPrice}원</p>

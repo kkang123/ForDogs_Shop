@@ -12,6 +12,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 
 import MainHeader from "@/components/Header/MainHeader";
+import { Button } from "@/components/ui/button";
 
 const Cart = () => {
   const { cart, setCart } = useCart();
@@ -102,33 +103,128 @@ const Cart = () => {
       <header className="h-[78px]">
         <MainHeader />
       </header>
-      <main className="mt-36">
+
+      {/* <main className="mt-36">
         <div className="flex flex-col">
-          <div className="flex  justify-start items-center h-64 w-64">
+          <div className="grid grid-cols-3 gap-4 items-center justify-items-center ">
             {cart.map((item) => (
-              <CartItem
-                key={item.product.id}
-                item={item}
-                // 수정 모드일 때만 updateQuantity와 removeFromCart prop을 전달합니다.
-                {...(isEditing ? { updateQuantity, removeFromCart } : {})}
-              />
+              <div className=" p-4 shadow border-2 rounded w-[230px] h-[380px] ">
+                <CartItem
+                  key={item.product.id}
+                  item={item}
+                  {...(isEditing ? { updateQuantity, removeFromCart } : {})}
+                />
+              </div>
             ))}
           </div>
 
-          <div>
+          <div className="mt-10 flex justify-center mb-10">
             {!isEditing ? (
-              <button onClick={startEditing}>수정</button> // 수정 버튼
+              <Button onClick={startEditing}>수정</Button> // 수정 버튼
             ) : (
-              <button
+              <Button
                 onClick={() => {
                   saveChanges();
                   setIsEditing(false);
                 }}
               >
                 완료
-              </button> // 완료 버튼
+              </Button> // 완료 버튼
             )}
           </div>
+        </div>
+      </main> */}
+
+      {/* 2 */}
+
+      {/* <main className="mt-36">
+        <div className="flex flex-col">
+          {cart.length === 0 ? (
+            <div className="mt-10 flex justify-center mb-10">
+              <p>장바구니가 비어있습니다</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-3 gap-4 items-center justify-items-center ">
+                {cart.map((item) => (
+                  <div className=" p-4 shadow border-2 rounded w-[230px] h-[380px] ">
+                    <CartItem
+                      key={item.product.id}
+                      item={item}
+                      {...(isEditing ? { updateQuantity, removeFromCart } : {})}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10 flex justify-center mb-10">
+                {!isEditing ? (
+                  <Button onClick={startEditing}>수정</Button> // 수정 버튼
+                ) : (
+                  <Button
+                    onClick={() => {
+                      saveChanges();
+                      setIsEditing(false);
+                    }}
+                  >
+                    완료
+                  </Button> // 완료 버튼
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      </main> */}
+
+      <main className="mt-36">
+        <div className="flex flex-col">
+          {cart.length === 0 ? (
+            <div className="mt-10 flex justify-center mb-10">
+              <div className="flex flex-col">
+                <p>장바구니가 비어있습니다</p>
+                {isEditing && (
+                  <Button
+                    className="flex justify-center mt-5"
+                    onClick={() => {
+                      saveChanges();
+                      setIsEditing(false);
+                    }}
+                  >
+                    완료
+                  </Button> // 완료 버튼
+                )}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-3 gap-4 items-center justify-items-center ">
+                {cart.map((item) => (
+                  <div className=" p-4 shadow border-2 rounded w-[230px] h-[380px] ">
+                    <CartItem
+                      key={item.product.id}
+                      item={item}
+                      {...(isEditing ? { updateQuantity, removeFromCart } : {})}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10 flex justify-center mb-10">
+                {!isEditing ? (
+                  <Button onClick={startEditing}>수정</Button> // 수정 버튼
+                ) : (
+                  <Button
+                    onClick={() => {
+                      saveChanges();
+                      setIsEditing(false);
+                    }}
+                  >
+                    완료
+                  </Button> // 완료 버튼
+                )}
+              </div>
+            </>
+          )}
         </div>
       </main>
     </>

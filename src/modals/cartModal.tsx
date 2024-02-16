@@ -21,11 +21,11 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, toggleModal }) => {
       className="flex items-center justify-center h-screen"
     >
       <div
-        className="shadow-2xl p-2 inline-block min-w-1/2 bg-white"
+        className="shadow-2xl p-2 inline-block min-w-1/2"
         onClick={(e) => e.stopPropagation()}
       >
         {cart.map((cartItem) => (
-          <div key={cartItem.product.id}>
+          <div key={cartItem.product.id} className="bg-white border-b-2">
             <h2>{cartItem.product.productName}</h2>
             <p>가격: {cartItem.product.productPrice}</p>
             <p>수량: {cartItem.quantity}</p>

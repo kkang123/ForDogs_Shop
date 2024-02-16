@@ -193,7 +193,7 @@ export default function Home() {
           <div className="flex">
             <h2>의류</h2>
             <Button>
-              <Link to={`/category/의류`}>더보기</Link>
+              <Link to={`/category/간식`}>더보기</Link>
             </Button>
           </div>
           <Carousel
@@ -232,7 +232,7 @@ export default function Home() {
           <div className="flex">
             <h2>간식</h2>
             <Button>
-              <Link to={`/category/의류`}>더보기</Link>
+              <Link to={`/category/b`}>더보기</Link>
             </Button>
           </div>
           <Carousel
