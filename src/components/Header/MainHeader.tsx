@@ -19,7 +19,7 @@ function MainHeader() {
   const { cart, setCart } = useContext(CartContext) as CartContextProps;
   const { resetCart } = useContext(CartContext) as CartContextProps;
 
-  // localStorage에서 장바구니 정보를 불러옵니다.
+  // localStorage에서 장바구니 정보를 호출
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
@@ -46,7 +46,7 @@ function MainHeader() {
   }, []);
 
   const logOut = async (event: FormEvent) => {
-    event.preventDefault(); // 이벤트의 기본 동작을 막아줍니다.
+    event.preventDefault(); // 이벤트의 기본 동작을 차단
     try {
       await signOut(auth);
       resetCart(); // 장바구니 상태 초기화
@@ -63,12 +63,12 @@ function MainHeader() {
 
   if (isLoading) {
     return (
-      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white">
+      <div className="fixed px-5 pt-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white">
         <div className="">로고 이미지</div>
         <div className="flex">
           <div className=""></div>
           <button className="">
-            <img src={basket} alt="Basket" />
+            <img src={basket} alt="Basket" className="w-12" />
           </button>
           <div className=" inline-block ml-2 mr-2">
             <Button variant="outline" size="sm" onClick={logOut}>
@@ -84,7 +84,7 @@ function MainHeader() {
 
   return (
     <>
-      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50">
+      <div className="fixed px-5 pt-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50">
         <Link to={`/`}>
           <div className="">로고 이미지</div>
         </Link>
@@ -92,10 +92,18 @@ function MainHeader() {
           <div className=""></div>
           <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
             <button className="">
-              <img src={basket} alt="Basket" />
-              {uniqueProductCount > 0 && (
-                <span className="text-red-600">{uniqueProductCount}</span>
-              )}
+              <div className="relative">
+                <img src={basket} alt="Basket" className="w-9 pb-3 " />
+                {uniqueProductCount > 0 && (
+                  <span
+                    className={`text-sm text-white absolute bottom-3.5 right-${
+                      uniqueProductCount >= 10 ? "2.5" : "3.5"
+                    }`}
+                  >
+                    {uniqueProductCount}
+                  </span>
+                )}
+              </div>
             </button>
           </Link>
           <div className=" inline-block ml-2 mr-2">
