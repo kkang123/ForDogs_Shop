@@ -19,7 +19,7 @@ function MainHeader() {
   const { cart, setCart } = useContext(CartContext) as CartContextProps;
   const { resetCart } = useContext(CartContext) as CartContextProps;
 
-  // localStorage에서 장바구니 정보를 불러옵니다.
+  // localStorage에서 장바구니 정보를 호출
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
@@ -46,7 +46,7 @@ function MainHeader() {
   }, []);
 
   const logOut = async (event: FormEvent) => {
-    event.preventDefault(); // 이벤트의 기본 동작을 막아줍니다.
+    event.preventDefault(); // 이벤트의 기본 동작을 차단
     try {
       await signOut(auth);
       resetCart(); // 장바구니 상태 초기화
