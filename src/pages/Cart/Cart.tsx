@@ -103,79 +103,6 @@ const Cart = () => {
       <header className="h-[78px]">
         <MainHeader />
       </header>
-
-      {/* <main className="mt-36">
-        <div className="flex flex-col">
-          <div className="grid grid-cols-3 gap-4 items-center justify-items-center ">
-            {cart.map((item) => (
-              <div className=" p-4 shadow border-2 rounded w-[230px] h-[380px] ">
-                <CartItem
-                  key={item.product.id}
-                  item={item}
-                  {...(isEditing ? { updateQuantity, removeFromCart } : {})}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 flex justify-center mb-10">
-            {!isEditing ? (
-              <Button onClick={startEditing}>수정</Button> // 수정 버튼
-            ) : (
-              <Button
-                onClick={() => {
-                  saveChanges();
-                  setIsEditing(false);
-                }}
-              >
-                완료
-              </Button> // 완료 버튼
-            )}
-          </div>
-        </div>
-      </main> */}
-
-      {/* 2 */}
-
-      {/* <main className="mt-36">
-        <div className="flex flex-col">
-          {cart.length === 0 ? (
-            <div className="mt-10 flex justify-center mb-10">
-              <p>장바구니가 비어있습니다</p>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-3 gap-4 items-center justify-items-center ">
-                {cart.map((item) => (
-                  <div className=" p-4 shadow border-2 rounded w-[230px] h-[380px] ">
-                    <CartItem
-                      key={item.product.id}
-                      item={item}
-                      {...(isEditing ? { updateQuantity, removeFromCart } : {})}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-10 flex justify-center mb-10">
-                {!isEditing ? (
-                  <Button onClick={startEditing}>수정</Button> // 수정 버튼
-                ) : (
-                  <Button
-                    onClick={() => {
-                      saveChanges();
-                      setIsEditing(false);
-                    }}
-                  >
-                    완료
-                  </Button> // 완료 버튼
-                )}
-              </div>
-            </>
-          )}
-        </div>
-      </main> */}
-
       <main className="mt-36">
         <div className="flex flex-col">
           {cart.length === 0 ? (
@@ -191,7 +118,7 @@ const Cart = () => {
                     }}
                   >
                     완료
-                  </Button> // 완료 버튼
+                  </Button>
                 )}
               </div>
             </div>
@@ -211,7 +138,7 @@ const Cart = () => {
 
               <div className="mt-10 flex justify-center mb-10">
                 {!isEditing ? (
-                  <Button onClick={startEditing}>수정</Button> // 수정 버튼
+                  <Button onClick={startEditing}>수정</Button>
                 ) : (
                   <Button
                     onClick={() => {
@@ -220,7 +147,7 @@ const Cart = () => {
                     }}
                   >
                     완료
-                  </Button> // 완료 버튼
+                  </Button>
                 )}
               </div>
             </>

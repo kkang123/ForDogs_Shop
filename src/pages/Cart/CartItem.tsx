@@ -19,7 +19,7 @@ const CartItem: React.FC<CartItemProps> = ({
 }) => {
   const { product } = item;
 
-  // 로컬 상태로 수량을 관리합니다.
+  // 로컬 상태로 수량을 관리
   const [quantity, setQuantity] = useState<number>(item.quantity);
 
   useEffect(() => {
