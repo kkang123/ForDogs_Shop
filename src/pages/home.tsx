@@ -37,7 +37,7 @@ export default function Home() {
   const [clothingProducts, setClothingProducts] = useState<Product[]>([]);
   const [snackProducts, setSnackProducts] = useState<Product[]>([]);
 
-  // 모달
+  // 모달 상태 추가
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
