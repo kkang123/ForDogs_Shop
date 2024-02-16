@@ -10,6 +10,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, toggleModal }) => {
 
   if (!isOpen) return null;
 
+  // 총 가격
   const total = cart.reduce((sum, cartItem) => {
     const price = cartItem.product.productPrice || 0;
     return sum + price * cartItem.quantity;
