@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import { useCart } from "@/contexts/CartContext";
+// import { useUser } from "@/contexts/AuthContext";
 
 interface PaymentData {
   pg: string;
@@ -39,12 +40,25 @@ const Payment: React.FC = () => {
     email: "",
   });
 
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.type = "text/javascript";
+  //   script.src = "https://cdn.iamport.kr/v1/iamport.js";
+  //   script.async = true;
+  //   document.head.appendChild(script);
+  // }, []);
+
   useEffect(() => {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://cdn.iamport.kr/v1/iamport.js";
-    script.async = true;
-    document.head.appendChild(script);
+    const jquery = document.createElement("script");
+    jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+    const iamport = document.createElement("script");
+    iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+    document.head.appendChild(jquery);
+    document.head.appendChild(iamport);
+    return () => {
+      document.head.removeChild(jquery);
+      document.head.removeChild(iamport);
+    };
   }, []);
 
   const handleChange = useCallback(
@@ -58,10 +72,11 @@ const Payment: React.FC = () => {
   );
 
   const { cart } = useCart(); // 카트 상태 가져오기
+  // const user = useUser();
 
   const onClickPayment = useCallback(() => {
     const { IMP } = window;
-    IMP.init(import.meta.env.REACT_APP_IMP_KEY);
+    IMP?.init(import.meta.env.VITE_APP_IMP_KEY);
 
     // 카트의 상품 가격 합계 계산
     const amount = cart.reduce(
@@ -73,9 +88,9 @@ const Payment: React.FC = () => {
     const name = cart.map((item) => item.product.productName).join(", ");
 
     const data = {
-      pg: "html5_inicis",
+      pg: "nice",
       pay_method: "card",
-      merchant_uid: `mid_${new Date().getTime()}`,
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
       amount, // 결제 가격
       name, // 결제 상품 이름
       buyer_name: buyerInfo.name,
@@ -83,7 +98,7 @@ const Payment: React.FC = () => {
       buyer_email: buyerInfo.email,
     };
 
-    IMP.request_pay(data, (response) => {
+    IMP?.request_pay(data, (response) => {
       if (response.success) {
         // 서버에 결제 완료 요청을 보내고, 주문 정보를 DB에 저장
         alert("결제 성공");
@@ -93,32 +108,6 @@ const Payment: React.FC = () => {
       }
     });
   }, [buyerInfo, cart]); // 의존성 배열에 cart 추가
-
-  //   const onClickPayment = useCallback(() => {
-  //     const { IMP } = window;
-  //     IMP.init(import.meta.env.REACT_APP_IMP_KEY);
-
-  //     const data = {
-  //       pg: "html5_inicis",
-  //       pay_method: "card",
-  //       merchant_uid: `mid_${new Date().getTime()}`,
-  //       amount: 1000,
-  //       name: "상품 이름",
-  //       buyer_name: buyerInfo.name,
-  //       buyer_tel: buyerInfo.tel,
-  //       buyer_email: buyerInfo.email,
-  //     };
-
-  //   IMP.request_pay(data, (response) => {
-  //     if (response.success) {
-  //       // 서버에 결제 완료 요청을 보내고, 주문 정보를 DB에 저장
-  //       alert("결제 성공");
-  //     } else {
-  //       // 결제 실패 처리
-  //       alert(`결제 실패: ${response.error_msg}`);
-  //     }
-  //   });
-  //   }, [buyerInfo]);
 
   return (
     <div>
