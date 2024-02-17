@@ -25,6 +25,9 @@ import CategoryA from "@/pages/Category/Category";
 // 장바구니
 import Cart from "@/pages/Cart/Cart";
 
+// 결제
+import Pay from "@/api/Payment";
+
 const AppRouter = () => {
   const { isSeller, isAuth } = useAuth();
   // let uid = auth().currentUser.uid;
@@ -34,6 +37,10 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/pay"
+          element={<ProtectRoute element={<Pay />} isAuth={isAuth} />}
+        />
         <Route
           path="/"
           element={<ProtectRoute element={<Home />} isAuth={isAuth} />}
