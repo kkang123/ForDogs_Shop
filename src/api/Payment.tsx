@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { collection, setDoc, doc, Timestamp } from "firebase/firestore";
 
 import { useCart } from "@/contexts/CartContext";
-// import { useUser } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
+
+import { Button } from "@/components/ui/button";
+
+import Swal from "sweetalert2";
+import { db } from "@/firebase";
 
 interface PaymentData {
   pg: string;
@@ -34,31 +42,26 @@ declare global {
 }
 
 const Payment: React.FC = () => {
+  const navigate = useNavigate();
+  const { nickname } = useAuth();
+
   const [buyerInfo, setBuyerInfo] = useState({
-    name: "",
+    name: nickname || "",
     tel: "",
     email: "",
   });
 
-  // useEffect(() => {
-  //   const script = document.createElement("script");
-  //   script.type = "text/javascript";
-  //   script.src = "https://cdn.iamport.kr/v1/iamport.js";
-  //   script.async = true;
-  //   document.head.appendChild(script);
-  // }, []);
+  // 새로고침 시 nickname 항상 표시
+  useEffect(() => {
+    setBuyerInfo((prev) => ({ ...prev, name: nickname || "" }));
+  }, [nickname]);
 
   useEffect(() => {
-    const jquery = document.createElement("script");
-    jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
-    const iamport = document.createElement("script");
-    iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
-    document.head.appendChild(jquery);
-    document.head.appendChild(iamport);
-    return () => {
-      document.head.removeChild(jquery);
-      document.head.removeChild(iamport);
-    };
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://cdn.iamport.kr/v1/iamport.js";
+    script.async = true;
+    document.head.appendChild(script);
   }, []);
 
   const handleChange = useCallback(
@@ -72,9 +75,13 @@ const Payment: React.FC = () => {
   );
 
   const { cart } = useCart(); // 카트 상태 가져오기
-  // const user = useUser();
 
   const onClickPayment = useCallback(() => {
+    if (nickname === null) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     const { IMP } = window;
     IMP?.init(import.meta.env.VITE_APP_IMP_KEY);
 
@@ -98,41 +105,56 @@ const Payment: React.FC = () => {
       buyer_email: buyerInfo.email,
     };
 
-    IMP?.request_pay(data, (response) => {
+    IMP?.request_pay(data, async (response) => {
       if (response.success) {
-        // 서버에 결제 완료 요청을 보내고, 주문 정보를 DB에 저장
-        alert("결제 성공");
+        try {
+          const docRef = doc(collection(db, "orders")); // orders collection의 새로운 document reference를 생성
+          await setDoc(docRef, {
+            buyer_name: buyerInfo.name,
+            // buyer_tel: buyerInfo.tel,
+            // buyer_email: buyerInfo.email, // 개인정보이기 때문에 제거
+            amount, // 총 결제 금액
+            items: cart, // 결제한 상품 목록
+            timestamp: Timestamp.fromDate(new Date()), // 주문 시간
+            status: "PAID", // 주문 상태
+          });
+
+          Swal.fire("결제 성공", "주문이 완료되었습니다.", "success").then(
+            () => {
+              navigate("/"); // 홈 화면으로 이동
+            }
+          );
+        } catch (error) {
+          console.error("주문 정보 저장 실패:", error);
+        }
       } else {
-        // 결제 실패 처리
-        alert(`결제 실패: ${response.error_msg}`);
+        Swal.fire("결제 실패", `오류 메시지: ${response.error_msg}`, "error");
       }
     });
-  }, [buyerInfo, cart]); // 의존성 배열에 cart 추가
+  }, [buyerInfo, cart, navigate]);
 
   return (
-    <div>
-      <input
-        type="text"
-        name="name"
-        value={buyerInfo.name}
-        onChange={handleChange}
-        placeholder="이름"
-      />
-      <input
-        type="tel"
-        name="tel"
-        value={buyerInfo.tel}
-        onChange={handleChange}
-        placeholder="전화번호"
-      />
-      <input
-        type="email"
-        name="email"
-        value={buyerInfo.email}
-        onChange={handleChange}
-        placeholder="이메일"
-      />
-      <button onClick={onClickPayment}>결제하기</button>
+    <div className="flex justify-center">
+      <div className="flex flex-col gap-2 w-1/2">
+        <div>{buyerInfo.name}</div>
+        <input
+          type="tel"
+          name="tel"
+          value={buyerInfo.tel}
+          onChange={handleChange}
+          placeholder="전화번호"
+        />
+        <input
+          type="email"
+          name="email"
+          value={buyerInfo.email}
+          onChange={handleChange}
+          placeholder="이메일"
+        />
+        <Button size="sm" onClick={onClickPayment}>
+          결제하기
+        </Button>
+      </div>
     </div>
   );
 };
