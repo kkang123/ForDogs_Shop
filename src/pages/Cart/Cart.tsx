@@ -310,8 +310,10 @@ const Cart = () => {
               <div className="mt-10 flex justify-center mb-10">
                 {!isEditing ? (
                   <>
-                    <Button onClick={startEditing}>수정</Button>
-                    <Button onClick={goToPayment}>결제하기</Button>
+                    <div className="w-full flex justify-evenly">
+                      <Button onClick={startEditing}>수정</Button>
+                      <Button onClick={goToPayment}>결제</Button>
+                    </div>
                   </>
                 ) : (
                   <Button
