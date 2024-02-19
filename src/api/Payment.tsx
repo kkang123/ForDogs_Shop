@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { collection, setDoc, doc, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  setDoc,
+  doc,
+  Timestamp,
+  deleteDoc,
+} from "firebase/firestore";
 
-import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 
 import { Button } from "@/components/ui/button";
 
@@ -43,7 +49,8 @@ declare global {
 
 const Payment: React.FC = () => {
   const navigate = useNavigate();
-  const { nickname } = useAuth();
+  const { uid, nickname } = useAuth();
+  const { cart, resetCart } = useCart(); // 카트 상태 및 clearCart 함수 가져오기
 
   const [buyerInfo, setBuyerInfo] = useState({
     name: nickname || "",
@@ -74,10 +81,9 @@ const Payment: React.FC = () => {
     [buyerInfo]
   );
 
-  const { cart } = useCart(); // 카트 상태 가져오기
-
   const onClickPayment = useCallback(() => {
-    if (nickname === null) {
+    console.log(uid);
+    if (!uid || nickname === null) {
       alert("로그인이 필요합니다.");
       return;
     }
@@ -110,6 +116,7 @@ const Payment: React.FC = () => {
         try {
           const docRef = doc(collection(db, "orders")); // orders collection의 새로운 document reference를 생성
           await setDoc(docRef, {
+            uid,
             buyer_name: buyerInfo.name,
             // buyer_tel: buyerInfo.tel,
             // buyer_email: buyerInfo.email, // 개인정보이기 때문에 제거
@@ -119,8 +126,14 @@ const Payment: React.FC = () => {
             status: "PAID", // 주문 상태
           });
 
+          if (uid) {
+            const cartRef = doc(db, "carts", uid);
+            await deleteDoc(cartRef);
+          }
+
           Swal.fire("결제 성공", "주문이 완료되었습니다.", "success").then(
             () => {
+              resetCart(); // 카트 비우기
               navigate("/"); // 홈 화면으로 이동
             }
           );
@@ -131,7 +144,7 @@ const Payment: React.FC = () => {
         Swal.fire("결제 실패", `오류 메시지: ${response.error_msg}`, "error");
       }
     });
-  }, [buyerInfo, cart, navigate]);
+  }, [buyerInfo, cart, navigate, uid]);
 
   return (
     <div className="flex justify-center">

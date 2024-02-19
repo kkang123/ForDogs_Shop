@@ -12,6 +12,7 @@ import { auth, db } from "@/firebase";
 type AuthContextType = {
   isAuth: boolean;
   isSeller: boolean;
+  uid: string | null;
   nickname: string | null;
   login: () => void;
   logout: () => void;
@@ -28,6 +29,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [uid, setUid] = useState<string | null>(null); // uid 상태를 추가합니다.
   const [nickname, setNickname] = useState<string | null>(null);
 
   const [isAuth, setIsAuth] = useState(() => {
@@ -57,6 +59,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (userSnap.exists()) {
           setIsSeller(userSnap.data().isSeller);
           setIsAuth(true);
+          setUid(user.uid); // uid를 설정합니다.
         }
 
         const userDocSnap = await getDoc(userDocRef); // getDoc 함수를 사용하여 사용자 데이터를 가져옵니다.
@@ -67,6 +70,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsSeller(false);
         setNickname(null);
         setIsAuth(false);
+        setUid(null); // 로그아웃 상태에서는 uid를 null로 설정합니다.
       }
     });
 
@@ -82,7 +86,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, isSeller, nickname, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuth, isSeller, uid, nickname, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

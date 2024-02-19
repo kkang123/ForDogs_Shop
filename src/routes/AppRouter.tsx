@@ -88,7 +88,7 @@ const AppRouter = () => {
         {/* 구매자 */}
 
         <Route
-          path="/myprofile"
+          path="/myprofile/:uid"
           element={
             <ProtectRoute
               element={<MyProfile />}
