@@ -43,7 +43,7 @@ declare global {
 
 const Payment: React.FC = () => {
   const navigate = useNavigate();
-  const { nickname } = useAuth();
+  const { uid, nickname } = useAuth();
 
   const [buyerInfo, setBuyerInfo] = useState({
     name: nickname || "",
@@ -77,6 +77,7 @@ const Payment: React.FC = () => {
   const { cart } = useCart(); // 카트 상태 가져오기
 
   const onClickPayment = useCallback(() => {
+    console.log(uid);
     if (nickname === null) {
       alert("로그인이 필요합니다.");
       return;
@@ -110,6 +111,7 @@ const Payment: React.FC = () => {
         try {
           const docRef = doc(collection(db, "orders")); // orders collection의 새로운 document reference를 생성
           await setDoc(docRef, {
+            uid,
             buyer_name: buyerInfo.name,
             // buyer_tel: buyerInfo.tel,
             // buyer_email: buyerInfo.email, // 개인정보이기 때문에 제거
@@ -131,7 +133,7 @@ const Payment: React.FC = () => {
         Swal.fire("결제 실패", `오류 메시지: ${response.error_msg}`, "error");
       }
     });
-  }, [buyerInfo, cart, navigate]);
+  }, [buyerInfo, cart, navigate, uid]);
 
   return (
     <div className="flex justify-center">
