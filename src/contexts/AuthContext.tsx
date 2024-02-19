@@ -56,11 +56,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (user) {
         const userDocRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userDocRef);
-        setUid(user.uid); // uid를 설정합니다.
         if (userSnap.exists()) {
           setIsSeller(userSnap.data().isSeller);
           setIsAuth(true);
-          setUid(null); // 로그아웃 상태에서는 uid를 null로 설정합니다.
+          setUid(user.uid); // uid를 설정합니다.
         }
 
         const userDocSnap = await getDoc(userDocRef); // getDoc 함수를 사용하여 사용자 데이터를 가져옵니다.
@@ -71,6 +70,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsSeller(false);
         setNickname(null);
         setIsAuth(false);
+        setUid(null); // 로그아웃 상태에서는 uid를 null로 설정합니다.
       }
     });
 
