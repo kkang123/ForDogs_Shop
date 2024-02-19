@@ -19,8 +19,8 @@ import { Button } from "@/components/ui/button";
 interface OrderItem {
   product: {
     productName: string;
-    sellerName: string; // 판매자 이름 추가
-    productPrice: number; // 상품 가격 추가
+    sellerId: string;
+    productPrice: number;
   };
   quantity: number;
 }
@@ -35,12 +35,37 @@ interface Order {
   status: string;
 }
 
+interface UserType {
+  uid: string;
+  email: string;
+  isSeller: boolean;
+  nickname: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 function MyProfile() {
   const { uid } = useAuth();
   const { uid: urlUid } = useParams<{ uid: string }>();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
 
   useEffect(() => {
+    const fetchUsers = async () => {
+      const usersRef = collection(db, "users");
+      const usersSnapshot = await getDocs(usersRef);
+      const usersData: UserType[] = [];
+      for (const doc of usersSnapshot.docs) {
+        const user = doc.data() as UserType;
+        user.uid = doc.id; // 문서 ID를 uid 필드에 저장
+        usersData.push(user);
+      }
+      setUsers(usersData);
+      console.log(usersData); // users 상태를 콘솔에 출력
+    };
+
+    fetchUsers();
+
     const fetchOrders = async () => {
       const ordersRef = collection(db, "orders");
       const q = query(ordersRef, where("uid", "==", urlUid));
@@ -76,7 +101,11 @@ function MyProfile() {
             {order.items.map((item, index) => (
               <div key={index}>
                 <div>상품 이름: {item.product.productName}</div>
-                <div>판매자: {item.product.sellerName}</div>{" "}
+                <div>
+                  판매자:{" "}
+                  {users.find((user) => user.uid === item.product.sellerId)
+                    ?.nickname || "알 수 없음"}
+                </div>
                 <div>상품 가격: {item.product.productPrice}</div>{" "}
               </div>
             ))}
