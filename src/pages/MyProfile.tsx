@@ -16,24 +16,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 import { Button } from "@/components/ui/button";
 
-interface OrderItem {
-  product: {
-    productName: string;
-    sellerId: string;
-    productPrice: number;
-  };
-  quantity: number;
-}
-
-interface Order {
-  id: string;
-  uid: string;
-  buyer_name: string;
-  amount: number;
-  items: OrderItem[];
-  timestamp: Timestamp;
-  status: string;
-}
+import { Order } from "@/interface/order";
 
 interface UserType {
   uid: string;
