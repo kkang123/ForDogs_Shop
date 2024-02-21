@@ -12,6 +12,7 @@ export interface OrderItem {
 export interface Order {
   id: string;
   uid: string;
+  buyerId: string;
   buyer_name: string;
   amount: number;
   items: OrderItem[];
