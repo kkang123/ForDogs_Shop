@@ -61,7 +61,7 @@ function MyProfile() {
     };
 
     fetchOrders();
-  }, [uid]);
+  }, [uid, urlUid]);
 
   const cancelOrder = async (orderId: string) => {
     const orderRef = doc(db, "orders", orderId);
