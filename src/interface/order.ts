@@ -15,7 +15,8 @@ export interface Order {
   buyerId: string;
   buyer_name: string;
   amount: number;
-  items: OrderItem[];
+  item: OrderItem;
   timestamp: Timestamp;
   status: string;
+  groupid: string;
 }
