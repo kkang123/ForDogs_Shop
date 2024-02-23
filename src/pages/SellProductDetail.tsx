@@ -597,7 +597,7 @@ function SellProductDetail() {
               </button>
               {/* "count" 값이 0보다 클 때만 "-" 버튼이 작동하도록 했습니다. */}
               {/* "-" 버튼을 누르면 count가 1 감소합니다. */}
-              <div className=" border-2 w-5">{count}</div>
+              <div className="  w-5">{count}</div>
               <button
                 className=" "
                 onClick={() => count < 30 && setCount(count + 1)}
