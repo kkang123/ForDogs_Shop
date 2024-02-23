@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import photo from "@/assets/icon-photo.svg";
+import ProductHeader from "@/components/Header/ProductHeader";
 
 function ProductEdit() {
   const { id } = useParams<{ id: string }>();
@@ -262,6 +263,9 @@ function ProductEdit() {
 
   return (
     <>
+      <header className="h-20">
+        <ProductHeader showBackspaseButton={true} showEditButton={false} />
+      </header>
       <main>
         <form
           className="flex justify-center mt-[70px] "

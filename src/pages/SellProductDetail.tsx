@@ -552,7 +552,7 @@ function SellProductDetail() {
 
   return (
     <>
-      <header className="h-[78px]">
+      <header className="h-20">
         <ProductHeader showPageBackSpaceButton={true} />
       </header>
       <main style={{ minWidth: "1300px" }} className="center">
@@ -582,7 +582,7 @@ function SellProductDetail() {
             </Carousel>
           </div>
 
-          <div className="flex flex-col gap-12 text-right w-[600px]">
+          <div className="flex flex-col gap-9 text-right w-[600px]">
             <p className="font-bold text-4xl mt-8">{product.productName}</p>
             <p className="text-3xl mt-3">{product.productPrice}원</p>
             <p className="text-3xl mt-8">

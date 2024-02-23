@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+
 import { db } from "@/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
+
+import { useAuth } from "@/contexts/AuthContext";
+
 import { Product } from "@/interface/product";
 import { UserType } from "@/interface/user";
 
@@ -20,13 +24,14 @@ import Swal from "sweetalert2";
 
 function ProductDetail() {
   const auth = getAuth();
+  const { uid } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
 
   // const goToProductPage = () => navigate("/productlist");
-  const goToProductPage = () => navigate("/");
+  const goToProductPage = () => navigate(`/productlist/${uid}`);
 
   // 새로고침 시 데이터 유실 방지
   useEffect(() => {
@@ -128,7 +133,7 @@ function ProductDetail() {
 
   return (
     <>
-      <header className="h-[78px]">
+      <header className="h-20">
         <ProductHeader
           showBackspaseButton={true}
           showEditButton={true}
