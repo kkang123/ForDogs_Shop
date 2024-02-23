@@ -44,15 +44,16 @@ declare global {
 const Payment: React.FC = () => {
   const navigate = useNavigate();
   const { uid, nickname } = useAuth();
-  const { cart, resetCart } = useCart(); // 카트 상태 및 clearCart 함수 가져오기
+  const { cart, resetCart } = useCart();
 
   const [buyerInfo, setBuyerInfo] = useState({
     name: nickname || "",
     tel: "",
     email: "",
+    addr: "",
+    postcode: "",
   });
 
-  // 새로고침 시 nickname 항상 표시
   useEffect(() => {
     setBuyerInfo((prev) => ({ ...prev, name: nickname || "" }));
   }, [nickname]);
@@ -85,43 +86,42 @@ const Payment: React.FC = () => {
     const { IMP } = window;
     IMP?.init(import.meta.env.VITE_APP_IMP_KEY);
 
-    // 카트의 상품 가격 합계 계산
     const amount = cart.reduce(
       (total, item) => total + (item.product.productPrice || 0) * item.quantity,
       0
     );
 
-    // 카트의 상품 이름 목록 만들기
     const name = cart.map((item) => item.product.productName).join(", ");
 
     const data = {
       pg: "nice",
       pay_method: "card",
-      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-      amount, // 결제 가격
-      name, // 결제 상품 이름
+      merchant_uid: `mid_${new Date().getTime()}`,
+      amount,
+      name,
       buyer_name: buyerInfo.name,
       buyer_tel: buyerInfo.tel,
       buyer_email: buyerInfo.email,
+      buyer_addr: buyerInfo.addr,
+      buyer_postcode: buyerInfo.postcode,
     };
 
     IMP?.request_pay(data, async (response) => {
       if (response.success) {
         try {
-          const groupid = `group_${new Date().getTime()}`; // 주문 그룹 ID 생성
+          const groupid = `group_${new Date().getTime()}`;
 
-          // 각 주문 항목을 개별적으로 저장
           for (const item of cart) {
-            const docId = `order_${new Date().getTime()}`; // 문서 ID 생성
-            const docRef = doc(db, "orders", docId); // orders collection의 새로운 document 참조를 생성
+            const docId = `order_${new Date().getTime()}`;
+            const docRef = doc(db, "orders", docId);
             await setDoc(docRef, {
               uid,
               buyer_name: buyerInfo.name,
-              amount: (item.product.productPrice || 0) * item.quantity, // 항목별 가격
-              item, // 결제한 상품 항목
-              timestamp: Timestamp.fromDate(new Date()), // 주문 시간
-              status: "결제 완료", // 주문 상태
-              groupid, // 주문 그룹 ID
+              amount: (item.product.productPrice || 0) * item.quantity,
+              item,
+              timestamp: Timestamp.fromDate(new Date()),
+              status: "결제 완료",
+              groupid,
             });
           }
 
@@ -132,8 +132,8 @@ const Payment: React.FC = () => {
 
           Swal.fire("결제 성공", "주문이 완료되었습니다.", "success").then(
             () => {
-              resetCart(); // 카트 비우기
-              navigate("/"); // 홈 화면으로 이동
+              resetCart();
+              navigate("/");
             }
           );
         } catch (error) {
@@ -162,6 +162,20 @@ const Payment: React.FC = () => {
           value={buyerInfo.email}
           onChange={handleChange}
           placeholder="이메일"
+        />
+        <input
+          type="text"
+          name="addr"
+          value={buyerInfo.addr}
+          onChange={handleChange}
+          placeholder="주소"
+        />
+        <input
+          type="number"
+          name="postcode"
+          value={buyerInfo.postcode}
+          onChange={handleChange}
+          placeholder="우편번호"
         />
         <Button size="sm" onClick={onClickPayment}>
           결제하기
