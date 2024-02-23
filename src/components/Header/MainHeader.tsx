@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState, useContext } from "react";
+import { FormEvent, useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { CartContext, CartContextProps } from "@/contexts/CartContext";
@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
 import basket from "@/assets/basket-buy-cart.svg";
 
 function MainHeader() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 추가
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [uid, setUid] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ function MainHeader() {
       setIsLoading(false);
       if (user) {
         setIsLoggedIn(true);
-        setUid(user.uid); // 로그인한 경우 uid를 설정
+        setUid(user.uid);
       } else {
         setIsLoggedIn(false);
         setUid(null);
@@ -46,10 +46,10 @@ function MainHeader() {
   }, []);
 
   const logOut = async (event: FormEvent) => {
-    event.preventDefault(); // 이벤트의 기본 동작을 차단
+    event.preventDefault();
     try {
       await signOut(auth);
-      resetCart(); // 장바구니 상태 초기화
+      resetCart();
       console.log("Successfully logged out");
     } catch (error) {
       console.error("Error during log out", error);
@@ -80,7 +80,7 @@ function MainHeader() {
     );
   }
 
-  console.log(`isLoggedIn: ${isLoggedIn}, uid: ${uid}`); // 로그인 상태와 uid 값을 출력
+  console.log(`isLoggedIn: ${isLoggedIn}, uid: ${uid}`);
 
   return (
     <>
