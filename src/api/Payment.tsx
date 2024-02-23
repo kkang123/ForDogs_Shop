@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  collection,
-  setDoc,
-  doc,
-  Timestamp,
-  deleteDoc,
-} from "firebase/firestore";
+import { setDoc, doc, Timestamp, deleteDoc } from "firebase/firestore";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
@@ -114,17 +108,22 @@ const Payment: React.FC = () => {
     IMP?.request_pay(data, async (response) => {
       if (response.success) {
         try {
-          const docRef = doc(collection(db, "orders")); // orders collection의 새로운 document reference를 생성
-          await setDoc(docRef, {
-            uid,
-            buyer_name: buyerInfo.name,
-            // buyer_tel: buyerInfo.tel,
-            // buyer_email: buyerInfo.email, // 개인정보이기 때문에 제거
-            amount, // 총 결제 금액
-            items: cart, // 결제한 상품 목록
-            timestamp: Timestamp.fromDate(new Date()), // 주문 시간
-            status: "PAID", // 주문 상태
-          });
+          const groupid = `group_${new Date().getTime()}`; // 주문 그룹 ID 생성
+
+          // 각 주문 항목을 개별적으로 저장
+          for (const item of cart) {
+            const docId = `order_${new Date().getTime()}`; // 문서 ID 생성
+            const docRef = doc(db, "orders", docId); // orders collection의 새로운 document 참조를 생성
+            await setDoc(docRef, {
+              uid,
+              buyer_name: buyerInfo.name,
+              amount: (item.product.productPrice || 0) * item.quantity, // 항목별 가격
+              item, // 결제한 상품 항목
+              timestamp: Timestamp.fromDate(new Date()), // 주문 시간
+              status: "결제 완료", // 주문 상태
+              groupid, // 주문 그룹 ID
+            });
+          }
 
           if (uid) {
             const cartRef = doc(db, "carts", uid);
