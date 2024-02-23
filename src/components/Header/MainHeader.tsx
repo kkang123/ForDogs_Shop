@@ -70,13 +70,34 @@ function MainHeader() {
 
   if (isLoading) {
     return (
-      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50 h-20">
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <div className="">로고 이미지</div>
         <div className="flex">
-          <div className=""></div>
-          <button className="">
-            <img src={basket} alt="Basket" className="w-12" />
-          </button>
+          {isSeller && ( // isSeller가 true일 때만 '판매자 센터' 버튼을 표시합니다.
+            <Link to={`/productlist/${uid}`}>
+              <Button size="sm">판매자 센터</Button>
+            </Link>
+          )}
+
+          {/* isSeller가 false일 때만 장바구니 표시 */}
+          {!isSeller && (
+            <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
+              <button className="">
+                <div className="relative">
+                  <img src={basket} alt="Basket" className="w-9 pb-3 " />
+                  {uniqueProductCount > 0 && (
+                    <span
+                      className={`text-sm text-white absolute bottom-3.5 right-${
+                        uniqueProductCount >= 10 ? "2.5" : "3.5"
+                      }`}
+                    >
+                      {uniqueProductCount}
+                    </span>
+                  )}
+                </div>
+              </button>
+            </Link>
+          )}
           <div className=" inline-block ml-2 mr-2">
             <Button variant="outline" size="sm" onClick={logOut}>
               로그아웃
