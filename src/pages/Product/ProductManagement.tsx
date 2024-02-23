@@ -12,9 +12,10 @@ import {
 
 import { useAuth } from "@/contexts/AuthContext";
 
-import { Button } from "@/components/ui/button";
-
 import { Order } from "@/interface/order";
+
+import { Button } from "@/components/ui/button";
+import ProductHeader from "@/components/Header/ProductHeader";
 
 interface UserType {
   uid: string;
@@ -115,49 +116,62 @@ function ProductManagement() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-4 ">
-        {orders.length > 0 ? (
-          orders.map((order) => (
-            <div key={order.id}>
-              <div>
-                구매 시간:{" "}
-                {new Date(order.timestamp.seconds * 1000).toLocaleString()}
-              </div>
-              <div>주문 번호: {order.id}</div>
-              <div>
-                <div>상품 이름: {order.item.product.productName}</div>
-                <div>상품 판매 갯수: {order.item.quantity}</div>
+      <header className="h-20">
+        <ProductHeader showPageBackSpaceButton={true} />
+      </header>
+      <main className="mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4  ">
+          {orders.length > 0 ? (
+            orders.map((order) => (
+              <div key={order.id} className="border p-4">
                 <div>
-                  판매자:{" "}
-                  {users.find(
-                    (user) => user.uid === order.item.product.sellerId
-                  )?.nickname || "알 수 없음"}
+                  구매 시간:{" "}
+                  {new Date(order.timestamp.seconds * 1000).toLocaleString()}
                 </div>
+                <div>주문 번호: {order.id}</div>
                 <div>
-                  구매자:{" "}
-                  {users.find((user) => user.uid === order.uid)?.nickname ||
-                    "알 수 없음"}
+                  <div>상품 이름: {order.item.product.productName}</div>
+                  <div>상품 판매 갯수: {order.item.quantity}</div>
+                  <div>
+                    판매자:{" "}
+                    {users.find(
+                      (user) => user.uid === order.item.product.sellerId
+                    )?.nickname || "알 수 없음"}
+                  </div>
+                  <div>
+                    구매자:{" "}
+                    {users.find((user) => user.uid === order.uid)?.nickname ||
+                      "알 수 없음"}
+                  </div>
+                  <div>결제 금액: {order.amount}</div>
                 </div>
-                <div>결제 금액: {order.amount}</div>
+                <div>주문 상태: {order.status}</div>
+                <select
+                  value={selectedStatus[order.id] || order.status}
+                  onChange={(e) => handleStatusChange(order.id, e.target.value)} // 기본 select 요소를 사용하고 있으므로 onChange 이벤트를 사용할 수 있습니다.
+                  className="border-2 border-black rounded h-9"
+                >
+                  {orderStatusOptions.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+
+                <Button
+                  size="sm"
+                  onClick={() => applyStatusChange(order.id)}
+                  className="ml-2"
+                >
+                  적용
+                </Button>
               </div>
-              <div>주문 상태: {order.status}</div>
-              <select
-                value={selectedStatus[order.id] || order.status}
-                onChange={(e) => handleStatusChange(order.id, e.target.value)} // 기본 select 요소를 사용하고 있으므로 onChange 이벤트를 사용할 수 있습니다.
-              >
-                {orderStatusOptions.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-              <Button onClick={() => applyStatusChange(order.id)}>적용</Button>
-            </div>
-          ))
-        ) : (
-          <div>주문이 없습니다.</div>
-        )}
-      </div>
+            ))
+          ) : (
+            <div>주문이 없습니다.</div>
+          )}
+        </div>
+      </main>
     </>
   );
 }
