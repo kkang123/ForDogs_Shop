@@ -38,12 +38,10 @@ function SellProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
   const [count, setCount] = useState<number>(0);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]); // 카테고리 관련 상품들을 저장할 상태 변수
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
-  // 새로고침 시 데이터 유실 방지
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      // setUser(firebaseUser); // onAuthStateChanged 콜백에서 setUser를 호출하여 사용자 정보를 상태로 저장
       if (firebaseUser) {
         const firebaseUserDocRef = doc(db, "users", firebaseUser?.uid);
         const firebaseUserSnap = await getDoc(firebaseUserDocRef);
@@ -57,7 +55,6 @@ function SellProductDetail() {
               nickname: userData.nickname,
               createdAt: userData.createdAt,
               updatedAt: userData.updateAt,
-              // 다른 필드들도 이와 같이 할당하세요.
             });
           }
         }
@@ -69,7 +66,6 @@ function SellProductDetail() {
   }, [auth]);
 
   useEffect(() => {
-    // user 상태가 null이 아닐 때만 fetchProduct를 호출
     const fetchProduct = async () => {
       if (id) {
         const productRef = doc(db, "products", id);
@@ -78,7 +74,7 @@ function SellProductDetail() {
         if (productSnap.exists()) {
           const productData = productSnap.data() as Product;
 
-          setProduct(productData); // 판매자 ID와 현재 사용자 ID를 비교하는 조건문 제거
+          setProduct(productData);
         }
       }
     };
@@ -86,7 +82,6 @@ function SellProductDetail() {
     fetchProduct();
   }, [id]);
 
-  // 카테고리 관련 상품들 호출
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       if (product) {
@@ -94,7 +89,7 @@ function SellProductDetail() {
           query(
             collection(db, "products"),
             where("productCategory", "==", product.productCategory),
-            where("__name__", "!=", id), // 현재 게시물을 제외
+            where("__name__", "!=", id),
             limit(3)
           )
         );
@@ -135,11 +130,8 @@ function SellProductDetail() {
     fetchRelatedProducts();
   }, [product, id]);
 
-  // 장바구니 상품 추가
   const addToCart = async () => {
-    // 로그인한 사용자만 장바구니에 상품을 추가할 수 있습니다.
     if (user && product) {
-      // 사용자가 선택한 수량이 0 이하일 경우 경고 메시지를 출력하고 함수를 종료합니다.
       if (count <= 0) {
         Swal.fire({
           icon: "error",
@@ -149,10 +141,9 @@ function SellProductDetail() {
         return;
       }
 
-      // 장바구니에 추가할 아이템 정보를 생성합니다.
       const cartItem: CartItem = {
         product: product,
-        quantity: count, // 사용자가 선택한 수량
+        quantity: count,
       };
 
       const cartRef = doc(db, "carts", user.id);
@@ -161,21 +152,17 @@ function SellProductDetail() {
       if (cartSnap.exists()) {
         let cartData = await getCartItems(user.id);
 
-        // cartData가 배열인지 확인하고, 배열이 아니면 빈 배열로 초기화합니다.
         if (!Array.isArray(cartData)) {
           cartData = [];
         }
 
-        // 이전에 추가한 동일한 상품이 있는지 찾습니다.
         const existingItemIndex = cartData.findIndex(
           (item) => item.product.id === product.id
         );
 
         if (existingItemIndex > -1) {
-          // 동일한 상품이 있으면 수량만 업데이트합니다.
           cartData[existingItemIndex].quantity += count;
         } else {
-          // 동일한 상품이 없으면 새로운 아이템을 추가합니다.
           cartData.push(cartItem);
         }
 
@@ -184,7 +171,6 @@ function SellProductDetail() {
         await setDoc(cartRef, { items: [cartItem] });
       }
 
-      // 장바구니에 상품을 추가한 후, 해당 상품의 수량을 줄입니다.
       if (
         product.productQuantity !== null &&
         product.productQuantity >= count
@@ -193,7 +179,7 @@ function SellProductDetail() {
         await updateDoc(productRef, {
           productQuantity: product.productQuantity - count,
         });
-        // 상태값인 product를 업데이트 합니다.
+
         setProduct({
           ...product,
           productQuantity: product.productQuantity - count,
@@ -257,8 +243,6 @@ function SellProductDetail() {
               >
                 -
               </button>
-              {/* "count" 값이 0보다 클 때만 "-" 버튼이 작동하도록 했습니다. */}
-              {/* "-" 버튼을 누르면 count가 1 감소합니다. */}
               <div className="  w-5">{count}</div>
               <button
                 className=" "
@@ -266,11 +250,8 @@ function SellProductDetail() {
               >
                 +
               </button>
-              {/* "+" 버튼을 누르면 count가 1 증가합니다. */}
             </div>
-
             <div className="border-b-2"></div>
-
             <div className="flex items-end justify-between mx-2 text-2xl ">
               <div>총 상품 구매</div>
               <div className="flex items-end ">

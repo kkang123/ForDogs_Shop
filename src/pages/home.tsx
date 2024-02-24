@@ -30,15 +30,12 @@ import {
 
 export default function Home() {
   const user = useAuth();
-  console.log(user);
 
-  // 카테고리 상태 저장
   const [sirials, setSirials] = useState<Product[]>([]);
   const [clothingProducts, setClothingProducts] = useState<Product[]>([]);
   const [snackProducts, setSnackProducts] = useState<Product[]>([]);
   const [toyProducts, setToyProducts] = useState<Product[]>([]);
 
-  // 모달 상태 추가
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -59,7 +56,6 @@ export default function Home() {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
 
-        //  Firestore에서 데이터를 가져올 때 'id' 필드를 숫자로 변환
         let idNumber: number;
         try {
           idNumber = Number(doc.id);
@@ -68,7 +64,7 @@ export default function Home() {
           }
         } catch (error) {
           console.error(error);
-          // 적절한 오류 처리를 수행합니다.
+
           return;
         }
 
@@ -88,8 +84,6 @@ export default function Home() {
       });
       setProducts(products);
     };
-
-    console.log(fetchProducts);
 
     fetchProducts("사료", setSirials);
     fetchProducts("간식", setSnackProducts);

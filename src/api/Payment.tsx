@@ -77,7 +77,6 @@ const Payment: React.FC = () => {
   );
 
   const onClickPayment = useCallback(() => {
-    console.log(uid);
     if (!uid || nickname === null) {
       alert("로그인이 필요합니다.");
       return;

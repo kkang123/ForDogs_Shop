@@ -30,13 +30,10 @@ function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
 
-  // const goToProductPage = () => navigate("/productlist");
   const goToProductPage = () => navigate(`/productlist/${uid}`);
 
-  // 새로고침 시 데이터 유실 방지
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      // setUser(firebaseUser); // onAuthStateChanged 콜백에서 setUser를 호출하여 사용자 정보를 상태로 저장
       if (firebaseUser) {
         const firebaseUserDocRef = doc(db, "users", firebaseUser?.uid);
         const firebaseUserSnap = await getDoc(firebaseUserDocRef);
@@ -50,41 +47,29 @@ function ProductDetail() {
               nickname: userData.nickname,
               createdAt: userData.createdAt,
               updatedAt: userData.updateAt,
-              // 다른 필드들도 이와 같이 할당하세요.
             });
           }
         }
       } else {
         setUser(null);
       }
-      console.log(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    // user 상태가 null이 아닐 때만 fetchProduct를 호출
     if (user) {
-      const userId = user.id; // 지역 변수에 user.id 저장
+      const userId = user.id;
 
       const fetchProduct = async () => {
-        console.log(user);
-
         if (id) {
           const productRef = doc(db, "products", id);
           const productSnap = await getDoc(productRef);
-          console.log(user);
-          console.log(id);
 
           if (productSnap.exists()) {
             const productData = productSnap.data() as Product;
-            console.log(productData.sellerId);
-            console.log(userId); // 지역 변수 사용
+
             if (productData.sellerId === userId) {
-              // 지역 변수 사용
-              console.log(productData.sellerId);
-              console.log(userId); // 지역 변수 사용
-              console.log(user);
               setProduct(productData);
             } else {
               Swal.fire({
@@ -105,7 +90,6 @@ function ProductDetail() {
     }
   }, [id, user]);
 
-  // 삭제하기 기능 구현
   const handleDelete = async () => {
     if (id) {
       const productRef = doc(db, "products", id);
@@ -115,7 +99,6 @@ function ProductDetail() {
         title: "제품 삭제 완료",
         text: "제품이 성공적으로 삭제되었습니다.",
       }).then((result) => {
-        // 확인 버튼을 클릭했을 때의 동작
         if (result.isConfirmed) {
           goToProductPage();
         }

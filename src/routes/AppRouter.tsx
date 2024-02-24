@@ -8,7 +8,6 @@ import BuyerSignUp from "@/pages/BuyerSignUp";
 import SellerSignUp from "@/pages/SellerSignUp";
 import Login from "@/pages/Login";
 import MyProfile from "@/pages/MyProfile";
-import Seller from "@/pages/SellerProfile";
 
 // 상품 판매
 import SellProductDetail from "@/pages/SellProductDetail";
@@ -31,7 +30,6 @@ import Pay from "@/api/Payment";
 
 const AppRouter = () => {
   const { isSeller, isAuth } = useAuth();
-  // let uid = auth().currentUser.uid;
   console.log(isAuth);
   console.log(isSeller);
 
@@ -109,17 +107,6 @@ const AppRouter = () => {
         />
 
         {/* 판매자 페이지 */}
-        <Route
-          path="/seller"
-          element={
-            <ProtectRoute
-              element={<Seller />}
-              isAuth={isAuth}
-              isPrivate={true}
-              isProtected={true} //판매자 전용
-            />
-          }
-        />
         <Route
           path="/productlist/:uid"
           element={

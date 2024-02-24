@@ -12,13 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+
 import photo from "@/assets/icon-photo.svg";
 
 import Swal from "sweetalert2";
@@ -41,7 +35,6 @@ function ProductUpload() {
   const [productImage, setProductImage] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // newProduct 상태를 관리하는 useState 추가
   const [newProduct, setNewProduct] = useState<Product>({
     id: Date.now(),
     sellerId: sellerId,
@@ -54,7 +47,7 @@ function ProductUpload() {
     createdAt: Timestamp.fromDate(new Date()),
     updatedAt: Timestamp.fromDate(new Date()),
   });
-  // 버튼 클릭
+
   const handlePrevClick = () => {
     setCurrentImageIndex(
       (prevIndex) => (prevIndex - 1 + productImage.length) % productImage.length
@@ -70,9 +63,6 @@ function ProductUpload() {
       if (user) {
         setUserId(user.uid);
         setSellerId(user.uid);
-        console.log("userid", user.uid);
-
-        // sellerId 상태를 사용하지 않고, 즉시 user.uid를 사용하여 newProduct 상태를 업데이트합니다.
         setNewProduct((prevProduct) => ({
           ...prevProduct,
           sellerId: user.uid,
@@ -87,9 +77,8 @@ function ProductUpload() {
   const handleSaveProduct = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault(); // 이벤트의 기본 동작을 막습니다.
+    event.preventDefault();
 
-    // 상품 이름, 가격, 수량, 설명, 카테고리가 모두 입력되었는지 확인
     if (
       !productName ||
       productPrice === null ||
@@ -106,7 +95,7 @@ function ProductUpload() {
         title: "제품 업로드 실패",
         text: "비어있는 상품 정보를 작성해주세요.",
       });
-      return; // 이 부분이 중요합니다. 에러 메시지를 보여준 후 함수를 종료합니다.
+      return;
     }
 
     await setNewProduct((prevProduct) => ({
@@ -121,7 +110,6 @@ function ProductUpload() {
     }));
 
     try {
-      // `doc`와 `setDoc`를 사용하여 Firestore에 데이터를 추가합니다.
       const productRef = doc(
         collection(db, "products"),
         newProduct.id.toString()
@@ -132,7 +120,6 @@ function ProductUpload() {
         title: "제품 업로드 완료",
         text: "제품이 성공적으로 업로드되었습니다.",
       }).then((result) => {
-        // 확인 버튼을 클릭했을 때의 동작
         if (result.isConfirmed) {
           goToProductPage();
         }
@@ -157,7 +144,7 @@ function ProductUpload() {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    event.preventDefault(); //이벤트 차단
+    event.preventDefault();
     const name = event.target.getAttribute("name");
     const value = event.target.value;
     let parsedValue: string | number | null;
@@ -173,7 +160,7 @@ function ProductUpload() {
       typeof parsedValue === "string" &&
       parsedValue.length > 20
     ) {
-      return; // return값이 20자 이상 입력 못하게 그냥 막아버림
+      return;
     }
 
     switch (name) {
@@ -200,8 +187,6 @@ function ProductUpload() {
       ...prevProduct,
       [name as string]: parsedValue,
     }));
-
-    console.log(name + ": ", parsedValue);
   };
 
   const handleFileSelect = async (
@@ -245,7 +230,6 @@ function ProductUpload() {
           return;
         }
         downloadURLs.push(downloadURL);
-        console.log("downloadURL", downloadURL);
       }
     }
     setProductImage(downloadURLs);
@@ -256,7 +240,6 @@ function ProductUpload() {
       ...prevProduct,
       productImage: productImage,
     }));
-    console.log("productImage: ", productImage);
   }, [productImage]);
 
   if (isLoading) {
@@ -312,7 +295,7 @@ function ProductUpload() {
                   onChange={handleFileSelect}
                   multiple
                   accept=".jpg, .jpeg, .png"
-                  style={{ display: "none" }} // input 태그를 숨김
+                  style={{ display: "none" }}
                 />
               </div>
             </div>
@@ -355,22 +338,6 @@ function ProductUpload() {
               />
             </div>
 
-            {/* <div>
-                <Select
-                  name="productCategory"
-                  value={productCategory}
-                  onChange={onChange}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div> */}
             <div className="mt-1 relative">
               <select
                 name="productCategory"

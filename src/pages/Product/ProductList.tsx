@@ -17,7 +17,7 @@ import ProductHeader from "@/components/Header/ProductHeader";
 
 function ProductList() {
   const { uid } = useParams<{ uid: string }>();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentImageIndex] = useState(0);
 
   const fetchProducts = async ({ pageParam = null }) => {
     const productsRef = collection(db, "products");
@@ -31,10 +31,6 @@ function ProductList() {
     if (pageParam) {
       q = query(q, startAfter(pageParam));
     }
-    // console.log(pageParam);
-    console.log(productsRef);
-    console.log(q);
-    console.log(productsRef);
 
     const querySnapshot = await getDocs(q);
     const qproducts: Product[] = [];
@@ -42,11 +38,9 @@ function ProductList() {
       const productData = doc.data() as Product;
       qproducts.push(productData);
     });
-    console.log(querySnapshot);
 
     const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
 
-    console.log(lastDoc);
     return { data: qproducts, nextStart: lastDoc };
   };
 
