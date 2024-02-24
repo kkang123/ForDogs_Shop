@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { db, auth, storage } from "@/firebase";
-import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-// import { onAuthStateChanged } from "firebase/auth";
+
 import { Product } from "@/interface/product";
-import { Timestamp } from "firebase/firestore";
-import Swal from "sweetalert2";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import photo from "@/assets/icon-photo.svg";
 import ProductHeader from "@/components/Header/ProductHeader";
+
+import Swal from "sweetalert2";
 
 function ProductEdit() {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +34,6 @@ function ProductEdit() {
   const [productImage, setProductImage] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // 파이어베이스는 문서의 id 일반적으로 문자열을 가짐
   if (id === undefined) {
     throw new Error("ID is missing");
   }
@@ -48,7 +53,6 @@ function ProductEdit() {
     updatedAt: Timestamp.fromDate(new Date()),
   });
 
-  // 버튼 클릭
   const handlePrevClick = () => {
     setCurrentImageIndex(
       (prevIndex) => (prevIndex - 1 + productImage.length) % productImage.length
@@ -59,7 +63,6 @@ function ProductEdit() {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % productImage.length);
   };
 
-  // Load the product data
   useEffect(() => {
     const loadProductData = async () => {
       const productSnap = await getDoc(doc(db, "products", id));
@@ -82,8 +85,6 @@ function ProductEdit() {
     loadProductData();
   }, [id]);
 
-  // ... onSubmit, onChange, handleFileSelect, handleUpload 함수는 그대로 사용 ...
-
   const handleSaveProduct = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -105,7 +106,7 @@ function ProductEdit() {
         title: "제품 업로드 실패",
         text: "비어있는 상품 정보를 작성해주세요.",
       });
-      return; // 이 부분이 중요합니다. 에러 메시지를 보여준 후 함수를 종료합니다.
+      return;
     }
 
     await setEditedProduct((prevProduct) => ({
@@ -123,8 +124,8 @@ function ProductEdit() {
     try {
       await updateDoc(doc(db, "products", id), {
         ...editedProduct,
-        createdAt: editedProduct.createdAt.toDate(), //'createdAt' 필드는 'editedProduct'의 'createdAt' 필드를 Date 형으로 변환하여 저장합니다. 이는 원래 작성된 시간을 유지하기 위함입니다.
-        updatedAt: serverTimestamp(), // 게시물 수정 시 시간 업데이트
+        createdAt: editedProduct.createdAt.toDate(),
+        updatedAt: serverTimestamp(),
       });
       Swal.fire({
         icon: "success",
@@ -155,7 +156,7 @@ function ProductEdit() {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    event.preventDefault(); //이벤트 차단
+    event.preventDefault();
     const name = event.target.getAttribute("name");
     const value = event.target.value;
     let parsedValue: string | number | null;
@@ -171,7 +172,7 @@ function ProductEdit() {
       typeof parsedValue === "string" &&
       parsedValue.length > 20
     ) {
-      return; // return값이 20자 이상 입력 못하게 그냥 막아버림
+      return;
     }
 
     switch (name) {
@@ -311,7 +312,7 @@ function ProductEdit() {
                   onChange={handleFileSelect}
                   multiple
                   accept=".jpg, .jpeg, .png"
-                  style={{ display: "none" }} // input 태그를 숨김
+                  style={{ display: "none" }}
                 />
               </div>
             </div>
@@ -354,22 +355,6 @@ function ProductEdit() {
               />
             </div>
 
-            {/* <div>
-                <Select
-                  name="productCategory"
-                  value={productCategory}
-                  onChange={onChange}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div> */}
             <div className="mt-1 relative">
               <select
                 name="productCategory"

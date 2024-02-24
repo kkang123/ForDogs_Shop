@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 interface ProductHeaderProps {
-  showEditButton?: boolean; // 기본값 false
+  showEditButton?: boolean;
   showDeleteButton?: boolean;
   showHomeButton?: boolean;
   showBackspaseButton?: boolean;
@@ -20,7 +20,6 @@ interface ProductHeaderProps {
   onEdit?: () => void;
 }
 
-// function ProductHeader() {
 const ProductHeader: React.FC<ProductHeaderProps> = ({
   showEditButton = false,
   showDeleteButton = false,
@@ -34,8 +33,8 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
 }) => {
   const authContext = useAuth();
   const { logout } = authContext;
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 추가
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const goToProductListPage = () => {
@@ -47,7 +46,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsLoading(false);
       if (user) {
-        setUserId(user.uid); // uid 상태에 저장
+        setUserId(user.uid);
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
@@ -58,10 +57,10 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   }, []);
 
   const logOut = async (event: FormEvent) => {
-    event.preventDefault(); // 이벤트의 기본 동작을 막아줍니다.
+    event.preventDefault();
     try {
       await signOut(auth);
-      logout(); // 로그아웃에 성공하면 logout 함수를 호출하여 isAuth 상태를 false로 변경
+      logout();
       console.log("Successfully logged out");
     } catch (error) {
       console.error("Error during log out", error);
