@@ -33,9 +33,10 @@ export default function Home() {
   console.log(user);
 
   // 카테고리 상태 저장
-  const [categoryAProducts, setCategoryAProducts] = useState<Product[]>([]);
+  const [sirials, setSirials] = useState<Product[]>([]);
   const [clothingProducts, setClothingProducts] = useState<Product[]>([]);
   const [snackProducts, setSnackProducts] = useState<Product[]>([]);
+  const [toyProducts, setToyProducts] = useState<Product[]>([]);
 
   // 모달 상태 추가
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,9 +91,10 @@ export default function Home() {
 
     console.log(fetchProducts);
 
-    fetchProducts("a", setCategoryAProducts);
+    fetchProducts("사료", setSirials);
+    fetchProducts("간식", setSnackProducts);
     fetchProducts("의류", setClothingProducts);
-    fetchProducts("b", setSnackProducts);
+    fetchProducts("장난감", setToyProducts);
   }, []);
 
   // 로그인 상태 확인
@@ -108,23 +110,23 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  // 애니메이션 되는 커다란 이미지 div 창
-
   return (
     <>
-      <header className="z-50">
+      <header>
         <Header />
       </header>
       <main className="mt-36">
-        <div className="">
-          <ul className="">
+        <div>
+          <ul>
             <div className="relative group cursor-pointer">
               Category
               <ul className="absolute hidden group-hover:block bg-gray-200 w-full z-40">
                 <li>
-                  <Link to={`/category/a`}>CategoryA</Link>
+                  <Link to={`/category/사료`}>사료</Link>
                 </li>
-                <li>CategoryB</li>
+                <li>
+                  <Link to={`/category/간식`}>간식</Link>
+                </li>
                 <li>
                   <Link to={`/category/의류`}>의류</Link>
                 </li>
@@ -152,9 +154,9 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>카테고리 A</h2>
-            <Button>
-              <Link to={`/category/a`}>더보기</Link>
+            <h2>사료</h2>
+            <Button size="sm">
+              <Link to={`/category/사료`}>더보기</Link>
             </Button>
           </div>
           <Carousel
@@ -164,7 +166,7 @@ export default function Home() {
             className="w-full "
           >
             <CarouselContent>
-              {categoryAProducts.map((product) => (
+              {sirials.map((product) => (
                 <CarouselItem
                   key={product.id}
                   className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 "
@@ -192,8 +194,8 @@ export default function Home() {
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2>의류</h2>
-            <Button>
-              <Link to={`/category/간식`}>더보기</Link>
+            <Button size="sm">
+              <Link to={`/category/의류`}>더보기</Link>
             </Button>
           </div>
           <Carousel
@@ -231,8 +233,8 @@ export default function Home() {
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2>간식</h2>
-            <Button>
-              <Link to={`/category/b`}>더보기</Link>
+            <Button size="sm">
+              <Link to={`/category/간식`}>더보기</Link>
             </Button>
           </div>
           <Carousel
@@ -243,6 +245,45 @@ export default function Home() {
           >
             <CarouselContent>
               {snackProducts.map((product) => (
+                <CarouselItem
+                  key={product.id}
+                  className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 "
+                >
+                  <div className="m-3">
+                    <Link to={`/sellproduct/${product.id}`} className="m-1">
+                      <img
+                        src={product.productImage[0]}
+                        alt={product.productName}
+                        className="w-72 h-72"
+                      />
+                      <p>{product.productName}</p>
+                      <p>{product.productPrice}원</p>
+                      <p>남은 수량: {product.productQuantity}</p>
+                    </Link>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+
+        <div className="flex flex-col justify-start">
+          <div className="flex">
+            <h2>장난감</h2>
+            <Button size="sm">
+              <Link to={`/category/장난감`}>더보기</Link>
+            </Button>
+          </div>
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full "
+          >
+            <CarouselContent>
+              {toyProducts.map((product) => (
                 <CarouselItem
                   key={product.id}
                   className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 "

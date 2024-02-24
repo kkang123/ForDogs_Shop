@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+import { useAuth } from "@/contexts/AuthContext";
 import { CartContext, CartContextProps } from "@/contexts/CartContext";
 
 import { auth } from "@/firebase";
@@ -11,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import basket from "@/assets/basket-buy-cart.svg";
 
 function MainHeader() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { isSeller } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 추가
   const [uid, setUid] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -61,15 +63,41 @@ function MainHeader() {
     navigate("/login");
   };
 
+  const Home = (event: FormEvent) => {
+    event.preventDefault();
+    navigate("/");
+  };
+
   if (isLoading) {
     return (
-      <div className="fixed px-5 pt-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white">
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <div className="">로고 이미지</div>
         <div className="flex">
-          <div className=""></div>
-          <button className="">
-            <img src={basket} alt="Basket" className="w-12" />
-          </button>
+          {isSeller && ( // isSeller가 true일 때만 '판매자 센터' 버튼을 표시합니다.
+            <Link to={`/productlist/${uid}`}>
+              <Button size="sm">판매자 센터</Button>
+            </Link>
+          )}
+
+          {/* isSeller가 false일 때만 장바구니 표시 */}
+          {!isSeller && (
+            <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
+              <button className="">
+                <div className="relative">
+                  <img src={basket} alt="Basket" className="w-9 pb-3 " />
+                  {uniqueProductCount > 0 && (
+                    <span
+                      className={`text-sm text-white absolute bottom-3.5 right-${
+                        uniqueProductCount >= 10 ? "2.5" : "3.5"
+                      }`}
+                    >
+                      {uniqueProductCount}
+                    </span>
+                  )}
+                </div>
+              </button>
+            </Link>
+          )}
           <div className=" inline-block ml-2 mr-2">
             <Button variant="outline" size="sm" onClick={logOut}>
               로그아웃
@@ -84,28 +112,37 @@ function MainHeader() {
 
   return (
     <>
-      <div className="fixed px-5 pt-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50">
-        <Link to={`/`}>
-          <div className="">로고 이미지</div>
-        </Link>
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
+        <button className="" onClick={Home}>
+          로고 이미지
+        </button>
+
         <div className="flex">
-          <div className=""></div>
-          <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
-            <button className="">
-              <div className="relative">
-                <img src={basket} alt="Basket" className="w-9 pb-3 " />
-                {uniqueProductCount > 0 && (
-                  <span
-                    className={`text-sm text-white absolute bottom-3.5 right-${
-                      uniqueProductCount >= 10 ? "2.5" : "3.5"
-                    }`}
-                  >
-                    {uniqueProductCount}
-                  </span>
-                )}
-              </div>
-            </button>
-          </Link>
+          {isSeller && ( // isSeller가 true일 때만 '판매자 센터' 버튼을 표시합니다.
+            <Link to={`/productlist/${uid}`}>
+              <Button size="sm">판매자 센터</Button>
+            </Link>
+          )}
+
+          {/* isSeller가 false일 때만 장바구니 표시 */}
+          {!isSeller && (
+            <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
+              <button className="">
+                <div className="relative">
+                  <img src={basket} alt="Basket" className="w-9 pb-3 " />
+                  {uniqueProductCount > 0 && (
+                    <span
+                      className={`text-sm text-white absolute bottom-3.5 right-${
+                        uniqueProductCount >= 10 ? "2.5" : "3.5"
+                      }`}
+                    >
+                      {uniqueProductCount}
+                    </span>
+                  )}
+                </div>
+              </button>
+            </Link>
+          )}
           <div className=" inline-block ml-2 mr-2">
             {isLoggedIn ? (
               <Button variant="outline" size="sm" onClick={logOut}>
