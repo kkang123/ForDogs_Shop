@@ -15,6 +15,7 @@ interface ProductHeaderProps {
   showBackspaseButton?: boolean;
   showUploadButton?: boolean;
   showPageBackSpaceButton?: boolean;
+  showProductManagement?: boolean;
   onDelete?: () => void; // 삭제 함수를 받는 prop 추가
   onEdit?: () => void;
 }
@@ -27,6 +28,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   showBackspaseButton = false,
   showUploadButton = false,
   showPageBackSpaceButton = false,
+  showProductManagement = false,
   onDelete,
   onEdit,
 }) => {
@@ -84,6 +86,10 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
     event.preventDefault();
     navigate("/productupload");
   };
+  const Management = (event: FormEvent) => {
+    event.preventDefault();
+    navigate("/productmanagement/${uid}");
+  };
 
   const PageBackSpaceButton = (event: FormEvent) => {
     event.preventDefault();
@@ -92,7 +98,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
 
   if (isLoading) {
     return (
-      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between border-b-2 shadow-lg  bg-white">
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50 h-20">
         <button className="">로고 이미지</button>
         <div className="flex">
           {showEditButton && (
@@ -118,7 +124,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
 
   return (
     <>
-      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50">
+      <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50 h-20">
         {showHomeButton && (
           <button className="" onClick={Home}>
             로고 이미지
@@ -136,6 +142,11 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
         )}
 
         <div className="flex">
+          {showProductManagement && (
+            <Button variant="ghost" size="sm" onClick={Management}>
+              판매 내역 관리
+            </Button>
+          )}
           {showUploadButton && (
             <Button variant="ghost" size="sm" onClick={Upload}>
               상품 등록

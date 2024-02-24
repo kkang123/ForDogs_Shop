@@ -83,13 +83,17 @@ function ProductList() {
 
   return (
     <>
-      <header className="h-[78px]">
-        <ProductHeader showHomeButton={true} showUploadButton={true} />
+      <header className="h-20">
+        <ProductHeader
+          showProductManagement={true}
+          showHomeButton={true}
+          showUploadButton={true}
+        />
       </header>
       <main className="mt-16">
         <div>
           <p>현재 페이지의 파라미터는 {uid} 입니다.</p>
-          <div className="flex flex-wrap justify-between">
+          <div className="flex flex-wrap justify-start">
             {data?.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.data.map((product: Product, index: number) => (

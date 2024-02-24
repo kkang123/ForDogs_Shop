@@ -19,17 +19,32 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, toggleModal }) => {
   return (
     <div
       onClick={toggleModal}
-      className="flex items-center justify-center h-screen"
+      className="z-50 fixed right-0 top-0 bottom-0 flex justify-end "
     >
       <div
-        className="shadow-2xl p-2 inline-block min-w-1/2"
+        className={`flex flex-col items-center transform transition-transform duration-1000 ease-in-out ${
+          isOpen ? "" : ""
+        } shadow-2xl p-2 inline-block bg-white h-full overflow-auto`}
+        style={{
+          width: "400px",
+          transform: isOpen ? "translateX(0)" : "translateX(400px)",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {cart.map((cartItem) => (
-          <div key={cartItem.product.id} className="bg-white border-b-2">
-            <h2>{cartItem.product.productName}</h2>
-            <p>가격: {cartItem.product.productPrice}</p>
-            <p>수량: {cartItem.quantity}</p>
+          <div
+            key={cartItem.product.id}
+            className="bg-white border-b-2 w-full flex flex-col items-center mt-4"
+          >
+            <img
+              className="w-48 h-48"
+              src={cartItem.product.productImage[0]}
+              alt={cartItem.product.productName}
+            />
+
+            <h2>상품 이름 : {cartItem.product.productName}</h2>
+            <p>개당 가격 : {cartItem.product.productPrice}</p>
+            <p>수량 : {cartItem.quantity}</p>
           </div>
         ))}
         <p className="mt-2">총 가격: {total}원</p>
@@ -39,3 +54,5 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, toggleModal }) => {
 };
 
 export default CartModal;
+
+// 장바구니 모달 오른쪽에서 슬라이스 형식으로 생성

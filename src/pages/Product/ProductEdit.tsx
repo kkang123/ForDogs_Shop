@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import photo from "@/assets/icon-photo.svg";
+import ProductHeader from "@/components/Header/ProductHeader";
 
 function ProductEdit() {
   const { id } = useParams<{ id: string }>();
@@ -262,6 +263,9 @@ function ProductEdit() {
 
   return (
     <>
+      <header className="h-20">
+        <ProductHeader showBackspaseButton={true} showEditButton={false} />
+      </header>
       <main>
         <form
           className="flex justify-center mt-[70px] "
@@ -374,12 +378,12 @@ function ProductEdit() {
                 className="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               >
                 <option value="">카테고리를 선택하세요</option>
-                <option value="A">카테고리A</option>
-                <option value="B">카테고리B</option>
-                <option value="C">카테고리C</option>
-                <option value="D">카테고리D</option>
-                <option value="E">카테고리E</option>
-                <option value="F">카테고리F</option>
+                <option value="사료">사료</option>
+                <option value="간식">간식</option>
+                <option value="의류">의류</option>
+                <option value="장난감">장난감</option>
+                <option value="용품">용품</option>
+                <option value="영양제">영양제</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg
