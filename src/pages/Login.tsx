@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db } from "@/firebase";
@@ -26,7 +26,6 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  // 사용자 정보에 따라 로그인 상태면 로그인으로 못들어게 막는 역할
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -107,7 +106,7 @@ export default function SignIn() {
         password
       );
       console.log("user with signIn", userCredential.user);
-      login(); // 로그인에 성공하면 login 함수를 호출하여 isAuth 상태를 true로 변경
+      login();
     } catch (error) {
       console.error("error with signIn", error);
       Swal.fire({
@@ -121,7 +120,7 @@ export default function SignIn() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="mt-64 mb-0 text-3xl font-bold text-gray-700">Login</h2>
-      {/* 구매자 / 판매자 btn */}
+
       <div className="w-full md:w-1/2 lg:w-1/3 m-auto mt-10 ">
         <div
           role="tablist"
@@ -155,7 +154,7 @@ export default function SignIn() {
             판매자
           </button>
         </div>
-        {/* 구매자 */}
+
         {tab === "buyer" ? (
           <form className="p-5 bg-white rounded-b-lg shadow-lg w-full noValidate">
             <div className="mb-4">
@@ -220,7 +219,6 @@ export default function SignIn() {
             </div>
           </form>
         ) : (
-          // 판매자
           <form className="p-5 bg-white rounded-b-lg shadow-lg w-full">
             <div className="mb-4">
               <label

@@ -54,5 +54,3 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, toggleModal }) => {
 };
 
 export default CartModal;
-
-// 장바구니 모달 오른쪽에서 슬라이스 형식으로 생성

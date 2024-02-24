@@ -1,4 +1,3 @@
-import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import AuthProvider from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";

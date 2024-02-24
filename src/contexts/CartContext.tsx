@@ -9,7 +9,7 @@ interface CartItem {
 export interface CartContextProps {
   cart: CartItem[];
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  resetCart: () => void; // 로그아웃 시 상품 표시 초기화
+  resetCart: () => void;
 }
 
 export const CartContext = createContext<CartContextProps | undefined>(

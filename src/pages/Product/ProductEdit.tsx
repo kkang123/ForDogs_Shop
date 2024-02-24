@@ -199,8 +199,6 @@ function ProductEdit() {
       ...prevProduct,
       [name as string]: parsedValue,
     }));
-
-    console.log(name + ": ", parsedValue);
   };
 
   const handleFileSelect = async (
@@ -244,7 +242,6 @@ function ProductEdit() {
           return;
         }
         downloadURLs.push(downloadURL);
-        console.log("downloadURL", downloadURL);
       }
     }
     setProductImage(downloadURLs);
@@ -255,7 +252,6 @@ function ProductEdit() {
       ...prevProduct,
       productImage: productImage,
     }));
-    console.log("productImage: ", productImage);
   }, [productImage]);
 
   if (isLoading) {

@@ -21,7 +21,7 @@ function Category() {
   const [sortType, setSortType] = useState<"updatedAt" | "productPrice">(
     "updatedAt"
   );
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentImageIndex] = useState(0);
 
   const fetchProducts = async ({ pageParam = null }) => {
     const productsRef = collection(db, "products");

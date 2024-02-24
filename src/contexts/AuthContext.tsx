@@ -41,14 +41,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return savedIsSeller && savedIsSeller !== "undefined"
       ? JSON.parse(savedIsSeller)
       : false;
-  }); // 로컬 스토리지에서 isSeller 값을 읽어옵니다.
+  });
 
   useEffect(() => {
     localStorage.setItem("isAuth", JSON.stringify(isAuth));
   }, [isAuth]);
 
   useEffect(() => {
-    localStorage.setItem("isSeller", JSON.stringify(isSeller)); // isSeller 상태가 변경될 때마다 이를 로컬 스토리지에 저장합니다.
+    localStorage.setItem("isSeller", JSON.stringify(isSeller));
   }, [isSeller]);
 
   useEffect(() => {
@@ -59,18 +59,17 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (userSnap.exists()) {
           setIsSeller(userSnap.data().isSeller);
           setIsAuth(true);
-          setUid(user.uid); // uid를 설정합니다.
+          setUid(user.uid);
         }
 
-        const userDocSnap = await getDoc(userDocRef); // getDoc 함수를 사용하여 사용자 데이터를 가져옵니다.
+        const userDocSnap = await getDoc(userDocRef);
 
-        // 사용자의 닉네임을 가져와 nickname 상태를 업데이트합니다.
         setNickname(userDocSnap.data()?.nickname || null);
       } else {
         setIsSeller(false);
         setNickname(null);
         setIsAuth(false);
-        setUid(null); // 로그아웃 상태에서는 uid를 null로 설정합니다.
+        setUid(null);
       }
     });
 

@@ -16,7 +16,7 @@ interface ProductHeaderProps {
   showUploadButton?: boolean;
   showPageBackSpaceButton?: boolean;
   showProductManagement?: boolean;
-  onDelete?: () => void; // 삭제 함수를 받는 prop 추가
+  onDelete?: () => void;
   onEdit?: () => void;
 }
 

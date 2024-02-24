@@ -36,19 +36,16 @@ function ProductManagement() {
   );
 
   useEffect(() => {
-    console.log("로그인한 사용자의 uid: ", uid);
-
     const fetchUsers = async () => {
       const usersRef = collection(db, "users");
       const usersSnapshot = await getDocs(usersRef);
       const usersData: UserType[] = [];
       for (const doc of usersSnapshot.docs) {
         const user = doc.data() as UserType;
-        user.uid = doc.id; // 문서 ID를 uid 필드에 저장
+        user.uid = doc.id;
         usersData.push(user);
       }
       setUsers(usersData);
-      console.log(usersData); // users 상태를 콘솔에 출력
     };
 
     fetchUsers();
@@ -60,10 +57,8 @@ function ProductManagement() {
         (doc) => ({ id: doc.id, ...doc.data() } as Order)
       );
       const sellerOrders = fetchedOrders.filter((order) => {
-        // 판매자가 판매한 상품만 필터링
-        return order.item.product.sellerId === uid; // 로그인 중인 회원의 uid 값과 sellerId가 동일한 상품만 필터링
+        return order.item.product.sellerId === uid;
       });
-      // 주문을 구매 시간 순으로 정렬합니다.
       const sortedSellerOrders = sellerOrders.sort((a, b) => {
         return b.timestamp.seconds - a.timestamp.seconds;
       });
@@ -92,10 +87,8 @@ function ProductManagement() {
   };
 
   const handleStatusChange = (orderId: string, status: string) => {
-    console.log("Selected status:", status); // 선택된 상태를 출력
     setSelectedStatus((prevStatus) => {
       const updatedStatus = { ...prevStatus, [orderId]: status };
-      console.log("Updated selectedStatus:", updatedStatus); // 업데이트된 selectedStatus를 출력
       return updatedStatus;
     });
   };
@@ -103,14 +96,14 @@ function ProductManagement() {
   const applyStatusChange = async (orderId: string) => {
     if (selectedStatus[orderId]) {
       try {
-        console.log("Updating status in Firestore..."); // Firestore 업데이트 시작을 출력
+        console.log("Updating status in Firestore...");
         await updateOrderStatus(orderId, selectedStatus[orderId]);
-        console.log("Updated status in Firestore."); // Firestore 업데이트 완료를 출력
+        console.log("Updated status in Firestore.");
       } catch (error) {
-        console.error("Failed to update order status:", error); // 오류를 출력
+        console.error("Failed to update order status:", error);
       }
     } else {
-      console.log("No selected status for this order."); // 선택된 상태가 없음을 출력
+      console.log("No selected status for this order.");
     }
   };
 
@@ -148,7 +141,7 @@ function ProductManagement() {
                 <div>주문 상태: {order.status}</div>
                 <select
                   value={selectedStatus[order.id] || order.status}
-                  onChange={(e) => handleStatusChange(order.id, e.target.value)} // 기본 select 요소를 사용하고 있으므로 onChange 이벤트를 사용할 수 있습니다.
+                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
                   className="border-2 border-black rounded h-9"
                 >
                   {orderStatusOptions.map((status) => (

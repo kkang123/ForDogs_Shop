@@ -19,7 +19,6 @@ const CartItem: React.FC<CartItemProps> = ({
 }) => {
   const { product } = item;
 
-  // 로컬 상태로 수량을 관리
   const [quantity, setQuantity] = useState<number>(item.quantity);
 
   useEffect(() => {
@@ -42,43 +41,42 @@ const CartItem: React.FC<CartItemProps> = ({
           <p>수량 : {quantity}</p>
         </div>
       </Link>
-      {updateQuantity &&
-        removeFromCart && ( // 수정 모드일 때만 버튼을 표시합니다.
-          <>
-            <div className="flex justify-between">
-              <Button
-                size="sm"
-                onClick={() => {
-                  updateQuantity(product.id, quantity + 1);
-                  setQuantity(quantity + 1);
-                }}
-              >
-                갯수 증가
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => {
-                  if (quantity > 0) {
-                    updateQuantity(product.id, quantity - 1);
-                    setQuantity(quantity - 1);
-                  }
-                }}
-              >
-                갯수 감소
-              </Button>
-            </div>
+      {updateQuantity && removeFromCart && (
+        <>
+          <div className="flex justify-between">
+            <Button
+              size="sm"
+              onClick={() => {
+                updateQuantity(product.id, quantity + 1);
+                setQuantity(quantity + 1);
+              }}
+            >
+              갯수 증가
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => {
+                if (quantity > 0) {
+                  updateQuantity(product.id, quantity - 1);
+                  setQuantity(quantity - 1);
+                }
+              }}
+            >
+              갯수 감소
+            </Button>
+          </div>
 
-            <div className="flex justify-center mt-2">
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => removeFromCart(product.id)}
-              >
-                삭제
-              </Button>
-            </div>
-          </>
-        )}
+          <div className="flex justify-center mt-2">
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => removeFromCart(product.id)}
+            >
+              삭제
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

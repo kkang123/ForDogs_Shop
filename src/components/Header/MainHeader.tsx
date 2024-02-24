@@ -13,8 +13,8 @@ import basket from "@/assets/basket-buy-cart.svg";
 
 function MainHeader() {
   const { isSeller } = useAuth();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태를 추가
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [uid, setUid] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -73,13 +73,12 @@ function MainHeader() {
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <div className="">로고 이미지</div>
         <div className="flex">
-          {isSeller && ( // isSeller가 true일 때만 '판매자 센터' 버튼을 표시합니다.
+          {isSeller && (
             <Link to={`/productlist/${uid}`}>
               <Button size="sm">판매자 센터</Button>
             </Link>
           )}
 
-          {/* isSeller가 false일 때만 장바구니 표시 */}
           {!isSeller && (
             <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
               <button className="">
