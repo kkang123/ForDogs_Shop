@@ -144,27 +144,26 @@ export default function Home() {
       </header>
       <main className="mt-36">
         <div>
-          <ul>
-            <div className="relative group cursor-pointer">
-              Category
-              <ul className="absolute hidden group-hover:block bg-gray-200 w-full z-40">
-                <li>
-                  <Link to={`/category/사료`}>사료</Link>
+          <ul className="flex space-x-2 justify-around">
+            {["사료", "의류", "간식", "장난감", "용품", "영양제"].map(
+              (category, index) => (
+                <li
+                  key={index}
+                  className="relative group cursor-pointer transform transition-all duration-200 hover:scale-110"
+                >
+                  <Link
+                    to={`/category/${category}`}
+                    className="px-2 py-1 hover:bg-white"
+                  >
+                    {category}
+                  </Link>
                 </li>
-                <li>
-                  <Link to={`/category/간식`}>간식</Link>
-                </li>
-                <li>
-                  <Link to={`/category/의류`}>의류</Link>
-                </li>
-                <li>d</li>
-                <li>e</li>
-              </ul>
-            </div>
+              )
+            )}
           </ul>
         </div>
 
-        <div className="relative w-full h-[90vh] overflow-hidden">
+        <div className="relative w-full h-[90vh] overflow-hidden mt-5">
           {imageURLs.map((url, index) => (
             <img
               key={index}
