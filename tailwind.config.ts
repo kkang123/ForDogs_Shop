@@ -88,6 +88,16 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        slide: {
+          "0%": { transform: "translateX(0%)" },
+          "22.22%": { transform: "translateX(0%)" },
+          "33.33%": { transform: "translateX(-100%)" },
+          "55.55%": { transform: "translateX(-100%)" },
+          "66.66%": { transform: "translateX(-200%)" },
+          "88.88%": { transform: "translateX(-200%)" },
+          "100%": { transform: "translateX(-300%)" },
+        },
+
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -98,6 +108,7 @@ module.exports = {
         },
       },
       animation: {
+        slide: "slide 9s linear infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "@/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { useAuth } from "@/contexts/AuthContext";
 
+import { auth, storage } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   getDocs,
@@ -11,6 +10,10 @@ import {
   where,
   getFirestore,
 } from "firebase/firestore";
+
+import { ref, getDownloadURL } from "firebase/storage";
+
+import { useAuth } from "@/contexts/AuthContext";
 
 import { Product } from "@/interface/product";
 
@@ -30,6 +33,7 @@ import {
 
 export default function Home() {
   const user = useAuth();
+  const { isSeller } = useAuth();
 
   const [sirials, setSirials] = useState<Product[]>([]);
   const [clothingProducts, setClothingProducts] = useState<Product[]>([]);
@@ -41,6 +45,35 @@ export default function Home() {
   const toggleModal = () => {
     setIsModalOpen((prevState) => !prevState);
   };
+
+  const [imageURLs, setImageURLs] = useState<string[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const imageNames = ["file", "찌비.JPG", "찌비003.JPG"];
+
+  useEffect(() => {
+    imageNames.forEach((imageName) => {
+      const imageRef = ref(storage, `folder/${imageName}`);
+
+      getDownloadURL(imageRef)
+        .then((url: string) => {
+          setImageURLs((prevURLs: string[]) => [...prevURLs, url]);
+        })
+        .catch((error: Error) => {
+          console.log(error);
+        });
+    });
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageURLs.length);
+    }, 3000); // 3초마다 이미지 변경
+
+    return () => clearInterval(timer);
+  }, [imageURLs]);
+
+  console.log(currentImageIndex);
+  console.log(setCurrentImageIndex);
 
   useEffect(() => {
     const fetchProducts = async (
@@ -111,45 +144,47 @@ export default function Home() {
       </header>
       <main className="mt-36">
         <div>
-          <ul>
-            <div className="relative group cursor-pointer">
-              Category
-              <ul className="absolute hidden group-hover:block bg-gray-200 w-full z-40">
-                <li>
-                  <Link to={`/category/사료`}>사료</Link>
+          <ul className="flex space-x-2 justify-around">
+            {["사료", "의류", "간식", "장난감", "용품", "영양제"].map(
+              (category, index) => (
+                <li
+                  key={index}
+                  className="relative group cursor-pointer transform transition-all duration-200 hover:scale-110"
+                >
+                  <Link
+                    to={`/category/${category}`}
+                    className="px-2 py-1 hover:bg-white"
+                  >
+                    {category}
+                  </Link>
                 </li>
-                <li>
-                  <Link to={`/category/간식`}>간식</Link>
-                </li>
-                <li>
-                  <Link to={`/category/의류`}>의류</Link>
-                </li>
-                <li>d</li>
-                <li>e</li>
-              </ul>
-            </div>
+              )
+            )}
           </ul>
         </div>
-        <div className="relative w-full h-[90vh]">
-          <img
-            src="src\assets\찌비.JPG"
-            alt=""
-            className=" absolute inset-0 w-full h-full object-cover "
-          />
+
+        <div className="relative w-full h-[90vh] overflow-hidden mt-5">
+          {imageURLs.map((url, index) => (
+            <img
+              key={index}
+              src={url}
+              alt=""
+              className={`absolute inset-0 w-full h-full object-fill transition-all duration-1000 ease-in-out ${
+                index !== currentImageIndex ? "opacity-0" : "opacity-100"
+              }`}
+            />
+          ))}
         </div>
 
+        {/* 삭제할 곳 */}
         <div className="w-full h-[50vh] flex flex-col justify-start items-center ">
-          <h1>Home</h1>
-          <p>가장 먼저 보여지는 페이지입니다.</p>
           <div>안녕하세요 {user?.nickname} 님</div>
-          <Link to={`/productdetail/1706776956553`}>123123</Link>
-          <Link to={`/sellproduct/1706776956553`}>상품 판매 중</Link>
         </div>
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>사료</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">사료</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/사료`}>더보기</Link>
             </Button>
           </div>
@@ -187,8 +222,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>의류</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">의류</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/의류`}>더보기</Link>
             </Button>
           </div>
@@ -226,8 +261,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>간식</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">간식</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/간식`}>더보기</Link>
             </Button>
           </div>
@@ -265,8 +300,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>장난감</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">장난감</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/장난감`}>더보기</Link>
             </Button>
           </div>
@@ -301,13 +336,14 @@ export default function Home() {
             <CarouselNext />
           </Carousel>
         </div>
+        {!isSeller && (
+          <div>
+            <Button onClick={toggleModal}>장바구니 보기</Button>
+            <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
+          </div>
+        )}
       </main>
-      <footer>
-        <div>
-          <Button onClick={toggleModal}>장바구니 보기</Button>
-          <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
-        </div>
-      </footer>
+      <footer></footer>
     </>
   );
 }

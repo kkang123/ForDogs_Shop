@@ -6,6 +6,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import mainlogo from "@/assets/main-logo.svg";
 import { Button } from "@/components/ui/button";
 
 interface ProductHeaderProps {
@@ -98,7 +99,9 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   if (isLoading) {
     return (
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50 h-20">
-        <button className="">로고 이미지</button>
+        <button className="" onClick={Home}>
+          <img src={mainlogo} alt="main-logo" className="w-9  " />
+        </button>
         <div className="flex">
           {showEditButton && (
             <Button variant="ghost" size="sm" onClick={onEdit}>
@@ -126,7 +129,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-50 h-20">
         {showHomeButton && (
           <button className="" onClick={Home}>
-            로고 이미지
+            <img src={mainlogo} alt="main-logo" className="w-9  " />
           </button>
         )}
         {showBackspaseButton && (

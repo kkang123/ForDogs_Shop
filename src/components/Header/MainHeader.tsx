@@ -9,6 +9,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 
 import { Button } from "@/components/ui/button";
 
+import mainlogo from "@/assets/main-logo.svg";
 import basket from "@/assets/basket-buy-cart.svg";
 
 function MainHeader() {
@@ -71,7 +72,7 @@ function MainHeader() {
   if (isLoading) {
     return (
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
-        <div className="">로고 이미지</div>
+        <img src={mainlogo} alt="main-logo" className="w-9 pb-3 " />
         <div className="flex">
           {isSeller && (
             <Link to={`/productlist/${uid}`}>
@@ -83,7 +84,7 @@ function MainHeader() {
             <Link to={isLoggedIn && uid ? `/cart/${uid}` : "#"}>
               <button className="">
                 <div className="relative">
-                  <img src={basket} alt="Basket" className="w-9 pb-3 " />
+                  <img src={basket} alt="Basket" className="w-9" />
                   {uniqueProductCount > 0 && (
                     <span
                       className={`text-sm text-white absolute bottom-3.5 right-${
@@ -113,7 +114,7 @@ function MainHeader() {
     <>
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <button className="" onClick={Home}>
-          로고 이미지
+          <img src={mainlogo} alt="main-logo" className="w-9  " />
         </button>
 
         <div className="flex">
