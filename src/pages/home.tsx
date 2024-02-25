@@ -33,6 +33,7 @@ import {
 
 export default function Home() {
   const user = useAuth();
+  const { isSeller } = useAuth();
 
   const [sirials, setSirials] = useState<Product[]>([]);
   const [clothingProducts, setClothingProducts] = useState<Product[]>([]);
@@ -183,8 +184,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>사료</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">사료</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/사료`}>더보기</Link>
             </Button>
           </div>
@@ -222,8 +223,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>의류</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">의류</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/의류`}>더보기</Link>
             </Button>
           </div>
@@ -261,8 +262,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>간식</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">간식</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/간식`}>더보기</Link>
             </Button>
           </div>
@@ -300,8 +301,8 @@ export default function Home() {
 
         <div className="flex flex-col justify-start">
           <div className="flex">
-            <h2>장난감</h2>
-            <Button size="sm">
+            <h2 className="text-3xl">장난감</h2>
+            <Button size="sm" className="ml-3">
               <Link to={`/category/장난감`}>더보기</Link>
             </Button>
           </div>
@@ -336,13 +337,14 @@ export default function Home() {
             <CarouselNext />
           </Carousel>
         </div>
+        {!isSeller && (
+          <div>
+            <Button onClick={toggleModal}>장바구니 보기</Button>
+            <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
+          </div>
+        )}
       </main>
-      <footer>
-        <div>
-          <Button onClick={toggleModal}>장바구니 보기</Button>
-          <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
-        </div>
-      </footer>
+      <footer></footer>
     </>
   );
 }
