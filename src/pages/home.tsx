@@ -176,6 +176,11 @@ export default function Home() {
           ))}
         </div>
 
+        {/* 삭제할 곳 */}
+        <div className="w-full h-[50vh] flex flex-col justify-start items-center ">
+          <div>안녕하세요 {user?.nickname} 님</div>
+        </div>
+
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2>사료</h2>
