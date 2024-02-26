@@ -184,6 +184,13 @@ function SellProductDetail() {
           ...product,
           productQuantity: product.productQuantity - count,
         });
+
+        // 상품이 성공적으로 추가되면 알림을 띄웁니다.
+        Swal.fire({
+          icon: "success",
+          title: "상품 추가",
+          text: "장바구니에 상품이 추가되었습니다.",
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -277,13 +284,13 @@ function SellProductDetail() {
                 <Button
                   onClick={addToCart}
                   size={"customsize"}
-                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
+                  className="w-[250px] hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
-                  장바구니
+                  장바구니 추가
                 </Button>
                 <Button
                   size={"customsize"}
-                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
+                  className="w-[250px] hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
                   구매하기
                 </Button>
