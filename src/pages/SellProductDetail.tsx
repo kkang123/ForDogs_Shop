@@ -201,7 +201,7 @@ function SellProductDetail() {
   return (
     <>
       <header className="h-20">
-        <ProductHeader showPageBackSpaceButton={true} />
+        <ProductHeader showPageBackSpaceButton={true} showProductCart={true} />
       </header>
       <main style={{ minWidth: "1300px" }} className="center">
         <div className="flex  w-full gap-12 pt-[70px] pb-[80px] justify-center">
