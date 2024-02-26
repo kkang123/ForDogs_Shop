@@ -74,6 +74,13 @@ function MainHeader() {
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <img src={mainlogo} alt="main-logo" className="w-9 pb-3 " />
         <div className="flex">
+          {!isSeller && (
+            <Link to={`/myprofile/${uid}`}>
+              <Button variant={"ghost"} size="sm">
+                마이프로필
+              </Button>
+            </Link>
+          )}
           {isSeller && (
             <Link to={`/productlist/${uid}`}>
               <Button size="sm">판매자 센터</Button>
@@ -118,6 +125,14 @@ function MainHeader() {
         </button>
 
         <div className="flex">
+          {!isSeller && (
+            <Link to={`/myprofile/${uid}`}>
+              <Button variant={"ghost"} size="sm">
+                마이프로필
+              </Button>
+            </Link>
+          )}
+
           {isSeller && ( // isSeller가 true일 때만 '판매자 센터' 버튼을 표시합니다.
             <Link to={`/productlist/${uid}`}>
               <Button size="sm">판매자 센터</Button>
