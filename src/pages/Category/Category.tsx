@@ -95,7 +95,7 @@ function Category() {
 
   return (
     <>
-      <header className="h-[78px]">
+      <header className="h-20">
         <ProductHeader showHomeButton={true} showProductCart={true} />
       </header>
       <main className="mt-16">
