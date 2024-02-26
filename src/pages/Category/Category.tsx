@@ -100,9 +100,6 @@ function Category() {
       </header>
       <main className="mt-16">
         <div>
-          <p>현재 페이지의 파라미터는 {productCategory} 입니다.</p>
-
-          {/* 버튼 추가 */}
           <div>
             업데이트
             <button onClick={() => setSortType("updatedAt")}>최신순</button>

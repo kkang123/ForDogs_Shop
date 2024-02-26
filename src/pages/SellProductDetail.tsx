@@ -185,7 +185,6 @@ function SellProductDetail() {
           productQuantity: product.productQuantity - count,
         });
 
-        // 상품이 성공적으로 추가되면 알림을 띄웁니다.
         Swal.fire({
           icon: "success",
           title: "상품 추가",
