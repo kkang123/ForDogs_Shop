@@ -14,6 +14,7 @@ import {
 import { db } from "@/firebase";
 import { Product } from "@/interface/product";
 import ProductHeader from "@/components/Header/ProductHeader";
+import { Button } from "@/components/ui/button";
 
 function Category() {
   const { productCategory } = useParams<{ productCategory: string }>();
@@ -84,7 +85,10 @@ function Category() {
         <header className="h-[78px]">
           <ProductHeader showHomeButton={true} />
         </header>
-        <div>Loding...</div>
+        <main className="flex justify-center pt-5">
+          <div>상품을 불러오는 중입니다.</div>
+        </main>
+        <footer></footer>
       </>
     );
   }
@@ -95,18 +99,26 @@ function Category() {
 
   return (
     <>
-      <header className="h-[78px]">
-        <ProductHeader showHomeButton={true} />
+      <header className="h-20">
+        <ProductHeader showHomeButton={true} showProductCart={true} />
       </header>
       <main className="mt-16">
         <div>
-          <p>현재 페이지의 파라미터는 {productCategory} 입니다.</p>
-
-          {/* 버튼 추가 */}
-          <div>
-            업데이트
-            <button onClick={() => setSortType("updatedAt")}>최신순</button>
-            <button onClick={() => setSortType("productPrice")}>가격순</button>
+          <div className="flex justify-end gap-2 pr-7">
+            <Button
+              variant={sortType === "updatedAt" ? "default" : "ghost"}
+              size={"sm"}
+              onClick={() => setSortType("updatedAt")}
+            >
+              최신순
+            </Button>
+            <Button
+              variant={sortType === "productPrice" ? "default" : "ghost"}
+              size={"sm"}
+              onClick={() => setSortType("productPrice")}
+            >
+              가격순
+            </Button>
           </div>
 
           <div className="flex flex-wrap justify-start">

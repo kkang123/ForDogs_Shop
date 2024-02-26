@@ -12,7 +12,9 @@ import {
   startAfter,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+
 import { Product } from "@/interface/product";
+
 import ProductHeader from "@/components/Header/ProductHeader";
 
 function ProductList() {
@@ -86,7 +88,6 @@ function ProductList() {
       </header>
       <main className="mt-16">
         <div>
-          <p>현재 페이지의 파라미터는 {uid} 입니다.</p>
           <div className="flex flex-wrap justify-start">
             {data?.pages.map((group, i) => (
               <React.Fragment key={i}>

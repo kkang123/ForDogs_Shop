@@ -184,6 +184,12 @@ function SellProductDetail() {
           ...product,
           productQuantity: product.productQuantity - count,
         });
+
+        Swal.fire({
+          icon: "success",
+          title: "상품 추가",
+          text: "장바구니에 상품이 추가되었습니다.",
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -201,7 +207,7 @@ function SellProductDetail() {
   return (
     <>
       <header className="h-20">
-        <ProductHeader showPageBackSpaceButton={true} />
+        <ProductHeader showPageBackSpaceButton={true} showProductCart={true} />
       </header>
       <main style={{ minWidth: "1300px" }} className="center">
         <div className="flex  w-full gap-12 pt-[70px] pb-[80px] justify-center">
@@ -277,13 +283,13 @@ function SellProductDetail() {
                 <Button
                   onClick={addToCart}
                   size={"customsize"}
-                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
+                  className="w-[250px] hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
-                  장바구니
+                  장바구니 추가
                 </Button>
                 <Button
                   size={"customsize"}
-                  className="hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
+                  className="w-[250px] hover:bg-LightBlue-500 text-white bg-LightBlue-200 text-2xl"
                 >
                   구매하기
                 </Button>
