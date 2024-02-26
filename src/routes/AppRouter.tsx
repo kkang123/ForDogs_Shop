@@ -3,7 +3,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ProtectRoute } from "./ProtectRoute";
 
 import Home from "../pages/home";
-import About from "@/pages/about";
 import BuyerSignUp from "@/pages/BuyerSignUp";
 import SellerSignUp from "@/pages/SellerSignUp";
 import Login from "@/pages/Login";
@@ -43,17 +42,6 @@ const AppRouter = () => {
         <Route
           path="/"
           element={<ProtectRoute element={<Home />} isAuth={isAuth} />}
-        />
-        <Route
-          path="/about"
-          element={
-            <ProtectRoute
-              element={<About />}
-              isAuth={isAuth}
-              isPrivate={true}
-              isProtected={true} // 판매자 전용
-            />
-          }
         />
 
         {/* 로그인, 회원 가입 */}
@@ -114,7 +102,7 @@ const AppRouter = () => {
               element={<ProductList />}
               isAuth={isAuth}
               isPrivate={true}
-              isProtected={true}
+              isProtected={true} // 판매자 전용
             />
           }
         />
