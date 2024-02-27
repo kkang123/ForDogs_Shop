@@ -19,6 +19,8 @@ import { Product } from "@/interface/product";
 
 import "../App.css";
 
+import LazyImage from "@/components/LazyImage";
+
 import Header from "@/components/Header/MainHeader";
 import CartModal from "@/modals/cartModal";
 
@@ -165,7 +167,7 @@ export default function Home() {
 
         <div className="relative w-full h-[90vh] overflow-hidden mt-5">
           {imageURLs.map((url, index) => (
-            <img
+            <LazyImage
               key={index}
               src={url}
               alt=""
