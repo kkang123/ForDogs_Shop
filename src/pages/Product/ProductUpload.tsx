@@ -216,12 +216,15 @@ function ProductUpload() {
     for (const file of files) {
       if (auth.currentUser) {
         const imageRef = ref(storage, `${auth.currentUser.uid}/${file.name}`);
+
         try {
-          await uploadBytes(imageRef, file);
+          const webpFile = await convertToWebP(file);
+          await uploadBytes(imageRef, webpFile);
         } catch (error) {
           console.error("업로드 실패: ", error);
           return;
         }
+
         let downloadURL;
         try {
           downloadURL = await getDownloadURL(imageRef);
@@ -233,6 +236,39 @@ function ProductUpload() {
       }
     }
     setProductImage(downloadURLs);
+  };
+
+  const convertToWebP = (file: File) => {
+    return new Promise<File>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const image = new Image();
+        image.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = image.width;
+          canvas.height = image.height;
+          const context = canvas.getContext("2d");
+
+          if (context) {
+            context.drawImage(image, 0, 0);
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const webpFile = new File([blob], file.name, {
+                  type: "image/webp",
+                });
+                resolve(webpFile);
+              } else {
+                reject(new Error("Failed to convert image to webp."));
+              }
+            }, "image/webp");
+          } else {
+            reject(new Error("Failed to create canvas context."));
+          }
+        };
+        image.src = event.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   useEffect(() => {
@@ -294,7 +330,7 @@ function ProductUpload() {
                   type="file"
                   onChange={handleFileSelect}
                   multiple
-                  accept=".jpg, .jpeg, .png"
+                  accept=".jpg, .jpeg, .png, .webp"
                   style={{ display: "none" }}
                 />
               </div>
