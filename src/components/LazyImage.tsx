@@ -8,6 +8,7 @@ interface LazyImageProps {
 
 const LazyImage: React.FC<LazyImageProps> = ({ src, alt, className }) => {
   const [isIntersecting, setIntersecting] = useState(false);
+
   const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const LazyImage: React.FC<LazyImageProps> = ({ src, alt, className }) => {
   return (
     <img
       ref={imgRef}
-      src={isIntersecting ? src : "placeholder.jpg"}
+      src={isIntersecting ? src : undefined}
       alt={alt}
       className={className}
     />

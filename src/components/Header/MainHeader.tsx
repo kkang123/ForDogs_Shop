@@ -72,7 +72,7 @@ function MainHeader() {
   if (isLoading) {
     return (
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
-        <img src={mainlogo} alt="main-logo" className="w-9 pb-3 " />
+        <img src={mainlogo} alt="main-logo" className="w-9 h-9 pb-3 " />
         <div className="flex">
           {!isSeller && (
             <Link to={`/myprofile/${uid}`}>
@@ -121,7 +121,7 @@ function MainHeader() {
     <>
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <button className="" onClick={Home}>
-          <img src={mainlogo} alt="main-logo" className="w-9  " />
+          <img src={mainlogo} alt="main-logo" className="w-9 h-9" />
         </button>
 
         <div className="flex">
