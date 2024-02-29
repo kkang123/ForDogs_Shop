@@ -13,16 +13,28 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Product } from "@/interface/product";
+
+import { useAuth } from "@/contexts/AuthContext";
+
 import ProductHeader from "@/components/Header/ProductHeader";
+import CartModal from "@/modals/cartModal";
+
 import { Button } from "@/components/ui/button";
 
 function Category() {
+  const { isSeller } = useAuth();
   const { productCategory } = useParams<{ productCategory: string }>();
 
   const [sortType, setSortType] = useState<"updatedAt" | "productPrice">(
     "updatedAt"
   );
   const [currentImageIndex] = useState(0);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
 
   const fetchProducts = async ({ pageParam = null }) => {
     const productsRef = collection(db, "products");
@@ -161,6 +173,17 @@ function Category() {
           )}
         </div>
         {isFetchingNextPage && <div>Loading more...</div>}
+        {!isSeller && (
+          <div>
+            <Button
+              onClick={toggleModal}
+              className="fixed flex justify-center items-center bottom-8 left-8 z-50 rounded-full bg-zinc-800"
+            >
+              장바구니 보기
+            </Button>
+            <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
+          </div>
+        )}
       </main>
     </>
   );
