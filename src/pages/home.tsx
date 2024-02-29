@@ -144,7 +144,7 @@ export default function Home() {
       <header>
         <Header />
       </header>
-      <main className="mt-36">
+      <main className="mt-36 w-full">
         <div>
           <ul className="flex space-x-2 justify-around">
             {["사료", "의류", "간식", "장난감", "용품", "영양제"].map(
@@ -340,7 +340,12 @@ export default function Home() {
         </div>
         {!isSeller && (
           <div>
-            <Button onClick={toggleModal}>장바구니 보기</Button>
+            <Button
+              onClick={toggleModal}
+              className="fixed flex justify-center items-center bottom-8 left-8 z-50 rounded-full bg-zinc-800"
+            >
+              장바구니 보기
+            </Button>
             <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
           </div>
         )}
