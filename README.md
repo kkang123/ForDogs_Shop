@@ -9,11 +9,16 @@ https://fordogs-shop.vercel.app/
 
 ### 실행
 
+- test
 `npm run dev`
 
 개발모드로 앱을 실행합니다.
 
-http://localhost:5173 확인 가능
+http://localhost:5173
 
-빌드
-npm run build
+- 빌드
+`npm run build` 후 `npm run preview`
+
+배포 환경으로 실행합니다.
+
+http://localhost:4173/
