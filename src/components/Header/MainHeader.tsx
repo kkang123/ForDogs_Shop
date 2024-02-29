@@ -74,7 +74,7 @@ function MainHeader() {
       <div className="fixed px-5 py-5 top-0 left-0 right-0 flex  w-full justify-between shadow-lg  bg-white z-40 h-20">
         <img src={mainlogo} alt="main-logo" className="w-9 h-9 pb-3 " />
         <div className="flex">
-          {!isSeller && (
+          {!isSeller && uid && (
             <Link to={`/myprofile/${uid}`}>
               <Button variant={"ghost"} size="sm">
                 마이프로필
@@ -125,7 +125,7 @@ function MainHeader() {
         </button>
 
         <div className="flex">
-          {!isSeller && (
+          {!isSeller && uid && (
             <Link to={`/myprofile/${uid}`}>
               <Button variant={"ghost"} size="sm">
                 마이프로필

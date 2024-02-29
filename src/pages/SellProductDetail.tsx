@@ -18,7 +18,10 @@ import { UserType } from "@/interface/user";
 import { CartItem } from "@/interface/cart";
 import { getCartItems } from "@/services/cartService";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 import ProductHeader from "@/components/Header/ProductHeader";
+import CartModal from "@/modals/cartModal";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,12 +36,19 @@ import Swal from "sweetalert2";
 
 function SellProductDetail() {
   const auth = getAuth();
+  const { isSeller } = useAuth();
   const { id } = useParams<{ id: string }>();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
   const [count, setCount] = useState<number>(0);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -306,6 +316,17 @@ function SellProductDetail() {
             {product.productDescription}
           </p>
         </div>
+        {!isSeller && (
+          <div>
+            <Button
+              onClick={toggleModal}
+              className="fixed flex justify-center items-center bottom-8 left-8 z-50 rounded-full bg-zinc-800"
+            >
+              장바구니 보기
+            </Button>
+            <CartModal isOpen={isModalOpen} toggleModal={toggleModal} />
+          </div>
+        )}
       </main>
       <footer className="pt-[100px]">
         <div className="">
