@@ -15,21 +15,9 @@
 ## 배포 주소
 https://fordogs-shop.vercel.app/
 
-### 실행
+구매자 계정 : buyer001@gmail.com / wlgjsdl987!!@@
+판매자 계정 : seller001@gmail.com / wlgjsdl987!!@@
 
-- test
-`npm run dev`
-
-개발모드로 앱을 실행합니다.
-
-http://localhost:5173
-
-- 빌드
-`npm run build` 후 `npm run preview`
-
-배포 환경으로 실행합니다.
-
-http://localhost:4173/
 
 ## 구현 기능
 - Firebase Authentication을 사용하여 회원가입 / 로그인 페이지(구매자, 판매자 구분), 로그아웃
