@@ -1,4 +1,6 @@
-# e커머스
+# For Dogs
+
+![MacBook Pro 15_ Mockup](https://github.com/kkang123/commerce/assets/85389685/6e818460-139a-4a82-bbc8-95a2770bf434)
 
 ## 사용 기술
 
@@ -22,3 +24,10 @@ http://localhost:5173
 배포 환경으로 실행합니다.
 
 http://localhost:4173/
+
+## 구현 기능
+- Firebase Authentication을 사용하여 회원가입 / 로그인 페이지(구매자, 판매자 구분), 로그아웃
+- 판매자 전용 페이지, 구매자 전용 페이지 분리
+- 판매 상품 CRUD
+- 장바구니 CRUD
+- 판매 중인 상품 페이지
