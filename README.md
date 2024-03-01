@@ -1,6 +1,6 @@
 # For Dogs
 
-![MacBook Pro 15_ Mockup](https://github.com/kkang123/commerce/assets/85389685/6e818460-139a-4a82-bbc8-95a2770bf434)
+![MacBook Pro 15_ Mockup (1)](https://github.com/kkang123/commerce/assets/85389685/145fc008-bda5-4624-ba46-ae2ff4f3420a)
 
 ## 사용 기술
 
@@ -15,9 +15,10 @@
 ## 배포 주소
 https://fordogs-shop.vercel.app/
 
-구매자 계정 : buyer001@gmail.com / wlgjsdl987!!@@
-판매자 계정 : seller001@gmail.com / wlgjsdl987!!@@
+- 구매자 계정 : buyer001@gmail.com / wlgjsdl987!!@@
+- 판매자 계정 : seller001@gmail.com / wlgjsdl987!!@@
 
+## 주요 기술 소개
 
 ## 구현 기능
 - Firebase Authentication을 사용하여 회원가입 / 로그인 페이지(구매자, 판매자 구분), 로그아웃
@@ -25,3 +26,10 @@ https://fordogs-shop.vercel.app/
 - 판매 상품 CRUD
 - 장바구니 CRUD
 - 판매 중인 상품 페이지
+
+
+## 의사적 기능 결정
+
+
+## 트러블 슈팅
+
