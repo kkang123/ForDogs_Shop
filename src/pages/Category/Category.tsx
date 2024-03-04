@@ -116,6 +116,7 @@ function Category() {
       </header>
       <main className="mt-16">
         <div>
+          <h1 className="text-4xl px-4">{productCategory}</h1>
           <div className="flex justify-end gap-2 pr-7">
             <Button
               variant={sortType === "updatedAt" ? "default" : "ghost"}
