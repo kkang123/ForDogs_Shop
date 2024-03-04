@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /buyersignup
+Disallow: /sellersignup
+Disallow: /productlist
+Disallow: /productupload
+Disallow: /productmanagement
+Disallow: /productedit
+Disallow: /pay
+Disallow: /myprofile
+Disallow: /cart
+
+
+Sitemap: https://fordogs-shop.vercel.app/sitemap.xml
