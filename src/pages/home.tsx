@@ -171,7 +171,7 @@ export default function Home() {
               key={index}
               src={url}
               alt=""
-              className={`absolute inset-0 w-full h-full object-fill transition-all duration-1000 ease-in-out ${
+              className={`absolute inset-0 w-full h-full object-contain transition-all duration-1000 ease-in-out ${
                 index !== currentImageIndex ? "opacity-0" : "opacity-100"
               }`}
             />
