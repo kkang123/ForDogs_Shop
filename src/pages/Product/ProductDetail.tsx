@@ -10,6 +10,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Product } from "@/interface/product";
 import { UserType } from "@/interface/user";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import ProductHeader from "@/components/Header/ProductHeader";
 
 import {
@@ -123,6 +125,10 @@ function ProductDetail() {
           showDeleteButton={true}
           onDelete={handleDelete}
           onEdit={handleEdit}
+        />
+        <SEOMetaTag
+          title="For Dogs - ProductDetail"
+          description="판매 상품 상세보기 페이지입니다."
         />
       </header>
       <main style={{ minWidth: "1300px" }}>

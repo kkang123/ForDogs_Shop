@@ -7,6 +7,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Timestamp, collection, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import ProductHeader from "@/components/Header/ProductHeader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -285,6 +287,10 @@ function ProductUpload() {
     <>
       <header className="h-20">
         <ProductHeader showBackspaseButton={true} showEditButton={false} />
+        <SEOMetaTag
+          title="For Dogs - ProductUpload"
+          description="상품 업로드 페이지입니다."
+        />
       </header>
       <main>
         <form

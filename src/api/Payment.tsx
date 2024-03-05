@@ -6,6 +6,8 @@ import { setDoc, doc, Timestamp, deleteDoc } from "firebase/firestore";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import { Button } from "@/components/ui/button";
 
 import Swal from "sweetalert2";
@@ -145,42 +147,52 @@ const Payment: React.FC = () => {
   }, [buyerInfo, cart, navigate, uid]);
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col gap-2 w-1/2">
-        <div>{buyerInfo.name}</div>
-        <input
-          type="tel"
-          name="tel"
-          value={buyerInfo.tel}
-          onChange={handleChange}
-          placeholder="전화번호"
+    <>
+      <header>
+        <SEOMetaTag
+          title="For Dogs - Pay"
+          description="결제 진행 페이지입니다."
         />
-        <input
-          type="email"
-          name="email"
-          value={buyerInfo.email}
-          onChange={handleChange}
-          placeholder="이메일"
-        />
-        <input
-          type="text"
-          name="addr"
-          value={buyerInfo.addr}
-          onChange={handleChange}
-          placeholder="주소"
-        />
-        <input
-          type="number"
-          name="postcode"
-          value={buyerInfo.postcode}
-          onChange={handleChange}
-          placeholder="우편번호"
-        />
-        <Button size="sm" onClick={onClickPayment}>
-          결제하기
-        </Button>
-      </div>
-    </div>
+      </header>
+      <main>
+        <div className="flex justify-center">
+          <div className="flex flex-col gap-2 w-1/2">
+            <div>{buyerInfo.name}</div>
+            <input
+              type="tel"
+              name="tel"
+              value={buyerInfo.tel}
+              onChange={handleChange}
+              placeholder="전화번호"
+            />
+            <input
+              type="email"
+              name="email"
+              value={buyerInfo.email}
+              onChange={handleChange}
+              placeholder="이메일"
+            />
+            <input
+              type="text"
+              name="addr"
+              value={buyerInfo.addr}
+              onChange={handleChange}
+              placeholder="주소"
+            />
+            <input
+              type="number"
+              name="postcode"
+              value={buyerInfo.postcode}
+              onChange={handleChange}
+              placeholder="우편번호"
+            />
+            <Button size="sm" onClick={onClickPayment}>
+              결제하기
+            </Button>
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

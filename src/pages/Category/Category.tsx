@@ -18,6 +18,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 import ProductHeader from "@/components/Header/ProductHeader";
 import CartModal from "@/modals/cartModal";
+import SEOMetaTag from "@/components/SEOMetaTag";
 
 import { Button } from "@/components/ui/button";
 
@@ -113,6 +114,10 @@ function Category() {
     <>
       <header className="h-20">
         <ProductHeader showHomeButton={true} showProductCart={true} />
+        <SEOMetaTag
+          title="For Dogs - Category"
+          description="카테고리 페이지입니다.."
+        />
       </header>
       <main className="mt-16">
         <div>

@@ -13,6 +13,8 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import { Product } from "@/interface/product";
 
 import ProductHeader from "@/components/Header/ProductHeader";
@@ -84,6 +86,10 @@ function ProductList() {
           showProductManagement={true}
           showHomeButton={true}
           showUploadButton={true}
+        />
+        <SEOMetaTag
+          title="For Dogs - ProductList"
+          description="판매 중인 상품 리스트 페이지입니다."
         />
       </header>
       <main className="mt-16">

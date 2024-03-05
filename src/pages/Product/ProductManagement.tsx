@@ -14,6 +14,8 @@ import { useAuth } from "@/contexts/AuthContext";
 
 import { Order } from "@/interface/order";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import { Button } from "@/components/ui/button";
 import ProductHeader from "@/components/Header/ProductHeader";
 
@@ -111,6 +113,10 @@ function ProductManagement() {
     <>
       <header className="h-20">
         <ProductHeader showPageBackSpaceButton={true} />
+        <SEOMetaTag
+          title="For Dogs - ProductMangement"
+          description="결제 진행 중인 상품을 관리하는 페이지입니다."
+        />
       </header>
       <main className="mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4  ">

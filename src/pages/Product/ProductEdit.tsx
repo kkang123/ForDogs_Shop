@@ -12,6 +12,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { Product } from "@/interface/product";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -296,6 +298,10 @@ function ProductEdit() {
     <>
       <header className="h-20">
         <ProductHeader showBackspaseButton={true} showEditButton={false} />
+        <SEOMetaTag
+          title="For Dogs - ProductEdit"
+          description="상품 수정 페이지입니다."
+        />
       </header>
       <main>
         <form

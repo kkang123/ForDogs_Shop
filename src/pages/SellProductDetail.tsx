@@ -20,6 +20,8 @@ import { getCartItems } from "@/services/cartService";
 
 import { useAuth } from "@/contexts/AuthContext";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import ProductHeader from "@/components/Header/ProductHeader";
 import CartModal from "@/modals/cartModal";
 
@@ -218,6 +220,10 @@ function SellProductDetail() {
     <>
       <header className="h-20">
         <ProductHeader showPageBackSpaceButton={true} showProductCart={true} />
+        <SEOMetaTag
+          title="For Dogs - SellProductDetail"
+          description="판매 중인 상품 상세보기 페이지입니다."
+        />
       </header>
       <main style={{ minWidth: "1300px" }} className="center">
         <div className="flex  w-full gap-12 pt-[70px] pb-[80px] justify-center">

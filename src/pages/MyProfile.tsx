@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 import { Order } from "@/interface/order";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
 import ProductHeader from "@/components/Header/ProductHeader";
 
 interface UserType {
@@ -97,6 +98,10 @@ function MyProfile() {
     <>
       <header className="h-20">
         <ProductHeader showBackspaseButton={true} showProductCart={true} />
+        <SEOMetaTag
+          title="For Dogs - MyProfile"
+          description="구매자 프로필 페이지입니다."
+        />
       </header>
       <main className="mt-16 ">
         <h1 className="text-4xl">마이프로필</h1>

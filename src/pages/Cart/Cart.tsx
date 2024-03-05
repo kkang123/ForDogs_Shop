@@ -12,6 +12,8 @@ import { getAuth } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import MainHeader from "@/components/Header/MainHeader";
 import { Button } from "@/components/ui/button";
 
@@ -104,6 +106,10 @@ const Cart = () => {
     <>
       <header className="h-[78px]">
         <MainHeader />
+        <SEOMetaTag
+          title="For Dogs - Cart"
+          description="장바구니 페이지입니다."
+        />
       </header>
       <main className="mt-36">
         <div className="flex flex-col">

@@ -11,6 +11,8 @@ import {
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/firebase";
 
+import SEOMetaTag from "@/components/SEOMetaTag";
+
 import Swal from "sweetalert2";
 
 export default function BuyerSignUp() {
@@ -164,117 +166,127 @@ export default function BuyerSignUp() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="mt-5 text-3xl font-bold text-gray-700">구매자 회원가입</h2>
-      <form
-        className="p-5 bg-white rounded shadow-lg w-1/2"
-        onSubmit={usersignUp}
-        noValidate
-      >
-        <div className="mb-4">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700 text-left"
-            htmlFor="nickname"
-          >
-            이름
-          </label>
-          <input
-            id="nickname"
-            type="text"
-            name="nickname"
-            value={nickname}
-            onChange={onChange}
-            className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            placeholder="이름을 입력해주세요."
-          />
-          {nameMessage && (
-            <p className="text-red-500 text-xs text-left ml-1 mt-1">
-              {nameMessage}
-            </p>
-          )}
-        </div>
-        <div className="mb-4">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700 text-left"
-            htmlFor="email"
-          >
-            이메일
-          </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={email}
-            onChange={onChange}
-            className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            placeholder="이메일을 입력해주세요."
-          />
-          {emailMessage && (
-            <p className="text-red-500 text-xs text-left ml-1 mt-1">
-              {emailMessage}
-            </p>
-          )}
-        </div>
-        <div className="mb-6">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700 text-left"
-            htmlFor="password"
-          >
-            비밀번호
-          </label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            placeholder="비밀번호를 입력해주세요."
-          />
-          {passwordMessage && (
-            <p className="text-red-500 text-xs text-left ml-1 mt-1">
-              {passwordMessage}
-            </p>
-          )}
-        </div>
-        <div className="mb-6">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700 text-left"
-            htmlFor="passwordConfirm"
-          >
-            비밀번호 확인
-          </label>
-          <input
-            id="passwordConfirm"
-            type="password"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={onChange}
-            className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            placeholder="비밀번호를 다시 입력해주세요."
-          />
-          {passwordConfirmMessage && (
-            <p
-              className={
-                passwordConfirmMessage === "비밀번호가 일치합니다"
-                  ? "text-blue-500 text-xs text-left ml-1 mt-1"
-                  : "text-red-500 text-xs text-left ml-1 mt-1"
-              }
+    <>
+      <header>
+        <SEOMetaTag
+          title="For Dogs - BuyerSignUp"
+          description="구매자 회원가입 페이지입니다."
+        />
+      </header>
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="mt-5 text-3xl font-bold text-gray-700">
+          구매자 회원가입
+        </h2>
+        <form
+          className="p-5 bg-white rounded shadow-lg w-1/2"
+          onSubmit={usersignUp}
+          noValidate
+        >
+          <div className="mb-4">
+            <label
+              className="block mb-2 text-sm font-bold text-gray-700 text-left"
+              htmlFor="nickname"
             >
-              {passwordConfirmMessage}
-            </p>
-          )}
-        </div>
+              이름
+            </label>
+            <input
+              id="nickname"
+              type="text"
+              name="nickname"
+              value={nickname}
+              onChange={onChange}
+              className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+              placeholder="이름을 입력해주세요."
+            />
+            {nameMessage && (
+              <p className="text-red-500 text-xs text-left ml-1 mt-1">
+                {nameMessage}
+              </p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              className="block mb-2 text-sm font-bold text-gray-700 text-left"
+              htmlFor="email"
+            >
+              이메일
+            </label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={email}
+              onChange={onChange}
+              className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+              placeholder="이메일을 입력해주세요."
+            />
+            {emailMessage && (
+              <p className="text-red-500 text-xs text-left ml-1 mt-1">
+                {emailMessage}
+              </p>
+            )}
+          </div>
+          <div className="mb-6">
+            <label
+              className="block mb-2 text-sm font-bold text-gray-700 text-left"
+              htmlFor="password"
+            >
+              비밀번호
+            </label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={password}
+              onChange={onChange}
+              className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+              placeholder="비밀번호를 입력해주세요."
+            />
+            {passwordMessage && (
+              <p className="text-red-500 text-xs text-left ml-1 mt-1">
+                {passwordMessage}
+              </p>
+            )}
+          </div>
+          <div className="mb-6">
+            <label
+              className="block mb-2 text-sm font-bold text-gray-700 text-left"
+              htmlFor="passwordConfirm"
+            >
+              비밀번호 확인
+            </label>
+            <input
+              id="passwordConfirm"
+              type="password"
+              name="passwordConfirm"
+              value={passwordConfirm}
+              onChange={onChange}
+              className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+              placeholder="비밀번호를 다시 입력해주세요."
+            />
+            {passwordConfirmMessage && (
+              <p
+                className={
+                  passwordConfirmMessage === "비밀번호가 일치합니다"
+                    ? "text-blue-500 text-xs text-left ml-1 mt-1"
+                    : "text-red-500 text-xs text-left ml-1 mt-1"
+                }
+              >
+                {passwordConfirmMessage}
+              </p>
+            )}
+          </div>
 
-        <div className="flex  justify-center">
-          <button
-            className="w-[100px] px-4 py-2 mt-5 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline "
-            onClick={usersignUp}
-          >
-            완료
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="flex  justify-center">
+            <button
+              className="w-[100px] px-4 py-2 mt-5 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline "
+              onClick={usersignUp}
+            >
+              완료
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }

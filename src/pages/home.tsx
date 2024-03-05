@@ -32,6 +32,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import SEOMetaTag from "@/components/SEOMetaTag";
 
 export default function Home() {
   const user = useAuth();
@@ -144,6 +145,10 @@ export default function Home() {
       <header>
         <Header />
       </header>
+      <SEOMetaTag
+        title="For Dogs Shop - 강아지를 위한 최고의 선택"
+        description="여러분의 강아지를 위해 선물을 해주세요."
+      />
       <main className="mt-36 w-full">
         <div>
           <ul className="flex space-x-2 justify-around">
