@@ -35,7 +35,6 @@ import {
 import SEOMetaTag from "@/components/SEOMetaTag";
 
 export default function Home() {
-  const user = useAuth();
   const { isSeller } = useAuth();
 
   const [sirials, setSirials] = useState<Product[]>([]);
@@ -169,7 +168,6 @@ export default function Home() {
             )}
           </ul>
         </div>
-
         <div className="relative w-full h-[90vh] overflow-hidden mt-5">
           {imageURLs.map((url, index) => (
             <LazyImage
@@ -183,12 +181,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* 삭제할 곳 */}
-        <div className="w-full h-[50vh] flex flex-col justify-start items-center ">
-          <div>안녕하세요 {user?.nickname} 님</div>
-        </div>
-
-        <div className="flex flex-col justify-start">
+        <div className="flex flex-col justify-start mt-12">
           <div className="flex">
             <h2 className="text-3xl">사료</h2>
             <Button size="sm" className="ml-3">
@@ -226,7 +219,6 @@ export default function Home() {
             <CarouselNext />
           </Carousel>
         </div>
-
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2 className="text-3xl">의류</h2>
@@ -265,7 +257,6 @@ export default function Home() {
             <CarouselNext />
           </Carousel>
         </div>
-
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2 className="text-3xl">간식</h2>
@@ -304,7 +295,6 @@ export default function Home() {
             <CarouselNext />
           </Carousel>
         </div>
-
         <div className="flex flex-col justify-start">
           <div className="flex">
             <h2 className="text-3xl">장난감</h2>

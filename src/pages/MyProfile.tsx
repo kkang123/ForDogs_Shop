@@ -32,6 +32,7 @@ interface UserType {
 }
 
 function MyProfile() {
+  const user = useAuth();
   const { uid } = useAuth();
   const { uid: urlUid } = useParams<{ uid: string }>();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -104,9 +105,9 @@ function MyProfile() {
         />
       </header>
       <main className="mt-16 ">
-        <h1 className="text-4xl">마이프로필</h1>
+        <h1 className="text-4xl">안녕하세요. {user?.nickname}님</h1>
         <hr />
-        <h2 className="text-3xl m-2">구매 내역</h2>
+        <h2 className="text-3xl p-2 mt-4">구매 내역</h2>
         <div className="flex-col ">
           {Object.entries(groupedOrders).map(([groupid, orders]) => {
             const totalAmount = orders.reduce(
