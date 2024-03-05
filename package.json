@@ -29,6 +29,7 @@
     "lucide-react": "^0.314.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.4",
     "react-hook-form": "^7.49.3",
     "react-intersection-observer": "^9.6.0",
     "react-query": "^3.39.3",
