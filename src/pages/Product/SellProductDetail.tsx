@@ -23,7 +23,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import SEOMetaTag from "@/components/SEOMetaTag";
 
 import ProductHeader from "@/components/Header/ProductHeader";
-import CartModal from "@/modals/cartModal";
+import CartModal from "@/components/modals/cartModal";
 
 import { Button } from "@/components/ui/button";
 import {

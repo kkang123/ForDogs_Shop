@@ -17,12 +17,12 @@ import { useAuth } from "@/contexts/AuthContext";
 
 import { Product } from "@/interface/product";
 
-import "../App.css";
+import "../../App.css";
 
 import LazyImage from "@/components/LazyImage";
 
 import Header from "@/components/Header/MainHeader";
-import CartModal from "@/modals/cartModal";
+import CartModal from "@/components/modals/cartModal";
 
 import { Button } from "@/components/ui/button";
 import {

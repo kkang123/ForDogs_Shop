@@ -17,7 +17,7 @@ import { Product } from "@/interface/product";
 import { useAuth } from "@/contexts/AuthContext";
 
 import ProductHeader from "@/components/Header/ProductHeader";
-import CartModal from "@/modals/cartModal";
+import CartModal from "@/components/modals/cartModal";
 import SEOMetaTag from "@/components/SEOMetaTag";
 
 import { Button } from "@/components/ui/button";
