@@ -2,14 +2,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { ProtectRoute } from "./ProtectRoute";
 
-import Home from "../pages/home";
-import BuyerSignUp from "@/pages/BuyerSignUp";
-import SellerSignUp from "@/pages/SellerSignUp";
-import Login from "@/pages/Login";
-import MyProfile from "@/pages/MyProfile";
+import Home from "../pages/home/home";
+import BuyerSignUp from "@/pages/SignUp/BuyerSignUp";
+import SellerSignUp from "@/pages/SignUp/SellerSignUp";
+import Login from "@/pages/Login/Login";
+import MyProfile from "@/pages/SignUp/MyProfile";
 
 // 상품 판매
-import SellProductDetail from "@/pages/SellProductDetail";
+import SellProductDetail from "@/pages/Product/SellProductDetail";
 
 // 판매자전용
 import ProductUpload from "@/pages/Product/ProductUpload";
