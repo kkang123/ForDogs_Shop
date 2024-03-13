@@ -95,7 +95,7 @@ const Payment: React.FC = () => {
     const name = cart.map((item) => item.product.productName).join(", ");
 
     const data = {
-      pg: "nice",
+      pg: "html5_inicis",
       pay_method: "card",
       merchant_uid: `mid_${new Date().getTime()}`,
       amount,
