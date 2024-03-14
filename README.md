@@ -1,8 +1,34 @@
-# For Dogs
+# 🐶 For Dogs
 
-![ReadMe_img](https://github.com/kkang123/ForDogs_Shop/assets/85389685/b6b38e5a-bd9d-436e-9075-922d766dee74)
+![Macbook Air - Light Background](https://github.com/kkang123/ForDogs_Shop/assets/85389685/ef181146-e749-4636-a943-09f0a5eff48b)
 
-## 사용 기술
+배포 URL : https://fordogs-shop.vercel.app/
+
+```
+테스트 계정
+
+- 구매자 계정
+ID : buyer001@gmail.com
+PW : wlgjsdl987!!@@
+
+- 판매자 계정
+ID : seller001@gmail.com
+PW : wlgjsdl987!!@@
+```
+
+## 📅 프로젝트 기간
+
+✨ 2024.01.24 ~ 2024.02.22 기능 구현 <br>
+♻️ 2024.02.23 ~ 리팩토링 진행 중
+
+| 1주차              | 2주차        | 3주차            | 4주차              |
+| ------------------ | ------------ | ---------------- | ------------------ |
+| 페이지 라우팅 설계 | 상품 CRUD    | 상품 판매 페이지 | Lazy Loding        |
+| Firebase연동       | 장바구니CRUD | 구매자 기능      | 이미지 변환(.webp) |
+| 로그인/회원가입    |              | 판매자 기능      | 번들 사이즈 줄이기 |
+|                    |              |                  | SEO 개선           |
+
+## 🔨 사용 기술
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=FFFFFF"/><img src="https://img.shields.io/badge/TypeScript-orange?style=flat&logo=TypeScript&logoColor=FFFFFF"/>
 <img src="https://img.shields.io/badge/TailWind CSS-06B6D4?style=flat&logo=TailWind css&logoColor=FFFFFF"/>
@@ -12,18 +38,34 @@
 <img src="https://img.shields.io/badge/firebase-0000FF?style=flat&logo=firebase&logoColor=FFFFFF"/>
 <img src="https://img.shields.io/badge/vercel-000000?style=flat&logo=vercel&logoColor=ffffff"/>
 
-## 배포 주소
-
-https://fordogs-shop.vercel.app/
-
-- 구매자 계정 : buyer001@gmail.com / wlgjsdl987!!@@
-- 판매자 계정 : seller001@gmail.com / wlgjsdl987!!@@
-
 ## 주요 기술 소개
 
 ## 아키텍처
 
 ![architecture](https://github.com/kkang123/ForDogs_Shop/assets/85389685/b4ca4f5b-6b57-44bd-99f5-7811c82467e5)
+
+<details>
+  <summary>기술적 의사 결정</summary>
+<ul>
+    <li>React</li>
+    사용자 경험을 중시하는 동적 웹 애플리케이션 개발을 위해 선택. 컴포넌트 기반 접근으로 재사용 가능하고 유지보수가 쉬운 UI를 구성하고 개발 효율성을 높이고 가상 DOM을 이용해 실제 DOM의 수정을 최소화하여 애플리케이션의 성능을 향상시키고, 사용자 경험을 개선하기 위해 선택했습니다.</br></br>
+    <li>TypeScript</li> 프로젝트의 확장성과 유지보수성을 고려하여, 정적 타입 지정을 통한 오류 감소와 개발 생산성 향상을 위해 사용했습니다. </br></br>
+    <li>Vite</li>
+    빠른 개발 서버 시작과 HMR(핫 모듈 교체) 기능을 제공하여 개발 속도와 경험을 향상시키기 위해 선택했습니다. </br></br>
+    <li>React Context API</li>
+    별도의 라이브러리 없이 react 내에서 전역 상태를 관리할 수 있으며 props drilling의 필요성을 줄일 수 있고 소규모~중간 규모 프로젝트에 알맞지만 대규모 프로젝트로 넘어갈 때 리덕스와 결합하여 사용할 수 있기 때문에 선택했습니다. </br></br>
+    <li>React Query</li>
+    비동기 데이터와 서버 상태를 관리를 위해 사용했으며 이를 통해 서버 상태 관리를 효율적으로 수행하고, 데이터 캐싱, 동기화 및 업데이트 작업을 간소화하기 위해 도입했습니다. </br></br>
+    <li>Tailwind CSS</li>
+   디자인의 일관성을 유지하여 재활용성을 높였고, 커스텀 디자인 작업 시간을 단축하기 위해 적용했습니다. </br></br>
+    <li>Shadcn/ui</li>
+    개발과정 중 직접적인 커스터마이제이션, 의존성 최소화, 빠른 통합 및 사용의 이점을 제공하여, 프로젝트의 유연성을 향상시키고 개발 속도를 높이는 장점이 있어 선택 </br></br>
+    <li>Firebase</li>
+    백엔드 인프라 구축 없이 인증, 데이터베이스, 스토리지, 로그인 기능, 호스팅 등의 기능 사용과 각종 데이터를 DB를 통해 쉽게 관리하기 위해 선택했습니다. </br></br>
+    <li>Vercel</li>
+    간단하고 빠른 배포와 CDN을 통한 최적화된 성능, 자동 HTTPS 적용, 최신 웹 기술에 대한 강력한 지원, 개발자 친화적인 피드백과 분석 도구를 제공 받을 수 있어 사용했습니다. </br></br>
+</ul>
+</details>
 
 ## 구현 기능
 
@@ -32,6 +74,8 @@ https://fordogs-shop.vercel.app/
 - 판매 상품 등록 CRUD
 - 장바구니 CRUD
 - 판매 중인 상품 페이지
+
+## 트러블 슈팅
 
 ## 📦 폴더 구조
 
@@ -78,7 +122,3 @@ https://fordogs-shop.vercel.app/
 ├─ 📄 vercel.json
 └─ 📄 vite.config.ts
 ```
-
-## 의사적 기능 결정
-
-## 트러블 슈팅
