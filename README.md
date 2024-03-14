@@ -1,6 +1,6 @@
 # 🐶 For Dogs
 
-![Macbook Air - Light Background](https://github.com/kkang123/ForDogs_Shop/assets/85389685/ef181146-e749-4636-a943-09f0a5eff48b)
+![main imag](https://github.com/kkang123/ForDogs_Shop/assets/85389685/e91633ca-32c7-4198-b05b-686fbbda598e)
 
 배포 URL : https://fordogs-shop.vercel.app/
 
