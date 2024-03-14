@@ -9,6 +9,7 @@ import { CartContext, CartContextProps } from "@/contexts/CartContext";
 
 import mainlogo from "@/assets/main-logo.svg";
 import basket from "@/assets/basket-buy-cart.svg";
+import backspace from "@/assets/icon-back-arrow.svg";
 import { Button } from "@/components/ui/button";
 
 interface ProductHeaderProps {
@@ -155,12 +156,12 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
         )}
         {showBackspaseButton && (
           <button className="" onClick={Backspace}>
-            뒤로가기
+            <img src={backspace} alt="" />
           </button>
         )}
         {showPageBackSpaceButton && (
           <button className="" onClick={PageBackSpaceButton}>
-            유저 사용 : 뒤로가기
+            <img src={backspace} alt="" />
           </button>
         )}
 
