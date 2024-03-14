@@ -38,8 +38,6 @@ PW : wlgjsdl987!!@@
 <img src="https://img.shields.io/badge/firebase-0000FF?style=flat&logo=firebase&logoColor=FFFFFF"/>
 <img src="https://img.shields.io/badge/vercel-000000?style=flat&logo=vercel&logoColor=ffffff"/>
 
-## 주요 기술 소개
-
 ## 아키텍처
 
 ![architecture](https://github.com/kkang123/ForDogs_Shop/assets/85389685/b4ca4f5b-6b57-44bd-99f5-7811c82467e5)
@@ -67,7 +65,7 @@ PW : wlgjsdl987!!@@
 </ul>
 </details>
 
-## 구현 기능
+## 구현 기능 및 시연
 
 - Firebase Authentication을 사용하여 회원가입 / 로그인 페이지(구매자, 판매자 구분), 로그아웃
 - 판매자 전용 페이지, 구매자 전용 페이지 분리
