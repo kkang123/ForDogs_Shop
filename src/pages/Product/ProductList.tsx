@@ -72,7 +72,7 @@ function ProductList() {
   }, [inView, hasNextPage, isFetchingNextPage]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center mt-10">Loading...</div>;
   }
 
   if (isError) {

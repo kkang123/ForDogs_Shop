@@ -113,7 +113,11 @@ function ProductDetail() {
   };
 
   if (!product) {
-    return <div>상품을 불러오는 중...</div>;
+    return (
+      <div className="flex justify-center mt-10">
+        상품을 불러오는 중입니다...
+      </div>
+    );
   }
 
   return (
