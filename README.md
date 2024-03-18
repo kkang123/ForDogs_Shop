@@ -38,7 +38,7 @@ PW : wlgjsdl987!!@@
 <img src="https://img.shields.io/badge/firebase-0000FF?style=flat&logo=firebase&logoColor=FFFFFF"/>
 <img src="https://img.shields.io/badge/vercel-000000?style=flat&logo=vercel&logoColor=ffffff"/>
 
-## 아키텍처
+### 아키텍처
 
 ![architecture](https://github.com/kkang123/ForDogs_Shop/assets/85389685/b4ca4f5b-6b57-44bd-99f5-7811c82467e5)
 
@@ -65,7 +65,7 @@ PW : wlgjsdl987!!@@
 </ul>
 </details>
 
-## 구현 기능 및 시연
+## ✨ 구현 기능 및 시연
 
 - Firebase Authentication을 사용하여 회원가입 / 로그인 페이지(구매자, 판매자 구분), 로그아웃
 - 판매자 전용 페이지, 구매자 전용 페이지 분리
@@ -73,7 +73,29 @@ PW : wlgjsdl987!!@@
 - 장바구니 CRUD
 - 판매 중인 상품 페이지
 
+- 로그인 / 로그아웃
+  ![로그인로그아웃](https://github.com/kkang123/ForDogs_Shop/assets/85389685/35aaa22f-a34f-40d6-9fe7-3ae293fbc7b4)
+
+- 회원가입
+
+- 홈 / 판매 상품 상세보기
+  ![홈상품상세보기](https://github.com/kkang123/ForDogs_Shop/assets/85389685/7b401b0b-6ac6-4c4e-9d56-f5d7c93cd6da)
+
+- 카테고리별 상품 목록 / 정렬
+  ![카테고리](https://github.com/kkang123/ForDogs_Shop/assets/85389685/26a319b9-de87-4e36-956e-0f9ce6322d71)
+
+- (구매자) 장바구니 추가
+  ![장바구니 추가](https://github.com/kkang123/ForDogs_Shop/assets/85389685/5b7b9b10-229c-400f-9e95-c19142326f95)
+
+- (구매자) 장바구니 수정 및 삭제
+  ![장바구니 수정 삭제](https://github.com/kkang123/ForDogs_Shop/assets/85389685/43474fb5-a4d4-4cb3-9c77-6f45b0e64bea)
+
 ## 트러블 슈팅
+
+<details>
+  <summary>무한스크롤</summary>
+  <ul>ddd</ul>
+  </details>
 
 ## 📦 폴더 구조
 
