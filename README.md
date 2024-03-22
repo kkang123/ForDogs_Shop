@@ -73,22 +73,31 @@ PW : wlgjsdl987!!@@
 - 장바구니 CRUD
 - 판매 중인 상품 페이지
 
-- 로그인 / 로그아웃
+- 로그인 / 로그아웃 <br>
   ![로그인로그아웃](https://github.com/kkang123/ForDogs_Shop/assets/85389685/35aaa22f-a34f-40d6-9fe7-3ae293fbc7b4)
 
-- 회원가입
+- 회원가입 <br>
 
-- 홈 / 판매 상품 상세보기
+- 홈 / 판매 상품 상세보기 <br>
   ![홈상품상세보기](https://github.com/kkang123/ForDogs_Shop/assets/85389685/7b401b0b-6ac6-4c4e-9d56-f5d7c93cd6da)
 
-- 카테고리별 상품 목록 / 정렬
+- 카테고리별 상품 목록 / 정렬 <br>
   ![카테고리](https://github.com/kkang123/ForDogs_Shop/assets/85389685/26a319b9-de87-4e36-956e-0f9ce6322d71)
 
-- (구매자) 장바구니 추가
+- (구매자) 장바구니 추가 <br>
   ![장바구니 추가](https://github.com/kkang123/ForDogs_Shop/assets/85389685/5b7b9b10-229c-400f-9e95-c19142326f95)
 
-- (구매자) 장바구니 수정 및 삭제
+- (구매자) 장바구니 수정 및 삭제 <br>
   ![장바구니 수정 삭제](https://github.com/kkang123/ForDogs_Shop/assets/85389685/43474fb5-a4d4-4cb3-9c77-6f45b0e64bea)
+
+- (구매자) 상품 결제 및 주문 취소 <br>
+  ![상품 결제](https://github.com/kkang123/ForDogs_Shop/assets/85389685/582d7ad0-e4d7-42d9-9fbf-b567d4db8995)
+
+  ![주문 취소](https://github.com/kkang123/ForDogs_Shop/assets/85389685/5ab14ef6-e812-4287-ad22-05473beeda37)
+
+- (판매자)상품 등록 및 수정, 삭제 <br>
+
+- (판매자)상품 판매 내역 관리 <br>
 
 ## 트러블 슈팅
 
