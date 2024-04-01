@@ -104,7 +104,7 @@ PW : wlgjsdl987!!@@
 
   ![판매 상품 관리](https://github.com/kkang123/ForDogs_Shop/assets/85389685/3e07e9f3-e64a-4173-848d-7cfab482bdcd)
 
-## 트러블 슈팅
+## 🔥 트러블 슈팅
 
 <details>
   <summary>무한스크롤</summary>
