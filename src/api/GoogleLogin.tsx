@@ -1,10 +1,17 @@
-import { useEffect } from 'react';
-import { auth, db } from '@/firebase';
-import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { useEffect } from "react";
+import { auth, db } from "@/firebase";
+import {
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+} from "firebase/auth";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 
 const signInWithGoogleRedirect = () => {
   const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({
+    prompt: "select_account",
+  });
   signInWithRedirect(auth, provider);
 };
 
@@ -16,10 +23,10 @@ const SignIn = () => {
           const user = result.user;
 
           await setDoc(
-            doc(db, 'users', user.uid),
+            doc(db, "users", user.uid),
             {
               email: user.email,
-              nickname: user.displayName || '익명',
+              nickname: user.displayName || "익명",
               createdAt: Timestamp.fromDate(new Date()),
               updatedAt: Timestamp.fromDate(new Date()),
               isSeller: false,
