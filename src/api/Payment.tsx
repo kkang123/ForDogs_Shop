@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { db } from "@/firebase";
 import { setDoc, doc, Timestamp, deleteDoc } from "firebase/firestore";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,7 +12,6 @@ import SEOMetaTag from "@/components/SEOMetaTag";
 import { Button } from "@/components/ui/button";
 
 import Swal from "sweetalert2";
-import { db } from "@/firebase";
 
 interface PaymentData {
   pg: string;
@@ -29,6 +29,11 @@ interface PaymentResponse {
   error_msg?: string;
 }
 
+interface DaumPostcodeData {
+  address: string;
+  zonecode: string;
+}
+
 interface IMP {
   init: (key: string) => void;
   request_pay: (
@@ -37,9 +42,23 @@ interface IMP {
   ) => void;
 }
 
+interface DaumPostcode {
+  open: () => void;
+}
+
+interface Daum {
+  postcode: {
+    load: (callback: () => void) => void;
+    Postcode: new (options: {
+      oncomplete: (data: DaumPostcodeData) => void;
+    }) => DaumPostcode;
+  };
+}
+
 declare global {
   interface Window {
     IMP: IMP;
+    daum: Daum;
   }
 }
 
@@ -66,6 +85,33 @@ const Payment: React.FC = () => {
     script.src = "https://cdn.iamport.kr/v1/iamport.js";
     script.async = true;
     document.head.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  const openPostcode = useCallback(() => {
+    window.daum.postcode.load(function () {
+      new window.daum.postcode.Postcode({
+        oncomplete: function (data: DaumPostcodeData) {
+          setBuyerInfo((prev) => ({
+            ...prev,
+            addr: data.address,
+            postcode: data.zonecode,
+          }));
+        },
+      }).open();
+    });
   }, []);
 
   const handleChange = useCallback(
@@ -155,7 +201,7 @@ const Payment: React.FC = () => {
         />
       </header>
       <main>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-20">
           <div className="flex flex-col gap-2 w-1/2">
             <div>{buyerInfo.name}</div>
             <input
@@ -172,6 +218,15 @@ const Payment: React.FC = () => {
               onChange={handleChange}
               placeholder="이메일"
             />
+
+            <button
+              className="hover:bg-gray-200"
+              type="button"
+              onClick={openPostcode}
+            >
+              주소 검색
+            </button>
+
             <input
               type="text"
               name="addr"
@@ -179,8 +234,9 @@ const Payment: React.FC = () => {
               onChange={handleChange}
               placeholder="주소"
             />
+
             <input
-              type="number"
+              type="text"
               name="postcode"
               value={buyerInfo.postcode}
               onChange={handleChange}
