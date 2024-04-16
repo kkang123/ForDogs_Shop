@@ -39,10 +39,13 @@ const Cart = () => {
     const userId = auth.currentUser?.uid;
 
     if (userId) {
-      const updatedCartItems = cart.map((item) => ({
-        ...item,
-        quantity: quantities[item.product.id] || 0,
-      }));
+      const updatedCartItems = cart.map((item) => {
+        const newQuantity = quantities[item.product.id];
+        return {
+          ...item,
+          quantity: newQuantity !== undefined ? newQuantity : item.quantity,
+        };
+      });
 
       const itemsToSave = updatedCartItems.filter((item) => item.quantity > 0);
 
