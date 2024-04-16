@@ -49,10 +49,10 @@ interface DaumPostcode {
 interface Daum {
   postcode: {
     load: (callback: () => void) => void;
-    Postcode: new (options: {
-      oncomplete: (data: DaumPostcodeData) => void;
-    }) => DaumPostcode;
   };
+  Postcode: new (options: {
+    oncomplete: (data: DaumPostcodeData) => void;
+  }) => DaumPostcode;
 }
 
 declare global {
@@ -102,7 +102,7 @@ const Payment: React.FC = () => {
 
   const openPostcode = useCallback(() => {
     window.daum.postcode.load(function () {
-      new window.daum.postcode.Postcode({
+      new window.daum.Postcode({
         oncomplete: function (data: DaumPostcodeData) {
           setBuyerInfo((prev) => ({
             ...prev,
