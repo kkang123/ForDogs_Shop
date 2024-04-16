@@ -39,10 +39,13 @@ const Cart = () => {
     const userId = auth.currentUser?.uid;
 
     if (userId) {
-      const updatedCartItems = cart.map((item) => ({
-        ...item,
-        quantity: quantities[item.product.id] || 0,
-      }));
+      const updatedCartItems = cart.map((item) => {
+        const newQuantity = quantities[item.product.id];
+        return {
+          ...item,
+          quantity: newQuantity !== undefined ? newQuantity : item.quantity,
+        };
+      });
 
       const itemsToSave = updatedCartItems.filter((item) => item.quantity > 0);
 
@@ -134,9 +137,11 @@ const Cart = () => {
             <>
               <div className="grid grid-cols-3 gap-4 items-center justify-items-center ">
                 {cart.map((item) => (
-                  <div className=" p-4 shadow border-2 rounded w-[230px] h-[380px] ">
+                  <div
+                    key={item.product.id}
+                    className=" p-4 shadow border-2 rounded w-[230px] h-[380px] "
+                  >
                     <CartItem
-                      key={item.product.id}
                       item={item}
                       {...(isEditing ? { updateQuantity, removeFromCart } : {})}
                     />

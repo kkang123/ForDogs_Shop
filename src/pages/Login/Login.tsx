@@ -1,27 +1,21 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { auth, db } from "@/firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from '@/firebase';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 
-import {
-  collection,
-  getDocs,
-  where,
-  query,
-  QueryDocumentSnapshot,
-  DocumentData,
-} from "firebase/firestore";
+import { collection, getDocs, where, query, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
 
-import SEOMetaTag from "@/components/SEOMetaTag";
+import SEOMetaTag from '@/components/SEOMetaTag';
+import GoogleLogin from '@/api/GoogleLogin';
 
-import { useAuth } from "@/contexts/AuthContext";
-import Swal from "sweetalert2";
+import { useAuth } from '@/contexts/AuthContext';
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [tab, setTab] = useState<"buyer" | "seller">("buyer");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [tab, setTab] = useState<'buyer' | 'seller'>('buyer');
 
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
 
@@ -31,7 +25,7 @@ export default function SignIn() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/");
+        navigate('/');
       }
     });
     return () => unsubscribe();
@@ -39,9 +33,9 @@ export default function SignIn() {
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (name === "email") {
+    if (name === 'email') {
       setEmail(value);
-    } else if (name === "password") {
+    } else if (name === 'password') {
       setPassword(value);
     }
   };
@@ -52,20 +46,17 @@ export default function SignIn() {
 
   const buyersignUp = (event: FormEvent) => {
     event.preventDefault();
-    navigate("/buyersignup");
+    navigate('/buyersignup');
   };
   const sellersignUp = (event: FormEvent) => {
     event.preventDefault();
-    navigate("/sellersignup");
+    navigate('/sellersignup');
   };
 
   const signIn = async (event: FormEvent) => {
     event.preventDefault();
 
-    const userDocQuery = query(
-      collection(db, "users"),
-      where("email", "==", email)
-    );
+    const userDocQuery = query(collection(db, 'users'), where('email', '==', email));
     const querySnapshot = await getDocs(userDocQuery);
     let userDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 
@@ -75,46 +66,42 @@ export default function SignIn() {
 
     if (!userDoc) {
       Swal.fire({
-        icon: "error",
-        title: "",
-        text: "회원정보를 찾을 수 없습니다.",
+        icon: 'error',
+        title: '',
+        text: '회원정보를 찾을 수 없습니다.',
       });
       return;
     }
 
     const userData = userDoc?.data();
-    if (tab === "buyer" && userData.isSeller) {
+    if (tab === 'buyer' && userData.isSeller) {
       Swal.fire({
-        icon: "error",
-        title: "로그인 오류",
-        text: "구매자 계정으로 로그인 해주세요.",
+        icon: 'error',
+        title: '로그인 오류',
+        text: '구매자 계정으로 로그인 해주세요.',
       });
       return;
     }
 
-    if (tab === "seller" && !userData.isSeller) {
+    if (tab === 'seller' && !userData.isSeller) {
       Swal.fire({
-        icon: "error",
-        title: "로그인 오류",
-        text: "판매자 계정으로 로그인 해주세요.",
+        icon: 'error',
+        title: '로그인 오류',
+        text: '판매자 계정으로 로그인 해주세요.',
       });
       return;
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log("user with signIn", userCredential.user);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('user with signIn', userCredential.user);
       login();
     } catch (error) {
-      console.error("error with signIn", error);
+      console.error('error with signIn', error);
       Swal.fire({
-        icon: "error",
-        title: "",
-        text: "이메일 또는 비밀번호가 틀립니다.",
+        icon: 'error',
+        title: '',
+        text: '이메일 또는 비밀번호가 틀립니다.',
       });
     }
   };
@@ -122,30 +109,22 @@ export default function SignIn() {
   return (
     <>
       <header>
-        <SEOMetaTag
-          title="For Dogs - Login"
-          description="로그인 페이지입니다."
-        />
+        <SEOMetaTag title="For Dogs - Login" description="로그인 페이지입니다." />
       </header>
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h2 className="mt-64 mb-0 text-3xl font-bold text-gray-700">Login</h2>
 
-        <div className="w-full md:w-1/2 lg:w-1/3 m-auto mt-10 ">
-          <div
-            role="tablist"
-            className="w-full"
-            aria-label="구매자/판매자 로그인"
-          >
+      <main className="flex flex-col items-center justify-center h-screen some-element">
+        <h2 className="mt-56 mb-0 text-3xl font-bold text-gray-700">Login</h2>
+
+        <div className=" md:w-1/2 lg:w-1/3 m-auto mt-10 ">
+          <div role="tablist" className="w-full" aria-label="구매자/판매자 로그인">
             <button
               type="button"
               role="tab"
               className={`w-1/2 px-4 py-2 rounded-tl-lg ${
-                tab === "buyer"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                tab === 'buyer' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
               }`}
-              aria-selected={tab === "buyer"}
-              onClick={() => setTab("buyer")}
+              aria-selected={tab === 'buyer'}
+              onClick={() => setTab('buyer')}
             >
               구매자
             </button>
@@ -153,24 +132,19 @@ export default function SignIn() {
               type="button"
               role="tab"
               className={`w-1/2 px-4 py-2 rounded-tr-lg ${
-                tab === "seller"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                tab === 'seller' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
               }`}
-              aria-selected={tab === "seller"}
-              onClick={() => setTab("seller")}
+              aria-selected={tab === 'seller'}
+              onClick={() => setTab('seller')}
             >
               판매자
             </button>
           </div>
 
-          {tab === "buyer" ? (
+          {tab === 'buyer' ? (
             <form className="p-5 bg-white rounded-b-lg shadow-lg w-full noValidate">
               <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-gray-700 text-left"
-                  htmlFor="email"
-                >
+                <label className="block mb-2 text-sm font-bold text-gray-700 text-left" htmlFor="email">
                   이메일
                 </label>
                 <input
@@ -184,10 +158,7 @@ export default function SignIn() {
                 ></input>
               </div>
               <div className="mb-6">
-                <label
-                  className="block mb-2 text-sm font-bold text-gray-700 text-left"
-                  htmlFor="password"
-                >
+                <label className="block mb-2 text-sm font-bold text-gray-700 text-left" htmlFor="password">
                   비밀번호
                 </label>
                 <div className="relative">
@@ -195,7 +166,7 @@ export default function SignIn() {
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     aria-hidden={!passwordShown}
                     id="password"
-                    type={passwordShown ? "text" : "password"}
+                    type={passwordShown ? 'text' : 'password'}
                     value={password}
                     name="password"
                     onChange={onChange}
@@ -206,7 +177,7 @@ export default function SignIn() {
                     className="absolute inset-y-0 right-0 px-4 py-2 text-xs leading-tight text-gray-700 bg-transparent border-none cursor-pointer focus:outline-none"
                     onClick={togglePasswordVisiblity}
                   >
-                    {passwordShown ? "비밀번호 숨기기" : "비밀번호 표시하기"}
+                    {passwordShown ? '비밀번호 숨기기' : '비밀번호 표시하기'}
                   </button>
                 </div>
               </div>
@@ -230,10 +201,7 @@ export default function SignIn() {
           ) : (
             <form className="p-5 bg-white rounded-b-lg shadow-lg w-full">
               <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold text-gray-700 text-left"
-                  htmlFor="email"
-                >
+                <label className="block mb-2 text-sm font-bold text-gray-700 text-left" htmlFor="email">
                   이메일
                 </label>
                 <input
@@ -247,10 +215,7 @@ export default function SignIn() {
                 ></input>
               </div>
               <div className="mb-6">
-                <label
-                  className="block mb-2 text-sm font-bold text-gray-700 text-left"
-                  htmlFor="password"
-                >
+                <label className="block mb-2 text-sm font-bold text-gray-700 text-left" htmlFor="password">
                   비밀번호
                 </label>
                 <div className="relative">
@@ -258,7 +223,7 @@ export default function SignIn() {
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     aria-hidden={!passwordShown}
                     id="password"
-                    type={passwordShown ? "text" : "password"}
+                    type={passwordShown ? 'text' : 'password'}
                     value={password}
                     name="password"
                     onChange={onChange}
@@ -269,7 +234,7 @@ export default function SignIn() {
                     className="absolute inset-y-0 right-0 px-4 py-2 text-xs leading-tight text-gray-700 bg-transparent border-none cursor-pointer focus:outline-none"
                     onClick={togglePasswordVisiblity}
                   >
-                    {passwordShown ? "비밀번호 숨기기" : "비밀번호 표시하기"}
+                    {passwordShown ? '비밀번호 숨기기' : '비밀번호 표시하기'}
                   </button>
                 </div>
               </div>
@@ -291,8 +256,12 @@ export default function SignIn() {
               </div>
             </form>
           )}
+
+          <GoogleLogin aria-label="Google로 로그인" />
+
+          <p className="mt-4 text-sm">- 로그인과 회원가입 시 권한에 맞는 역할을 선택해주세요.</p>
         </div>
-      </div>
+      </main>
     </>
   );
 }
