@@ -91,7 +91,7 @@ PW : wlgjsdl987!!@@
   ![장바구니 수정 삭제](https://github.com/kkang123/ForDogs_Shop/assets/85389685/43474fb5-a4d4-4cb3-9c77-6f45b0e64bea)
 
 - (구매자) 상품 결제 및 주문 취소 <br>
-  ![상품 결제](https://github.com/kkang123/ForDogs_Shop/assets/85389685/7ab3dad0-40ba-4c75-9dba-d0b949731102)
+  ![결제 기능](https://github.com/kkang123/ForDogs_Shop/assets/85389685/6992c3b4-b950-4e63-93fa-14a213fd6dd8)
 
   ![주문 취소](https://github.com/kkang123/ForDogs_Shop/assets/85389685/5ab14ef6-e812-4287-ad22-05473beeda37)
 
