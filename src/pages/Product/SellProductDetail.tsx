@@ -15,10 +15,10 @@ import {
 } from "firebase/firestore";
 import { Product } from "@/interface/product";
 import { UserType } from "@/interface/user";
-import { CartItem } from "@/interface/cart";
 import { getCartItems } from "@/services/cartService";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 
 import SEOMetaTag from "@/components/SEOMetaTag";
 
@@ -46,6 +46,7 @@ function SellProductDetail() {
   const [count, setCount] = useState<number>(0);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
+  const { addToCart: addToCartContext } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -153,10 +154,8 @@ function SellProductDetail() {
         return;
       }
 
-      const cartItem: CartItem = {
-        product: product,
-        quantity: count,
-      };
+      const cartItem = { product, quantity: count };
+      addToCartContext(cartItem);
 
       const cartRef = doc(db, "carts", user.id);
       const cartSnap = await getDoc(cartRef);
