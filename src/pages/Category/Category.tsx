@@ -139,16 +139,16 @@ function Category() {
             </Button>
           </div>
 
-          <div className="flex flex-wrap justify-start">
+          <div className="flex flex-wrap justify-start min-w-[452px] overflow-x-auto">
             {data?.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.data.map((product: Product, index: number) => (
                   <Link
                     key={index}
                     to={`/sellproduct/${product.id}`}
-                    className="w-full lg:w-1/3 md:w-1/2 sm:w-full p-4"
+                    className="flex justify-center items-center w-full md:w-1/2 lg:w-1/3 p-4"
                   >
-                    <div className="shadow border-2 rounded h-[380px] md:max-w-96 sm:max-w-96">
+                    <div className=" shadow border-2 rounded w-[380px] h-[380px]">
                       {product.productImage[currentImageIndex] ? (
                         <img
                           className="w-full h-[300px] rounded "
